@@ -77,6 +77,8 @@ public class MainCharacter : Livings
     //roll 
     public bool checkRoll;
     public float RollSpeed;
+    public bool checkWARoll;
+    public float WARollSpeed;
 
     public void Interact()
     {
@@ -248,20 +250,7 @@ public class MainCharacter : Livings
         // to do
     }
 
-    // Use this for initialization
-    void Start()
-    {
-        playerCamera = FindObjectOfType<Camera>();
-        rigi = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
-        weaponSprite = FindObjectOfType<CharacterWeaponManager>().GetComponent<SpriteRenderer>();
-        rightArmUp = GameObject.Find("MainCharacter/Hip/Corp/RightArmUp");
-        audioController = GetComponent<MainCharacterAudioController>();
-        ban = GetComponent<ForbiddenStateController>();
 
-        anim.SetBool("Alive", alive);
-        //defaultWeaponRange = FindObjectOfType<WeaponRangeController>();
-    }
 
     void FixedUpdate()
     {
@@ -274,9 +263,9 @@ public class MainCharacter : Livings
         rigi.velocity = speed;
     }
 
-	public void giveDefaultDamageToEnemy()
+    public void giveDefaultDamageToEnemy()
     {
-        print("give damage");
+        //print("give damage");
         List<Minion> enemyList = new List<Minion>();
         if (weaponEquiped)
         {
@@ -306,7 +295,7 @@ public class MainCharacter : Livings
     public void GiveShockWave()
     {
         wave.transform.localScale = transform.localScale;
-        Instantiate(wave, new Vector3(transform.position.x, transform.position.y-2f, transform.position.z), transform.rotation);
+        Instantiate(wave, new Vector3(transform.position.x, transform.position.y - 2f, transform.position.z), transform.rotation);
     }
     public void startDefaultBloodEffct()
     {
@@ -337,22 +326,44 @@ public class MainCharacter : Livings
 
     public void startArrow()
     {
-        GameObject arrowBullet = Instantiate(arrow, weaponSprite.transform.position, Quaternion.Euler(new Vector3(0,0,0))) as GameObject;
+        GameObject arrowBullet = Instantiate(arrow, weaponSprite.transform.position, Quaternion.Euler(new Vector3(0, 0, 0))) as GameObject;
         arrowBullet.GetComponent<ArrowManager>().startPosition = arrowBullet.transform.position;
         if (facingRight)
             arrowBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(-arrowSpeed, 0f);
         else
         {
-            arrowBullet.transform.localScale = new Vector3(-1,1,1);
+            arrowBullet.transform.localScale = new Vector3(-1, 1, 1);
             arrowBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(arrowSpeed, 0f);
         }
     }
 
+    IEnumerator IgnoreCollisionBetweenPlayerAndMinion(float time)
+    {
+        Physics2D.IgnoreLayerCollision(8, 10, true);
+        yield return new WaitForSeconds(time);
+        Physics2D.IgnoreLayerCollision(8, 10, false);
 
+    }
+
+    // Use this for initialization
+    void Start()
+    {
+        playerCamera = FindObjectOfType<Camera>();
+        rigi = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        weaponSprite = FindObjectOfType<CharacterWeaponManager>().GetComponent<SpriteRenderer>();
+        rightArmUp = GameObject.Find("MainCharacter/Hip/Corp/RightArmUp");
+        audioController = GetComponent<MainCharacterAudioController>();
+        ban = GetComponent<ForbiddenStateController>();
+
+        anim.SetBool("Alive", alive);
+        //defaultWeaponRange = FindObjectOfType<WeaponRangeController>();
+    }
 
     // Update is called once per frame
     void Update()
     {
+
         // update the weapon
         //if (weaponEquiped)
         //    weaponSprite.sprite = weaponEquiped.GetComponent<SpriteRenderer>().sprite;
@@ -392,6 +403,11 @@ public class MainCharacter : Livings
         else
             checkWeaponSkill = false;
 
+        if (weaponEquiped && anim.GetCurrentAnimatorStateInfo(0).IsTag("WeaponSkill_3"))
+            checkWARoll = true;
+        else
+            checkWARoll = false;
+
         // to see whether the player is being attacked
 
         if (anim.GetCurrentAnimatorStateInfo(0).IsTag("Hit"))
@@ -400,15 +416,6 @@ public class MainCharacter : Livings
             checkBeAttacked = false;
 
 
-
-        // clear arrows list if player has not in state 2
-        if (BAAAttackState == 3 || BAAAttackState == 0)
-            arrowList.Clear();
-
-        if (BAAAttackState == 2)
-            Physics2D.IgnoreLayerCollision(10, 15, true);
-        else
-            Physics2D.IgnoreLayerCollision(10, 15, false);
         // set the position of camera
         playerCamera.transform.position = new Vector3(GetComponent<Transform>().position.x + xOffset, GetComponent<Transform>().position.y + yOffset, playerCamera.transform.position.z);
 
@@ -435,6 +442,8 @@ public class MainCharacter : Livings
         }
         if (checkRoll)
             velocity = RollSpeed;
+        if (checkWARoll)
+            velocity = WARollSpeed;
         if (checkAttack || checkWeaponSkill)
             Move(new Vector2(0, 0));
         else
@@ -447,9 +456,10 @@ public class MainCharacter : Livings
             //StartCoroutine(BanJump(rollLength));
             StartCoroutine(BanBeAttacked(rollLength));
             StartCoroutine(BanRoll(rollLength));
+            StartCoroutine(IgnoreCollisionBetweenPlayerAndMinion(rollLength));
             anim.SetTrigger("Roll");
         }
-            
+
 
         // check the direction of face
         if (rigi.velocity.x > 0)
@@ -474,13 +484,23 @@ public class MainCharacter : Livings
                 switch (weaponEquiped.GetComponent<Weapon>().index)
                 {
                     case 1:
-                        
+
                         break;
                     case 2:
-                        
+
+                        break;
+                    case 3:
+                        float WARollLength = 0;
+                        WARollLength = GetAnimLength("SkillWA");
+                        StartCoroutine(IgnoreCollisionBetweenPlayerAndMinion(WARollLength));
+                        StartCoroutine(BanBeAttacked(WARollLength));
+                        if (facingRight)
+                            WARollSpeed = -movementSpeed;
+                        else
+                            WARollSpeed = movementSpeed;
                         break;
                 }
-                
+
             }
         }
         // animation control
@@ -514,14 +534,14 @@ public class MainCharacter : Livings
 
     }
 
-    float CalculateAngleToMouse(GameObject source)
+    /*float CalculateAngleToMouse(GameObject source)
     {
         var mousePos = Input.mousePosition;
         var objectPos = Camera.main.WorldToScreenPoint(source.transform.position);
         mousePos.x = mousePos.x - objectPos.x;
         mousePos.y = mousePos.y - objectPos.y;
         return Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
-    }
+    }*/
     // code for picking up weapon from the ground or drop it
     // set the weapon to be available for pickup when collide
     void OnTriggerStay2D(Collider2D col)
