@@ -31,10 +31,10 @@ public class MainCharacter : Livings
 
 
     // control camera
-    public Camera playerCamera;
+    //public Camera playerCamera;
     // distance between camera and player
-    public float xOffset = 0f;
-    public float yOffset = 9f;
+    //public float xOffset = 0f;
+    //public float yOffset = 9f;
 
     // rigibody2d of player
     private Rigidbody2D rigi;
@@ -348,7 +348,7 @@ public class MainCharacter : Livings
     // Use this for initialization
     void Start()
     {
-        playerCamera = FindObjectOfType<Camera>();
+        //playerCamera = FindObjectOfType<Camera>();
         rigi = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         weaponSprite = FindObjectOfType<CharacterWeaponManager>().GetComponent<SpriteRenderer>();
@@ -417,7 +417,7 @@ public class MainCharacter : Livings
 
 
         // set the position of camera
-        playerCamera.transform.position = new Vector3(GetComponent<Transform>().position.x + xOffset, GetComponent<Transform>().position.y + yOffset, playerCamera.transform.position.z);
+        //playerCamera.transform.position = new Vector3(GetComponent<Transform>().position.x + xOffset, GetComponent<Transform>().position.y + yOffset, playerCamera.transform.position.z);
 
         // movements
         if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && grounded && ban.jump == 0)
