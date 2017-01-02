@@ -109,7 +109,7 @@ public class CameraFollow : MonoBehaviour {
             top += shiftY;
 
             center = new Vector2((left + right) / 2, (top + bottom) / 2);
-            velocity = new Vector2(shiftX, shiftY);
+            velocity = new Vector2(shiftX, shiftY); 
         }
     }
 
