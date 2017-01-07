@@ -347,7 +347,7 @@ public class MainCharacter : Livings
         float currentAngle;
         for(int i=0; i<10; i++)
         {
-            arrowList.Add(Instantiate(arrow, weaponSprite.transform.position, Quaternion.Euler(new Vector3(0, 0, startAngle + (endAngle-startAngle)/(i*1f)))) as GameObject);
+            arrowList.Add(Instantiate(arrow, weaponSprite.transform.position, Quaternion.Euler(new Vector3(0, 0, startAngle + (endAngle-startAngle)/((i+1)*1f)))) as GameObject);
             arrowList[i].GetComponent<ArrowManager>().startPosition = arrowList[i].transform.position;
             currentAngle = Mathf.Deg2Rad*arrowList[i].transform.eulerAngles.z;
             if (facingRight)
