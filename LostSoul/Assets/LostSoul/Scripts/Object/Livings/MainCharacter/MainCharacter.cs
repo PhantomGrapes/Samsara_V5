@@ -345,18 +345,26 @@ public class MainCharacter : Livings
         float startAngle = 30f;
         float endAngle = 60f;
         float currentAngle;
+        float thisArrowSpeed;
         for(int i=0; i<10; i++)
         {
-            arrowList.Add(Instantiate(arrow, weaponSprite.transform.position, Quaternion.Euler(new Vector3(0, 0, startAngle + (endAngle-startAngle)/((i+1)*1f)))) as GameObject);
+            arrowList.Add(Instantiate(arrow, weaponSprite.transform.position, Quaternion.Euler(new Vector3(0, 0, 0))) as GameObject);
             arrowList[i].GetComponent<ArrowManager>().startPosition = arrowList[i].transform.position;
-            currentAngle = Mathf.Deg2Rad*arrowList[i].transform.eulerAngles.z;
-            if (facingRight)
-                arrowList[i].GetComponent<Rigidbody2D>().velocity = new Vector2(-Mathf.Abs(arrowSpeed*Mathf.Cos(currentAngle)), Mathf.Abs(arrowSpeed * Mathf.Sin(currentAngle)));
+            currentAngle = Mathf.Deg2Rad* (startAngle + (endAngle - startAngle) / ((i + 1) * 1f));
+            thisArrowSpeed = arrowSpeed*Mathf.Sqrt(10-i)/2;
+        if (facingRight)
+            {
+                currentAngle = currentAngle*Mathf.Rad2Deg + 90;
+                arrowList[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle));
+                currentAngle = currentAngle * Mathf.Deg2Rad;
+                arrowList[i].GetComponent<Rigidbody2D>().velocity = new Vector2(-Mathf.Abs(thisArrowSpeed * Mathf.Cos(currentAngle)), Mathf.Abs(thisArrowSpeed * Mathf.Sin(currentAngle)));
+            }
             else
             {
                 arrowList[i].transform.localScale = new Vector3(-1, 1, 1);
-                arrowList[i].GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Abs(arrowSpeed * Mathf.Cos(currentAngle)), Mathf.Abs(arrowSpeed * Mathf.Sin(currentAngle)));
+                arrowList[i].GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Abs(thisArrowSpeed * Mathf.Cos(currentAngle)), Mathf.Abs(thisArrowSpeed * Mathf.Sin(currentAngle)));
             }
+            arrowList[i].GetComponent<Rigidbody2D>().gravityScale = 1f;
         }
     }
 
@@ -497,7 +505,7 @@ public class MainCharacter : Livings
             alive = false;
         else
             alive = true;
-        print(Physics2D.GetIgnoreLayerCollision(8, 10));
+        //print(Physics2D.GetIgnoreLayerCollision(8, 10));
 
         // weapon skill
 
