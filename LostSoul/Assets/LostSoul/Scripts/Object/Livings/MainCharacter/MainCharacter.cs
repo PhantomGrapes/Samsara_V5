@@ -544,27 +544,27 @@ public class MainCharacter : Livings
     }*/
     // code for picking up weapon from the ground or drop it
     // set the weapon to be available for pickup when collide
-    void OnTriggerStay2D(Collider2D col)
-    {
-        if (col.gameObject.CompareTag("Weapon"))
-        {
-            //print ("1");
-            weaponToBePickedUp = col.gameObject;
-        }
-        else
-        {
-            //print ("2");
-        }
-    }
-
-    // set the weapon to be unavailable for pickup when they no longer collide
-    void OnTriggerExit2D(Collider2D col)
-    {
-        if (col.gameObject.CompareTag("Weapon"))
-        {
-            weaponToBePickedUp = null;
-        }
-    }
+//    void OnTriggerStay2D(Collider2D col)
+//    {
+//        if (col.gameObject.CompareTag("Weapon"))
+//        {
+//            //print ("1");
+//            weaponToBePickedUp = col.gameObject;
+//        }
+//        else
+//        {
+//            //print ("2");
+//        }
+//    }
+//
+//    // set the weapon to be unavailable for pickup when they no longer collide
+//    void OnTriggerExit2D(Collider2D col)
+//    {
+//        if (col.gameObject.CompareTag("Weapon"))
+//        {
+//            weaponToBePickedUp = null;
+//        }
+//    }
 
     void PickUpWeapon()
     {
