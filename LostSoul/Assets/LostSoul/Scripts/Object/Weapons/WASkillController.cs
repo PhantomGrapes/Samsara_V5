@@ -19,6 +19,7 @@ public class WASkillController : MonoBehaviour {
     {
         if (col.GetComponent<Minion>() != null)
         {
+            //print("give damage");
             col.GetComponent<Minion>().beAttacked(player.attack);
             col.GetComponent<Minion>().beingAttacked = true;
         }

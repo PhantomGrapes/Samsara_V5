@@ -31,10 +31,10 @@ public class MainCharacter : Livings
 
 
     // control camera
-    //public Camera playerCamera;
+    public Camera playerCamera;
     // distance between camera and player
-    //public float xOffset = 0f;
-    //public float yOffset = 9f;
+    public float xOffset = 0f;
+    public float yOffset = 9f;
 
     // rigibody2d of player
     private Rigidbody2D rigi;
@@ -59,6 +59,7 @@ public class MainCharacter : Livings
     //weapon skill
     public GameObject wave;
     public bool checkWeaponSkill = false;
+    public WASkillController waRange;
 
     //beAttacked
     public bool checkBeAttacked;
@@ -337,6 +338,28 @@ public class MainCharacter : Livings
         }
     }
 
+
+    public void start10Arrow()
+    {
+        List<GameObject> arrowList = new List<GameObject>();
+        float startAngle = 30f;
+        float endAngle = 60f;
+        float currentAngle;
+        for(int i=0; i<10; i++)
+        {
+            arrowList.Add(Instantiate(arrow, weaponSprite.transform.position, Quaternion.Euler(new Vector3(0, 0, startAngle + (endAngle-startAngle)/(i*1f)))) as GameObject);
+            arrowList[i].GetComponent<ArrowManager>().startPosition = arrowList[i].transform.position;
+            currentAngle = Mathf.Deg2Rad*arrowList[i].transform.eulerAngles.z;
+            if (facingRight)
+                arrowList[i].GetComponent<Rigidbody2D>().velocity = new Vector2(-Mathf.Abs(arrowSpeed*Mathf.Cos(currentAngle)), Mathf.Abs(arrowSpeed * Mathf.Sin(currentAngle)));
+            else
+            {
+                arrowList[i].transform.localScale = new Vector3(-1, 1, 1);
+                arrowList[i].GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Abs(arrowSpeed * Mathf.Cos(currentAngle)), Mathf.Abs(arrowSpeed * Mathf.Sin(currentAngle)));
+            }
+        }
+    }
+
     IEnumerator IgnoreCollisionBetweenPlayerAndMinion(float time)
     {
         Physics2D.IgnoreLayerCollision(8, 10, true);
@@ -355,6 +378,7 @@ public class MainCharacter : Livings
         rightArmUp = GameObject.Find("MainCharacter/Hip/Corp/RightArmUp");
         audioController = GetComponent<MainCharacterAudioController>();
         ban = GetComponent<ForbiddenStateController>();
+        waRange = FindObjectOfType<WASkillController>();
 
         anim.SetBool("Alive", alive);
         //defaultWeaponRange = FindObjectOfType<WeaponRangeController>();
@@ -417,7 +441,7 @@ public class MainCharacter : Livings
 
 
         // set the position of camera
-        //playerCamera.transform.position = new Vector3(GetComponent<Transform>().position.x + xOffset, GetComponent<Transform>().position.y + yOffset, playerCamera.transform.position.z);
+        playerCamera.transform.position = new Vector3(GetComponent<Transform>().position.x + xOffset, GetComponent<Transform>().position.y + yOffset, playerCamera.transform.position.z);
 
         // movements
         if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && grounded && ban.jump == 0)
@@ -444,10 +468,8 @@ public class MainCharacter : Livings
             velocity = RollSpeed;
         if (checkWARoll)
             velocity = WARollSpeed;
-        if (checkAttack || checkWeaponSkill)
-            Move(new Vector2(0, 0));
-        else
-            Move(new Vector2(velocity, rigi.velocity.y));
+        Move(new Vector2(velocity, rigi.velocity.y));
+
         if (roll)
         {
             float rollLength = 0;
@@ -475,11 +497,21 @@ public class MainCharacter : Livings
             alive = false;
         else
             alive = true;
+        print(Physics2D.GetIgnoreLayerCollision(8, 10));
+
         // weapon skill
+
+          // WASkill range control
+        if (checkWARoll && !waRange.gameObject.activeSelf)
+            waRange.gameObject.SetActive(true);
+        else if(!checkWARoll && waRange.gameObject.activeSelf)
+            waRange.gameObject.SetActive(false);
+          // manage skill attack input 
         if (Input.GetKeyDown(KeyCode.K) && !checkAttack && !checkWeaponSkill && ban.skillAttack == 0)
         {
             if (weaponEquiped)
             {
+                Move(new Vector2(0, 0));
                 anim.SetTrigger("WeaponSkill_" + weaponEquiped.GetComponent<Weapon>().index);
                 switch (weaponEquiped.GetComponent<Weapon>().index)
                 {
@@ -508,10 +540,10 @@ public class MainCharacter : Livings
         anim.SetFloat("YSpeed", Mathf.Abs(rigi.velocity.y));
         anim.SetBool("Grounded", grounded);
         anim.SetBool("Alive", alive);
-        anim.SetInteger("BAAAttackState", BAAAttackState);
         //attacks
         if (Input.GetKeyDown(KeyCode.J) && !checkAttack && !checkWeaponSkill && ban.attack == 0 && weaponEquiped != null)
         {
+            Move(new Vector2(0, 0));
             switch (weaponEquiped.GetComponent<Weapon>().index)
             {
                 case 1:
