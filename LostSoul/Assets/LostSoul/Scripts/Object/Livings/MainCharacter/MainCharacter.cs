@@ -539,6 +539,9 @@ public class MainCharacter : Livings
                         else
                             WARollSpeed = movementSpeed;
                         break;
+                    case 4:
+
+                        break;
                 }
 
             }
