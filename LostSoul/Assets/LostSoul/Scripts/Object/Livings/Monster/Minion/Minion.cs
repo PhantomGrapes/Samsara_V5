@@ -14,6 +14,7 @@ public class Minion : Monster
     private float retreatPercent = 0.3f;
 	private bool retreating = false;
 
+	float originalSpeed;
     float sADP = 0.9f;
     //startAttackingDistanceProportion
 
@@ -40,6 +41,7 @@ public class Minion : Monster
         GetComponent<Rigidbody2D>().mass = 100f;    // make the minion very heavy so that it cannot be pushed back
 
         movementSpeed = 2f;
+		originalSpeed = this.movementSpeed;
         jumpForce = 10f;
     }
 
@@ -64,6 +66,8 @@ public class Minion : Monster
 
 		if (this.timeLock) {
 			this.movementSpeed = 0f;
+		} else {
+			this.movementSpeed = originalSpeed;
 		}
 
     }

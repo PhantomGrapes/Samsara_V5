@@ -48,7 +48,7 @@ public class BossRedLotus : Monster
 		// attack interval formula
 		this.attackInterval = 2 / this.attackSpeed;
 
-		anim = GetComponent<Animator> ();
+		this.anim = GetComponent<Animator> ();
 		GetComponent<Rigidbody2D> ().mass = 100f;
 
 		movementSpeed = 2f;
