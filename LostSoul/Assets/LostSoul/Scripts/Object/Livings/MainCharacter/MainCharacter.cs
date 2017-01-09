@@ -293,8 +293,7 @@ public class MainCharacter : Livings
             target.beAttacked(attack);
             target.beingAttacked = true;
             print(checkWeaponSkill5);
-            if (checkWeaponSkill5)
-                target.GetComponent<E_Blood>().E_BloodParticle();
+            
         }
     }
 
@@ -571,7 +570,7 @@ public class MainCharacter : Livings
                         StartCoroutine(BanSkillAttack(weaponSkill5Length));
                         StartCoroutine(BanBeAttacked(weaponSkill5Length));
                         StartCoroutine(WeaponSkill5());
-                        //StartCoroutine(IgnoreCollisionBetweenPlayerAndMinion(weaponSkill5Length));
+                        StartCoroutine(IgnoreCollisionBetweenPlayerAndMinion(weaponSkill5Length));
                         break;
                 }
 
