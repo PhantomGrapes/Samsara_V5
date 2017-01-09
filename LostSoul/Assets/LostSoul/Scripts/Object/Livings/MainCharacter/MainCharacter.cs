@@ -61,7 +61,6 @@ public class MainCharacter : Livings
     public bool checkWeaponSkill = false;
     public WASkillController waRange;
     public float weaponSkill5Length = 3f;
-    public float weaponSkill5Scale = 1000f;
 
     //beAttacked
     public bool checkBeAttacked;
@@ -384,7 +383,7 @@ public class MainCharacter : Livings
         foreach(Minion m in minionList)
         {
             m.GetComponent<Animator>().speed = 0f;
-            m.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
+            //m.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
             //m.GetComponent<Rigidbody2D>().isKinematic = true;
         }
         movementSpeed *= 10f;
@@ -568,7 +567,9 @@ public class MainCharacter : Livings
 
                         break;
                     case 5:
+                        StartCoroutine(BanSkillAttack(weaponSkill5Length));
                         StartCoroutine(WeaponSkill5());
+                        StartCoroutine(IgnoreCollisionBetweenPlayerAndMinion(weaponSkill5Length));
                         break;
                 }
 
