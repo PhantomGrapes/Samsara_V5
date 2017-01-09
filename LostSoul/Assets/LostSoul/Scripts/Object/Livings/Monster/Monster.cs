@@ -13,6 +13,8 @@ public class Monster : Livings {
 
 	public float alertDistance = 35;
 
+	public bool timeLock = false;
+
 	public void beAttacked (float damageDealt){
 		this.hp -= damageDealt;
 		anim.SetTrigger ("beAttacked");
