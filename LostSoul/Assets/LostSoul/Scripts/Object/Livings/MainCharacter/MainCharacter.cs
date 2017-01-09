@@ -60,6 +60,7 @@ public class MainCharacter : Livings
     public GameObject wave;
     public bool checkWeaponSkill = false;
     public WASkillController waRange;
+    public float weaponSkill5Length = 3f;
 
     //beAttacked
     public bool checkBeAttacked;
@@ -376,6 +377,30 @@ public class MainCharacter : Livings
 
     }
 
+    IEnumerator WeaponSkill5()
+    {
+        Minion[] minionList = FindObjectsOfType(typeof(Minion)) as Minion[];
+        foreach(Minion m in minionList)
+        {
+            m.GetComponent<Animator>().speed = 0f;
+            //m.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
+            //m.GetComponent<Rigidbody2D>().isKinematic = true;
+        }
+        movementSpeed *= 10f;
+        //movementSpeed *= weaponSkill5Scale;
+        //anim.speed *= weaponSkill5Scale;
+        yield return new WaitForSecondsRealtime(weaponSkill5Length);
+        foreach (Minion m in minionList)
+        {
+            m.GetComponent<Animator>().speed = 1f;
+            //m.GetComponent<Rigidbody2D>().isKinematic = false;
+        }
+        movementSpeed /= 10f;
+        //Time.timeScale *= weaponSkill5Scale;
+        //anim.speed /= weaponSkill5Scale;
+        //movementSpeed /= weaponSkill5Scale;
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -477,7 +502,6 @@ public class MainCharacter : Livings
         if (checkWARoll)
             velocity = WARollSpeed;
         Move(new Vector2(velocity, rigi.velocity.y));
-
         if (roll)
         {
             float rollLength = 0;
@@ -541,6 +565,11 @@ public class MainCharacter : Livings
                         break;
                     case 4:
 
+                        break;
+                    case 5:
+                        StartCoroutine(BanSkillAttack(weaponSkill5Length));
+                        StartCoroutine(WeaponSkill5());
+                        StartCoroutine(IgnoreCollisionBetweenPlayerAndMinion(weaponSkill5Length));
                         break;
                 }
 
