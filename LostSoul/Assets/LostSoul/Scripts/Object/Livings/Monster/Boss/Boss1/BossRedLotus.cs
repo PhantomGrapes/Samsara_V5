@@ -179,7 +179,7 @@ public class BossRedLotus : Monster
 			this.movementSpeed = 0;
 			yield return new WaitForSeconds (animStartToDamage1);
 			if (this.alive) {
-				DefaultAttack (this.target);
+				DefaultAttack ();
 			}
 			this.movementSpeed = 1f;
 			yield return new WaitForSeconds (animDuration1 - animStartToDamage1);
@@ -190,7 +190,7 @@ public class BossRedLotus : Monster
 			this.movementSpeed = 0;
 			yield return new WaitForSeconds (animStartToDamage1);
 			if (this.alive) {
-				DefaultAttack (this.target);
+				DefaultAttack ();
 			}
 			this.movementSpeed = 1f;
 			yield return new WaitForSeconds (animDuration1 - animStartToDamage1);
@@ -200,7 +200,7 @@ public class BossRedLotus : Monster
 			this.movementSpeed = 0;
 			yield return new WaitForSeconds (animStartToDamage2);
 			if (this.alive) {
-				DefaultAttack (this.target);
+				DefaultAttack ();
 			}
 			this.movementSpeed = 1f;
 			yield return new WaitForSeconds (animDuration2 - animStartToDamage2);
@@ -213,7 +213,7 @@ public class BossRedLotus : Monster
 			this.movementSpeed = 0;
 			yield return new WaitForSeconds (animStartToDamage1);
 			if (this.alive) {
-				DefaultAttack (this.target);
+				DefaultAttack ();
 			}
 			this.movementSpeed = 1f;
 			yield return new WaitForSeconds (animDuration1 - animStartToDamage1);
@@ -223,7 +223,7 @@ public class BossRedLotus : Monster
 			this.movementSpeed = 0;
 			yield return new WaitForSeconds (animStartToDamage2);
 			if (this.alive) {
-				DefaultAttack (this.target);
+				DefaultAttack ();
 			}
 			this.movementSpeed = 1f;
 			yield return new WaitForSeconds (animDuration2 - animStartToDamage2);
@@ -234,7 +234,7 @@ public class BossRedLotus : Monster
 			this.movementSpeed = 0;
 			yield return new WaitForSeconds (animStartToDamage3);
 			if (this.alive) {
-				DefaultAttack (this.target);
+				DefaultAttack ();
 			}
 			this.movementSpeed = 1f;
 			yield return new WaitForSeconds (animDuration3 - animStartToDamage3);
@@ -314,6 +314,10 @@ public class BossRedLotus : Monster
 		this.attacked = false;
 		yield return new WaitForSeconds (ultimateCooldown);
 		ultimateSkillAvailable = true;
+	}
+
+	public void DefaultAttack(){
+
 	}
 
 	IEnumerator DestroyFireBall ()
