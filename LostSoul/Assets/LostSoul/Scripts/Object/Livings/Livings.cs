@@ -21,7 +21,7 @@ public class Livings : MonoBehaviour
     public float attackSpeed = 1f;
     public float attackInterval;
     public bool melee = true;
-    public float attackRange = 8f;
+    public float attackRange;
 
     public double critChance = 0.01;
     public double evasion = 0.01;
