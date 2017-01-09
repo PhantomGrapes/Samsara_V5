@@ -61,6 +61,7 @@ public class MainCharacter : Livings
     public bool checkWeaponSkill = false;
     public WASkillController waRange;
     public float weaponSkill5Length = 3f;
+    public bool checkWeaponSkill5;
 
     //beAttacked
     public bool checkBeAttacked;
@@ -291,6 +292,9 @@ public class MainCharacter : Livings
         {
             target.beAttacked(attack);
             target.beingAttacked = true;
+            print(checkWeaponSkill5);
+            if (checkWeaponSkill5)
+                target.GetComponent<E_Blood>().E_BloodParticle();
         }
     }
 
@@ -380,25 +384,21 @@ public class MainCharacter : Livings
     IEnumerator WeaponSkill5()
     {
         Minion[] minionList = FindObjectsOfType(typeof(Minion)) as Minion[];
+        checkWeaponSkill5 = true;
         foreach(Minion m in minionList)
         {
             m.GetComponent<Animator>().speed = 0f;
-            //m.GetComponent<Rigidbody2D>().velocity = new Vector2(0f, 0f);
-            //m.GetComponent<Rigidbody2D>().isKinematic = true;
+            m.GetComponent<Minion>().timeLock = true;
         }
-        movementSpeed *= 10f;
-        //movementSpeed *= weaponSkill5Scale;
-        //anim.speed *= weaponSkill5Scale;
+        movementSpeed *= 2f;
         yield return new WaitForSecondsRealtime(weaponSkill5Length);
         foreach (Minion m in minionList)
         {
             m.GetComponent<Animator>().speed = 1f;
-            //m.GetComponent<Rigidbody2D>().isKinematic = false;
+            m.GetComponent<Minion>().timeLock = false;
         }
-        movementSpeed /= 10f;
-        //Time.timeScale *= weaponSkill5Scale;
-        //anim.speed /= weaponSkill5Scale;
-        //movementSpeed /= weaponSkill5Scale;
+        movementSpeed /= 2f;
+        checkWeaponSkill5 = false;
     }
 
     // Use this for initialization
@@ -412,6 +412,7 @@ public class MainCharacter : Livings
         audioController = GetComponent<MainCharacterAudioController>();
         ban = GetComponent<ForbiddenStateController>();
         waRange = FindObjectOfType<WASkillController>();
+        checkWeaponSkill5 = false;
 
         anim.SetBool("Alive", alive);
         //defaultWeaponRange = FindObjectOfType<WeaponRangeController>();
@@ -568,8 +569,9 @@ public class MainCharacter : Livings
                         break;
                     case 5:
                         StartCoroutine(BanSkillAttack(weaponSkill5Length));
+                        StartCoroutine(BanBeAttacked(weaponSkill5Length));
                         StartCoroutine(WeaponSkill5());
-                        StartCoroutine(IgnoreCollisionBetweenPlayerAndMinion(weaponSkill5Length));
+                        //StartCoroutine(IgnoreCollisionBetweenPlayerAndMinion(weaponSkill5Length));
                         break;
                 }
 
