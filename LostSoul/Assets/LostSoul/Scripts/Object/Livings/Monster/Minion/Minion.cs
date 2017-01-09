@@ -24,6 +24,8 @@ public class Minion : Monster
 
     public GameObject bloodParticle;
 
+	EnemyMeleeWeaponCollider minionWeaponCollider;
+
 
 
     // Use this for initialization
@@ -43,6 +45,8 @@ public class Minion : Monster
         movementSpeed = 2f;
 		originalSpeed = this.movementSpeed;
         jumpForce = 10f;
+
+		minionWeaponCollider = FindObjectOfType<EnemyMeleeWeaponCollider> ();
     }
 
     // Update is called once per frame
@@ -204,7 +208,7 @@ public class Minion : Monster
 		if (!this.beingAttacked && !this.retreating)
         {
 			print ("Attacking!");
-            DefaultAttack(this.target);
+            DefaultAttack();
         }
         this.beingAttacked = false;
         yield return new WaitForSeconds(animDuration - animStartToDamage);
@@ -213,6 +217,19 @@ public class Minion : Monster
         this.attacked = false;
 
     }
+
+	public void DefaultAttack(){
+
+		if (!this.beingAttacked && !this.retreating) {
+			print ("give damage");
+			foreach (MainCharacter player in minionWeaponCollider.enemyList) {
+				print ("one player!");
+				player.BeAttacked (this.attack);
+				player.beingAttacked = true;
+			}
+		}
+
+	}
 
 
     void CooldownChecker()
