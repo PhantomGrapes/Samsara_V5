@@ -29,6 +29,7 @@ public class BossRedLotus : Monster
 	bool phase2 = false;
 	bool phase3 = false;
 
+	EnemyMeleeWeaponCollider bossWeaponCollider;
 
 
 
@@ -50,7 +51,7 @@ public class BossRedLotus : Monster
 
 		this.anim = GetComponent<Animator> ();
 		GetComponent<Rigidbody2D> ().mass = 100f;
-
+		bossWeaponCollider = FindObjectOfType<EnemyMeleeWeaponCollider> ();
 		movementSpeed = 2f;
 		jumpForce = 10f;
 
@@ -316,8 +317,14 @@ public class BossRedLotus : Monster
 		ultimateSkillAvailable = true;
 	}
 
-	public void DefaultAttack(){
 
+	public void DefaultAttack ()
+	{
+
+		if (bossWeaponCollider.GetPlayer () != null) {
+			bossWeaponCollider.GetPlayer ().BeAttacked (this.attack);
+			bossWeaponCollider.GetPlayer ().beingAttacked = true;
+		} 
 	}
 
 	IEnumerator DestroyFireBall ()
