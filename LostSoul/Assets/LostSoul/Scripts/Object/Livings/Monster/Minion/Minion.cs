@@ -62,6 +62,10 @@ public class Minion : Monster
         CooldownChecker();
         DecideState();
 
+		if (this.timeLock) {
+			this.movementSpeed = 0f;
+		}
+
     }
 
 
