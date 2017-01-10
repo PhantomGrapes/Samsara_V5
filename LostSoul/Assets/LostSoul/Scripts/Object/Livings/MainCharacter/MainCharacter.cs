@@ -602,6 +602,9 @@ public class MainCharacter : Livings
                 case 5:
                     DefaultAttack();
                     break;
+                case 6:
+                    DefaultAttack();
+                    break;
             }
         }
 
