@@ -7,7 +7,13 @@ public class FirePool : MonoBehaviour {
 	public bool destroyed = false;
 	bool burning = false;
 	public bool activated = false;
-	public float duration = 5f;
+	public float duration;
+	public float burnInterval;
+	public float firePoolDamage;
+
+//	// used to fixed the position of firePool
+//	bool positionFixed = false;
+//	Vector2 position;
 
 	void Start(){
 		player = FindObjectOfType<MainCharacter> ();
@@ -16,13 +22,16 @@ public class FirePool : MonoBehaviour {
 
 	void FixedUpdate(){
 		if(burning){
-			player.hp -= 0.1f;
+			StartCoroutine(Burn ());
 		}
 
-		if (activated) {
-			activated = false;
-			Deactivate ();
-		}
+//		print (this.transform.position);
+		print (this.transform.localPosition);
+//		if (activated) {
+//			FixPosition ();
+//		} else {
+//			positionFixed = false;
+//		}
 
 
 	}
@@ -40,12 +49,27 @@ public class FirePool : MonoBehaviour {
 		}
 	}
 
-	IEnumerator Deactivate(){
+	public IEnumerator Deactivate(){
 
 		yield return new WaitForSeconds (this.duration);
 		this.gameObject.SetActive (false);
-		//			this.firePool.gameObject.SetActive (false);
+		this.activated = false;
 	}
+
+	IEnumerator Burn(){
+		yield return new WaitForSeconds (this.burnInterval);
+			player.BeAttacked(firePoolDamage);
+
+	}
+
+//	void FixPosition(){
+//
+//		if (!positionFixed) {
+//			position = this.transform.position;
+//			positionFixed = true;
+//		}
+//		this.transform.position = position;
+//	}
 
 
 

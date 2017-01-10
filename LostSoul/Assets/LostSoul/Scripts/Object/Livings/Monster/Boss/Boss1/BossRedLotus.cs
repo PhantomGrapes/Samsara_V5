@@ -13,6 +13,7 @@ public class BossRedLotus : Monster
 
 	public bool normalSkillAvailable = true;
 	public bool ultimateSkillAvailable = true;
+	private bool ultimateSkillChannelling = false;
 	float ultimateCooldown = 15f;
 	float normalSkillCooldown = 10f;
 
@@ -21,9 +22,9 @@ public class BossRedLotus : Monster
 
 	public FireBall fireBall;
 
-	float defaultSpeed = 5f;
-	float hasteSpeed = 10f;
-	float hasteDuration = 2f;
+	float defaultSpeed;
+	public float hasteSpeed;
+	public float hasteDuration;
 
 	bool phase1 = true;
 	bool phase2 = false;
@@ -52,7 +53,7 @@ public class BossRedLotus : Monster
 		this.anim = GetComponent<Animator> ();
 		GetComponent<Rigidbody2D> ().mass = 100f;
 		bossWeaponCollider = FindObjectOfType<EnemyMeleeWeaponCollider> ();
-		movementSpeed = 2f;
+		defaultSpeed = movementSpeed;
 		jumpForce = 10f;
 
 	}
@@ -131,7 +132,7 @@ public class BossRedLotus : Monster
 		Vector2 enemyDirection = this.targetPosition - selfPosition;
 		float enemyDistance = enemyDirection.magnitude;
 
-		if (normalSkillAvailable) {
+		if (normalSkillAvailable && !ultimateSkillChannelling) {
 			StartCoroutine (Haste ());
 		}
 		if (this.canAttack && enemyDistance < this.attackRange) {
@@ -252,12 +253,12 @@ public class BossRedLotus : Monster
 
 	IEnumerator Haste ()
 	{
-		this.movementSpeed = hasteSpeed;
-		yield return new WaitForSeconds (hasteDuration);
-		this.movementSpeed = defaultSpeed;
-		normalSkillAvailable = false;
-		yield return new WaitForSeconds (normalSkillCooldown - hasteDuration);
-		normalSkillAvailable = true;
+			this.movementSpeed = hasteSpeed;
+			yield return new WaitForSeconds (hasteDuration);
+			this.movementSpeed = defaultSpeed;
+			normalSkillAvailable = false;
+			yield return new WaitForSeconds (normalSkillCooldown - hasteDuration);
+			normalSkillAvailable = true;
 	}
 
 
@@ -269,7 +270,7 @@ public class BossRedLotus : Monster
 		float animDuration = 0.55f;
 
 		this.attacked = true;
-		this.movementSpeed = 1f;
+		this.movementSpeed = 0.1f;
 		this.anim.SetTrigger ("normalSkill");
 		yield return new WaitForSeconds (animStartToDamage);
 		if (this.alive) {
@@ -277,7 +278,7 @@ public class BossRedLotus : Monster
 			this.firePool.gameObject.SetActive (true);
 			this.firePool.activated = true;
 //			yield return new WaitForSeconds (firePoolDuration);
-//			this.firePool.gameObject.SetActive (false);
+			StartCoroutine(this.firePool.Deactivate());
 
 		}
 		yield return new WaitForSeconds (animDuration - animStartToDamage);
@@ -295,14 +296,14 @@ public class BossRedLotus : Monster
 	IEnumerator UltimateSkill ()
 	{
 		ultimateSkillAvailable = false;
-
+		ultimateSkillChannelling = true;
 		// to be calibreated
 		float animStartToDamage = 1.3f;
 		float animDuration = 3.3f;
 
 		this.attacked = true;
+		this.movementSpeed = 0f;
 		anim.SetTrigger ("ultimateSkill");
-		this.movementSpeed = 0;
 		yield return new WaitForSeconds (animStartToDamage);
 		if (this.alive) {
 			this.fireBall.gameObject.transform.position = this.targetPosition + new Vector2 (0, 10f);
@@ -311,7 +312,9 @@ public class BossRedLotus : Monster
 		}
 		yield return new WaitForSeconds (animDuration - animStartToDamage);
 		this.movementSpeed = defaultSpeed;
+		ultimateSkillChannelling = false;
 		yield return new WaitForSeconds (this.attackInterval - animDuration);
+
 		this.attacked = false;
 		yield return new WaitForSeconds (ultimateCooldown);
 		ultimateSkillAvailable = true;
