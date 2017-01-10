@@ -400,6 +400,17 @@ public class MainCharacter : Livings
         checkWeaponSkill5 = false;
     }
 
+    public void CBSkill()
+    {
+        if (facingRight)
+        {
+            transform.position = new Vector2(transform.position.x + movementSpeed * 0.5f, transform.position.y);
+        }
+        else
+        {
+            transform.position = new Vector2(transform.position.x - movementSpeed * 0.5f, transform.position.y);
+        }
+    }
     // Use this for initialization
     void Start()
     {
@@ -571,6 +582,9 @@ public class MainCharacter : Livings
                         StartCoroutine(BanBeAttacked(weaponSkill5Length));
                         StartCoroutine(WeaponSkill5());
                         StartCoroutine(IgnoreCollisionBetweenPlayerAndMinion(weaponSkill5Length));
+                        break;
+                    case 6:
+                        
                         break;
                 }
 
