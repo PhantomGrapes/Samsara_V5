@@ -132,7 +132,7 @@ public class BossRedLotus : Monster
 		Vector2 enemyDirection = this.targetPosition - selfPosition;
 		float enemyDistance = enemyDirection.magnitude;
 
-		if (normalSkillAvailable && !ultimateSkillChannelling) {
+		if (normalSkillAvailable && !ultimateSkillChannelling && canAttack) {
 			StartCoroutine (Haste ());
 		}
 		if (this.canAttack && enemyDistance < this.attackRange) {
@@ -277,7 +277,6 @@ public class BossRedLotus : Monster
 			this.firePool.transform.position = this.targetPosition;
 			this.firePool.gameObject.SetActive (true);
 			this.firePool.activated = true;
-//			yield return new WaitForSeconds (firePoolDuration);
 			StartCoroutine(this.firePool.Deactivate());
 
 		}

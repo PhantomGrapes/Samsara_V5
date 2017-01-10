@@ -4,8 +4,9 @@ using System.Collections;
 public class FirePool : MonoBehaviour {
 	MainCharacter player;
 	public Animator anim;
-	public bool destroyed = false;
+//	public bool destroyed = false;
 	bool burning = false;
+	bool canBurn = true;
 	public bool activated = false;
 	public float duration;
 	public float burnInterval;
@@ -21,17 +22,11 @@ public class FirePool : MonoBehaviour {
 	}
 
 	void FixedUpdate(){
-		if(burning){
-			StartCoroutine(Burn ());
+		if (canBurn) {
+			if (burning) {
+				StartCoroutine (Burn ());
+			}
 		}
-
-//		print (this.transform.position);
-		print (this.transform.localPosition);
-//		if (activated) {
-//			FixPosition ();
-//		} else {
-//			positionFixed = false;
-//		}
 
 
 	}
@@ -40,7 +35,7 @@ public class FirePool : MonoBehaviour {
 		if (col.GetComponent<MainCharacter> () != null) {
 			burning = true;
 		}
-		destroyed = true;
+//		destroyed = true;
 	}
 
 	void OnTriggerExit2D(Collider2D col){
@@ -57,9 +52,10 @@ public class FirePool : MonoBehaviour {
 	}
 
 	IEnumerator Burn(){
+		canBurn = false;
+		player.BeAttacked(firePoolDamage);
 		yield return new WaitForSeconds (this.burnInterval);
-			player.BeAttacked(firePoolDamage);
-
+		canBurn = true;
 	}
 
 //	void FixPosition(){
