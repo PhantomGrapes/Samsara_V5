@@ -63,6 +63,9 @@ public class MainCharacter : Livings
     public float weaponSkill5Length = 3f;
     public bool checkWeaponSkill5;
 
+    // cool down
+    public CoolDownController coolDown;
+
     //beAttacked
     public bool checkBeAttacked;
     //public List<string> forbiddenStateList = new List<string>();
@@ -423,6 +426,7 @@ public class MainCharacter : Livings
         ban = GetComponent<ForbiddenStateController>();
         waRange = FindObjectOfType<WASkillController>();
         checkWeaponSkill5 = false;
+        coolDown = FindObjectOfType<CoolDownController>();
 
         anim.SetBool("Alive", alive);
         //defaultWeaponRange = FindObjectOfType<WeaponRangeController>();
@@ -500,11 +504,15 @@ public class MainCharacter : Livings
         bool roll = false;
         if (Input.GetKeyDown(KeyCode.U) && !checkAttack && !checkWeaponSkill && ban.roll == 0)
         {
+            StartCoroutine(BanRoll(coolDown.coolDowns[1].coolDownLength));
+            coolDown.coolDowns[1].currentCoolDown = 0f;
             roll = true;
             RollSpeed = -movementSpeed;
         }
         if (Input.GetKeyDown(KeyCode.O) && !checkAttack && !checkWeaponSkill && ban.roll == 0)
         {
+            StartCoroutine(BanRoll(coolDown.coolDowns[1].coolDownLength));
+            coolDown.coolDowns[1].currentCoolDown = 0f;
             roll = true;
             RollSpeed = movementSpeed;
         }
@@ -554,6 +562,8 @@ public class MainCharacter : Livings
         {
             if (weaponEquiped)
             {
+                StartCoroutine(BanSkillAttack(coolDown.coolDowns[0].coolDownLength));
+                coolDown.coolDowns[0].currentCoolDown = 0f;
                 Move(new Vector2(0, 0));
                 anim.SetTrigger("WeaponSkill_" + weaponEquiped.GetComponent<Weapon>().index);
                 switch (weaponEquiped.GetComponent<Weapon>().index)
