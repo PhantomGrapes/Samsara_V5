@@ -4,10 +4,17 @@ using System.Collections;
 public class FirePool : MonoBehaviour {
 	MainCharacter player;
 	public Animator anim;
-	public bool destroyed = false;
+//	public bool destroyed = false;
 	bool burning = false;
+	bool canBurn = true;
 	public bool activated = false;
-	public float duration = 5f;
+	public float duration;
+	public float burnInterval;
+	public float firePoolDamage;
+
+//	// used to fixed the position of firePool
+//	bool positionFixed = false;
+//	Vector2 position;
 
 	void Start(){
 		player = FindObjectOfType<MainCharacter> ();
@@ -15,13 +22,10 @@ public class FirePool : MonoBehaviour {
 	}
 
 	void FixedUpdate(){
-		if(burning){
-			player.hp -= 0.1f;
-		}
-
-		if (activated) {
-			activated = false;
-			Deactivate ();
+		if (canBurn) {
+			if (burning) {
+				StartCoroutine (Burn ());
+			}
 		}
 
 
@@ -31,7 +35,7 @@ public class FirePool : MonoBehaviour {
 		if (col.GetComponent<MainCharacter> () != null) {
 			burning = true;
 		}
-		destroyed = true;
+//		destroyed = true;
 	}
 
 	void OnTriggerExit2D(Collider2D col){
@@ -40,12 +44,28 @@ public class FirePool : MonoBehaviour {
 		}
 	}
 
-	IEnumerator Deactivate(){
+	public IEnumerator Deactivate(){
 
 		yield return new WaitForSeconds (this.duration);
 		this.gameObject.SetActive (false);
-		//			this.firePool.gameObject.SetActive (false);
+		this.activated = false;
 	}
+
+	IEnumerator Burn(){
+		canBurn = false;
+		player.BeAttacked(firePoolDamage);
+		yield return new WaitForSeconds (this.burnInterval);
+		canBurn = true;
+	}
+
+//	void FixPosition(){
+//
+//		if (!positionFixed) {
+//			position = this.transform.position;
+//			positionFixed = true;
+//		}
+//		this.transform.position = position;
+//	}
 
 
 
