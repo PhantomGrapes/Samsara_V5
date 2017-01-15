@@ -21,9 +21,17 @@ public class CameraFollow : MonoBehaviour {
 
     bool lookAheadStopped;
 
+    // Background
+    public GameObject Background;
+
     void Start()
     {
         focusArea = new FocusArea(target.GetComponent<BoxCollider2D>().bounds, focusAreaSize);
+    }
+
+    void Update()
+    {
+        Background.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, Background.transform.position.z);
     }
 
     void LateUpdate()
