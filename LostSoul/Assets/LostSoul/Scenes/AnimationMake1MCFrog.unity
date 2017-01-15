@@ -916,7 +916,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &657652422
 Transform:
   m_ObjectHideFlags: 0
@@ -2128,6 +2128,30 @@ Prefab:
         type: 2}
       propertyPath: coolDowns.Array.data[1].currentCoolDown
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013309458398, guid: 17081d76402bad24aadb77a90f8c1592,
+        type: 2}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013309458398, guid: 17081d76402bad24aadb77a90f8c1592,
+        type: 2}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013309458398, guid: 17081d76402bad24aadb77a90f8c1592,
+        type: 2}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013309458398, guid: 17081d76402bad24aadb77a90f8c1592,
+        type: 2}
+      propertyPath: m_FillCenter
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1000011081921612, guid: 17081d76402bad24aadb77a90f8c1592, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 17081d76402bad24aadb77a90f8c1592, type: 2}
@@ -3701,6 +3725,16 @@ Prefab:
         type: 2}
       propertyPath: m_SelectedWireframeHidden
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 23000012802193772, guid: 3c357bf4ea0a76c4681151b11cfc14a8,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 21000014152103128, guid: 1c39d2a505191d0468713498cf78f652,
+        type: 2}
+    - target: {fileID: 1000011381868320, guid: 3c357bf4ea0a76c4681151b11cfc14a8, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3c357bf4ea0a76c4681151b11cfc14a8, type: 2}
