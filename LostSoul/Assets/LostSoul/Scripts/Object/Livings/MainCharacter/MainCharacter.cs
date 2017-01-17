@@ -337,12 +337,16 @@ public class MainCharacter : Livings
         GameObject arrowBullet = Instantiate(arrow, weaponSprite.transform.position, Quaternion.Euler(new Vector3(0, 0, 0))) as GameObject;
         arrowBullet.GetComponent<ArrowManager>().startPosition = arrowBullet.transform.position;
         if (facingRight)
+        {
+            arrowBullet.transform.localScale = new Vector3(1, 1, 1);
             arrowBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(-arrowSpeed, 0f);
+        }
         else
         {
             arrowBullet.transform.localScale = new Vector3(-1, 1, 1);
             arrowBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(arrowSpeed, 0f);
         }
+        //print(arrowBullet.transform.localScale);
     }
 
 
@@ -361,6 +365,7 @@ public class MainCharacter : Livings
             thisArrowSpeed = arrowSpeed*Mathf.Sqrt(10-i)/2;
         if (facingRight)
             {
+                arrowList[i].transform.localScale = new Vector3(1, 1, 1);
                 currentAngle = currentAngle*Mathf.Rad2Deg + 90;
                 arrowList[i].transform.rotation = Quaternion.Euler(new Vector3(0, 0, currentAngle));
                 currentAngle = currentAngle * Mathf.Deg2Rad;
@@ -407,11 +412,11 @@ public class MainCharacter : Livings
     {
         if (facingRight)
         {
-            transform.position = new Vector2(transform.position.x + movementSpeed * 0.5f, transform.position.y);
+            Move(new Vector2(rigi.velocity.x + movementSpeed * 0.5f/Time.deltaTime, rigi.velocity.y));
         }
         else
         {
-            transform.position = new Vector2(transform.position.x - movementSpeed * 0.5f, transform.position.y);
+            Move(new Vector2(rigi.velocity.x - movementSpeed * 0.5f / Time.deltaTime, rigi.velocity.y));
         }
     }
     // Use this for initialization
@@ -492,7 +497,7 @@ public class MainCharacter : Livings
         //playerCamera.transform.position = new Vector3(GetComponent<Transform>().position.x + xOffset, GetComponent<Transform>().position.y + yOffset, playerCamera.transform.position.z);
 
         // movements
-        if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && grounded && ban.jump == 0)
+        if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && grounded && ban.jump == 0 && alive)
         {
             Move(new Vector2(rigi.velocity.x, jumpForce));
         }
@@ -520,8 +525,10 @@ public class MainCharacter : Livings
             velocity = RollSpeed;
         if (checkWARoll)
             velocity = WARollSpeed;
+        if (!alive)
+            velocity = 0f;
         Move(new Vector2(velocity, rigi.velocity.y));
-        if (roll)
+        if (roll && alive)
         {
             float rollLength = 0;
             rollLength = GetAnimLength("Roll");
