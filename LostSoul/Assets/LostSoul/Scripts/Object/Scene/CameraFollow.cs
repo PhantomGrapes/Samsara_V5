@@ -31,7 +31,8 @@ public class CameraFollow : MonoBehaviour {
 
     void Update()
     {
-        Background.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, Background.transform.position.z);
+        //Background.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, Background.transform.position.z);
+        
     }
 
     void LateUpdate()
@@ -63,6 +64,7 @@ public class CameraFollow : MonoBehaviour {
         focusPosition += Vector2.right * currentLookAheadX;
 
         transform.position = (Vector3)focusPosition + Vector3.forward * -10;
+        Background.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y, Background.transform.position.z);
     }
 
     void OnDrawGizmos()
