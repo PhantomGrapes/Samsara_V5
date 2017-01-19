@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class BossGreenLotus : Monster {
-	List<Projectile> projectiles;
+public class BossGreenLotus : Monster
+{
+	public Projectile stone;
 	MainCharacter target;
 	BattleZone battleZone;
 	Animator anim;
@@ -23,11 +24,12 @@ public class BossGreenLotus : Monster {
 
 
 	// Use this for initialization
-	void Start () {
+	void Start ()
+	{
 		target = FindObjectOfType<MainCharacter> ();
 		anim = GetComponent<Animator> ();
 		battleZone = GetComponent<BattleZone> ();
-
+//		stone = FindObjectOfType<Projectile> ();
 		this.target = FindObjectOfType<MainCharacter> ();
 		this.alive = true;
 		// physical resistance formula
@@ -42,36 +44,48 @@ public class BossGreenLotus : Monster {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+	{
 		if (this != null) {
 			BossFlipping ();
 		}
 	}
 
-	void FixedUpdate(){
+	void FixedUpdate ()
+	{
 		anim.SetFloat ("xSpeed", Mathf.Abs (GetComponent<Rigidbody2D> ().velocity.x));
 		selfPosition = GetComponent<Rigidbody2D> ().position;
 		targetPosition = target.GetComponent<Rigidbody2D> ().position;
+
+		DecideState ();
+
 	}
 
-	void DecideState(){
+	void DecideState ()
+	{
 		if (canToss) {
+			anim.SetTrigger ("toss");
+			// to be put in anim
 			Toss ();
+			StartCoroutine (TossCD ());
 		}
 		if (canBlink && Mathf.Abs ((selfPosition.x - targetPosition.x)) <= startBlinkDistance) {
 			Blink ();
+			StartCoroutine (BlinkCD ());
 		}
+
 	}
 
-	public void Toss(){
-		projectiles.Add(new Projectile ());
-		Projectile rock = projectiles [-1];
-		rock.transform.position = this.transform.position;
-		rock.GetComponent<Rigidbody2D> ().velocity = rock.GetVelocity ();
-		StartCoroutine (rock.DestroyProjectile ());
+	public void Toss ()
+	{
+
+		Projectile newStone = (Projectile)Instantiate (stone);
+		newStone.transform.position = this.transform.position;
+		newStone.gameObject.SetActive (true);
 	}
 
-	IEnumerator  TossCD(){
+	IEnumerator  TossCD ()
+	{
 		canToss = false;
 		yield return new WaitForSeconds (tossCD);
 		canToss = true;
@@ -79,7 +93,8 @@ public class BossGreenLotus : Monster {
 
 
 	// Blink to random position in the room
-	IEnumerator Blink(){
+	IEnumerator Blink ()
+	{
 		anim.SetTrigger ("disappear");
 		float new_x = 0f;
 		float new_y = 0f;
@@ -94,10 +109,12 @@ public class BossGreenLotus : Monster {
 		selfPosition = new Vector2 (new_x, new_y);
 		yield return new WaitForSeconds (blinkDisappearDuration);
 		anim.SetTrigger ("appear");
+		print ("1");
 
 	}
 
-	IEnumerator BlinkCD(){
+	IEnumerator BlinkCD ()
+	{
 		canBlink = false;
 		yield return new WaitForSeconds (blinkCD);
 		canBlink = true;

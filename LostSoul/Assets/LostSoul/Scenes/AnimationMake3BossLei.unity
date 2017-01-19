@@ -145,6 +145,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f11f5b52564c3654da1820d4b7f22609, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &355440836 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1000010492490458, guid: ef6328717139f1742958372cf32ca031,
+    type: 2}
+  m_PrefabInternal: {fileID: 955293749}
 --- !u!1 &410265386
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,6 +179,7 @@ Transform:
   - {fileID: 520536153}
   - {fileID: 1108868889}
   - {fileID: 1554388011}
+  - {fileID: 949224837}
   m_Father: {fileID: 0}
   m_RootOrder: 4
 --- !u!1 &520536152
@@ -319,6 +325,68 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Size: {x: 9.83, y: 1}
+--- !u!1 &949224836
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 949224837}
+  - 61: {fileID: 949224839}
+  - 114: {fileID: 949224838}
+  m_Layer: 9
+  m_Name: BattleZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &949224837
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 949224836}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 410265387}
+  m_RootOrder: 3
+--- !u!114 &949224838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 949224836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bbe8e1a50d5f46ff8e99c2d1e837cf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enterBattleCountdown: 0
+  x_max: 0
+  y_max: 0
+  x_min: 0
+  y_min: 0
+  x_centre: 0
+  y_centre: 0
+--- !u!61 &949224839
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 949224836}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: -4.3129635, y: 7.7779827}
+  serializedVersion: 2
+  m_Size: {x: 61.615154, y: 24.171585}
 --- !u!1001 &955293749
 Prefab:
   m_ObjectHideFlags: 0
@@ -477,6 +545,10 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 255.59
       objectReference: {fileID: 0}
+    - target: {fileID: 1000010492490458, guid: ef6328717139f1742958372cf32ca031, type: 2}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ef6328717139f1742958372cf32ca031, type: 2}
   m_IsPrefabParent: 0
@@ -504,7 +576,7 @@ MonoBehaviour:
   armor: 1
   physicalResistance: 0
   magicalResistance: 0
-  movementSpeed: 0
+  movementSpeed: 5
   attackSpeed: 1
   attackInterval: 0
   melee: 1
@@ -523,11 +595,12 @@ MonoBehaviour:
   anim: {fileID: 0}
   alertDistance: 35
   timeLock: 0
-  startBlinkDistance: 0
-  blinkMinDistanceToPlayer: 0
-  blinkDisappearDuration: 0
-  blinkCD: 0
-  tossCD: 0
+  stone: {fileID: 1839725499}
+  startBlinkDistance: 5
+  blinkMinDistanceToPlayer: 10
+  blinkDisappearDuration: 0.5
+  blinkCD: 5
+  tossCD: 5
 --- !u!4 &1108868889 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4000014114268358, guid: 730b7efee42d7cd43a6034d272a48745,
@@ -957,7 +1030,7 @@ Prefab:
         type: 2}
       propertyPath: target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 355440836}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: acdc4de3036ed484ab43a355a1350ffa, type: 2}
   m_IsPrefabParent: 0
@@ -1020,7 +1093,7 @@ GameObject:
   m_Icon: {fileID: -4738709637730668739, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1839725498
 Transform:
   m_ObjectHideFlags: 0
@@ -1047,6 +1120,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   damage: 20
+  reflectedDirection: {x: 0, y: 0}
+  reflectionDecided: 0
   duration: 30
 --- !u!58 &1839725500
 CircleCollider2D:

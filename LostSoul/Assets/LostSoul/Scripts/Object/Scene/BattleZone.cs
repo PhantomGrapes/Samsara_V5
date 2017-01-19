@@ -17,7 +17,7 @@ public class BattleZone : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		zone = GetComponent<BoxCollider2D> ();
 		// defines boundary 
 		x_max = zone.bounds.max.x;
 		x_min = zone.bounds.min.x;
