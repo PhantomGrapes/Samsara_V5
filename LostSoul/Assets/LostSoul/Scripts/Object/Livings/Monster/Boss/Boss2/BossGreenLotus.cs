@@ -66,12 +66,25 @@ public class BossGreenLotus : Monster
 		if (canToss) {
 			anim.SetTrigger ("toss");
 			// to be put in anim
-			Toss ();
+//			Toss ();
 			StartCoroutine (TossCD ());
 		}
+
 		if (canBlink && Mathf.Abs ((selfPosition.x - targetPosition.x)) <= startBlinkDistance) {
 			Blink ();
 			StartCoroutine (BlinkCD ());
+		}
+
+		if (targetPosition.x > selfPosition.x) {
+			this.facingRight = true;
+		} else {
+			this.facingRight = false;
+		}
+
+
+		if (hp <= 0) {
+			this.alive = false;
+			anim.SetTrigger ("die");
 		}
 
 	}
@@ -80,7 +93,8 @@ public class BossGreenLotus : Monster
 	{
 
 		Projectile newStone = (Projectile)Instantiate (stone);
-		newStone.transform.position = this.transform.position;
+//		newStone.transform.position = this.transform.position;
+		newStone.transform.position = new Vector2(selfPosition.x , selfPosition.y+3f);
 		newStone.gameObject.SetActive (true);
 	}
 
