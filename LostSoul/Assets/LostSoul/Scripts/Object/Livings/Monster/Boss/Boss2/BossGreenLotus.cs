@@ -28,9 +28,7 @@ public class BossGreenLotus : Monster
 	{
 		target = FindObjectOfType<MainCharacter> ();
 		anim = GetComponent<Animator> ();
-		battleZone = GetComponent<BattleZone> ();
-//		stone = FindObjectOfType<Projectile> ();
-		this.target = FindObjectOfType<MainCharacter> ();
+		battleZone = FindObjectOfType<BattleZone> ();
 		this.alive = true;
 		// physical resistance formula
 		this.physicalResistance = 1 - Mathf.Exp (-armor / 3);
@@ -71,8 +69,10 @@ public class BossGreenLotus : Monster
 		}
 
 		if (canBlink && Mathf.Abs ((selfPosition.x - targetPosition.x)) <= startBlinkDistance) {
-			Blink ();
+			anim.SetTrigger ("disappear");
+//			Blink ();
 			StartCoroutine (BlinkCD ());
+
 		}
 
 		if (targetPosition.x > selfPosition.x) {
@@ -107,23 +107,24 @@ public class BossGreenLotus : Monster
 
 
 	// Blink to random position in the room
-	IEnumerator Blink ()
+	public void Blink ()
 	{
-		anim.SetTrigger ("disappear");
 		float new_x = 0f;
 		float new_y = 0f;
-		float targetX_max = Mathf.Min ((target.transform.position.x + blinkMinDistanceToPlayer), battleZone.x_max);
-		float targetX_min = Mathf.Max ((target.transform.position.x - blinkMinDistanceToPlayer), battleZone.x_min);
+		float targetX_max = Mathf.Min ((targetPosition.x + blinkMinDistanceToPlayer), battleZone.x_max);
+		float targetX_min = Mathf.Max ((targetPosition.x - blinkMinDistanceToPlayer), battleZone.x_min);
 		if (selfPosition.x <= battleZone.x_centre) {
 			new_x = Random.Range (targetX_max, battleZone.x_max);
 		} else {
 			new_x = Random.Range (targetX_min, battleZone.x_min);
 		}
 		new_y = Random.Range (battleZone.y_max, battleZone.y_min);
-		selfPosition = new Vector2 (new_x, new_y);
-		yield return new WaitForSeconds (blinkDisappearDuration);
+		print ("before: "+selfPosition);
+		print ("supposed to be(x): "+new_x);
+		print ("supposed to be(y): "+new_y);
+		this.transform.position = new Vector2 (new_x, new_y);
+		print ("turns out to be: "+selfPosition);
 		anim.SetTrigger ("appear");
-		print ("1");
 
 	}
 
@@ -143,4 +144,5 @@ public class BossGreenLotus : Monster
 			localScale.x = -1f * Mathf.Abs (localScale.x);
 		GetComponent<Transform> ().localScale = localScale;
 	}
+
 }
