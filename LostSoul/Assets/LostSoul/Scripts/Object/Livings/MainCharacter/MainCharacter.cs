@@ -523,6 +523,7 @@ public class MainCharacter : Livings
         if (!alive)
             velocity = 0f;
         Move(new Vector2(velocity, rigi.velocity.y));
+        //print(rigi.velocity.x);
         if (roll && alive)
         {
             float rollLength = 0;
