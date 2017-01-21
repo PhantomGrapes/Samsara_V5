@@ -25,10 +25,10 @@ public class ArrowManager : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.GetComponent<Minion>() != null)
+        if (other.GetComponent<Monster>() != null)
         {
-            other.GetComponent<Minion>().beAttacked(player.attack);
-            other.GetComponent<Minion>().beingAttacked = true;
+            other.GetComponent<Monster>().beAttacked(player.attack);
+            other.GetComponent<Monster>().beingAttacked = true;
             Destroy(gameObject);
         }
     }

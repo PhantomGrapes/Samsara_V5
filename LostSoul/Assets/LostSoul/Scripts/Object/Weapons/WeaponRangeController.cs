@@ -6,7 +6,7 @@ public class WeaponRangeController : MonoBehaviour {
 
     private int counter = 0;
 
-    public List<Minion> enemyList = new List<Minion>();
+    public List<Monster> enemyList = new List<Monster>();
  
     // Use this for initialization
 
@@ -16,10 +16,10 @@ public class WeaponRangeController : MonoBehaviour {
 
     void FixedUpdate()
     {
-        foreach (Minion minion in enemyList)
+        foreach (Monster Monster in enemyList)
         {
-            if (minion == null)
-                enemyList.Remove(minion);
+            if (Monster == null)
+                enemyList.Remove(Monster);
         }
     }
 	
@@ -30,18 +30,18 @@ public class WeaponRangeController : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.GetComponent<Minion>() != null && !enemyList.Contains(other.GetComponent<Minion>()))
+        if (other.GetComponent<Monster>() != null && !enemyList.Contains(other.GetComponent<Monster>()))
         {
-            enemyList.Add(other.GetComponent<Minion>());
+            enemyList.Add(other.GetComponent<Monster>());
 
         }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.GetComponent<Minion>() != null && enemyList.Contains(other.GetComponent<Minion>()))
+        if (other.GetComponent<Monster>() != null && enemyList.Contains(other.GetComponent<Monster>()))
         {
-            enemyList.Remove(other.GetComponent<Minion>());
+            enemyList.Remove(other.GetComponent<Monster>());
 
         }
     }
