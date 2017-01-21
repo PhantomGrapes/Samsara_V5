@@ -17,11 +17,11 @@ public class WASkillController : MonoBehaviour {
     // give damage to minion
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.GetComponent<Minion>() != null)
+        if (col.GetComponent<Monster>() != null)
         {
             //print("give damage");
-            col.GetComponent<Minion>().beAttacked(player.attack);
-            col.GetComponent<Minion>().beingAttacked = true;
+            col.GetComponent<Monster>().beAttacked(player.attack);
+            col.GetComponent<Monster>().beingAttacked = true;
         }
     }
 }

@@ -50,10 +50,8 @@ public class MainCharacter : Livings
     public bool checkAttack = false;
 
     //arrow attack
-    public int BAAAttackState = 0;
     public GameObject arrow;
     public GameObject rightArmUp;
-    public List<GameObject> arrowList = new List<GameObject>();
 
 
     //weapon skill
@@ -208,9 +206,6 @@ public class MainCharacter : Livings
         if (ban.beAttacked == 0)
         {
             hp -= damage;
-            BAAAttackState = 0;
-            foreach (GameObject arrowBullet in arrowList)
-                Destroy(arrowBullet);
 
             // using forbidden list(old)
             //foreach (string state in forbiddenStateList)
@@ -272,7 +267,7 @@ public class MainCharacter : Livings
     public void giveDefaultDamageToEnemy()
     {
         //print("give damage");
-        List<Minion> enemyList = new List<Minion>();
+        List<Monster> enemyList = new List<Monster>();
         if (weaponEquiped)
         {
             switch (weaponEquiped.GetComponent<Weapon>().index)
@@ -291,11 +286,11 @@ public class MainCharacter : Livings
                     break;
             }
         }
-        foreach (Minion target in enemyList)
+        foreach (Monster target in enemyList)
         {
             target.beAttacked(attack);
             target.beingAttacked = true;
-            print(checkWeaponSkill5);
+            //print(checkWeaponSkill5);
             
         }
     }
@@ -307,7 +302,7 @@ public class MainCharacter : Livings
     }
     public void startDefaultBloodEffct()
     {
-        List<Minion> enemyList = new List<Minion>();
+        List<Monster> enemyList = new List<Monster>();
         if (weaponEquiped)
         {
             switch (weaponEquiped.GetComponent<Weapon>().index)
@@ -326,10 +321,10 @@ public class MainCharacter : Livings
                     break;
             }
         }
-        foreach (Minion target in enemyList)
+        /*foreach (Monster target in enemyList)
         {
             Instantiate(target.bloodParticle, target.transform.position, target.transform.rotation);
-        }
+        }*/
     }
 
     public void startArrow()
@@ -380,7 +375,7 @@ public class MainCharacter : Livings
         }
     }
 
-    IEnumerator IgnoreCollisionBetweenPlayerAndMinion(float time)
+    IEnumerator IgnoreCollisionBetweenPlayerAndMonster(float time)
     {
         Physics2D.IgnoreLayerCollision(8, 10, true);
         yield return new WaitForSeconds(time);
@@ -390,19 +385,19 @@ public class MainCharacter : Livings
 
     IEnumerator WeaponSkill5()
     {
-        Minion[] minionList = FindObjectsOfType(typeof(Minion)) as Minion[];
+        Monster[] MonsterList = FindObjectsOfType(typeof(Monster)) as Monster[];
         checkWeaponSkill5 = true;
-        foreach(Minion m in minionList)
+        foreach(Monster m in MonsterList)
         {
             m.GetComponent<Animator>().speed = 0f;
-            m.GetComponent<Minion>().timeLock = true;
+            m.GetComponent<Monster>().timeLock = true;
         }
         movementSpeed *= 2f;
         yield return new WaitForSecondsRealtime(weaponSkill5Length);
-        foreach (Minion m in minionList)
+        foreach (Monster m in MonsterList)
         {
             m.GetComponent<Animator>().speed = 1f;
-            m.GetComponent<Minion>().timeLock = false;
+            m.GetComponent<Monster>().timeLock = false;
         }
         movementSpeed /= 2f;
         checkWeaponSkill5 = false;
@@ -536,7 +531,7 @@ public class MainCharacter : Livings
             //StartCoroutine(BanJump(rollLength));
             StartCoroutine(BanBeAttacked(rollLength));
             StartCoroutine(BanRoll(rollLength));
-            StartCoroutine(IgnoreCollisionBetweenPlayerAndMinion(rollLength));
+            StartCoroutine(IgnoreCollisionBetweenPlayerAndMonster(rollLength));
             anim.SetTrigger("Roll");
         }
 
@@ -584,7 +579,7 @@ public class MainCharacter : Livings
                     case 3:
                         float WARollLength = 0;
                         WARollLength = GetAnimLength("SkillWA");
-                        StartCoroutine(IgnoreCollisionBetweenPlayerAndMinion(WARollLength));
+                        StartCoroutine(IgnoreCollisionBetweenPlayerAndMonster(WARollLength));
                         StartCoroutine(BanBeAttacked(WARollLength));
                         if (facingRight)
                             WARollSpeed = -movementSpeed;
@@ -598,7 +593,7 @@ public class MainCharacter : Livings
                         StartCoroutine(BanSkillAttack(weaponSkill5Length));
                         StartCoroutine(BanBeAttacked(weaponSkill5Length));
                         StartCoroutine(WeaponSkill5());
-                        StartCoroutine(IgnoreCollisionBetweenPlayerAndMinion(weaponSkill5Length));
+                        StartCoroutine(IgnoreCollisionBetweenPlayerAndMonster(weaponSkill5Length));
                         break;
                     case 6:
                         
