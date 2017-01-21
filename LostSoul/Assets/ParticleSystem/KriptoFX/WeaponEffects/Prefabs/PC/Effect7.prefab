@@ -94,7 +94,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 415794}
-  - 114: {fileID: 11420126}
+  - 114: {fileID: 114000012321847852}
   m_Layer: 0
   m_Name: Effect7
   m_TagString: Untagged
@@ -233,6 +233,7 @@ MonoBehaviour:
   TurbulenceStrenght: 0.4
   TurbulenceByTime: 0
   TurbulenceStrengthByTime:
+    serializedVersion: 2
     m_Curve:
     - time: 0
       value: 1
@@ -265,6 +266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LightCurve:
+    serializedVersion: 2
     m_Curve:
     - time: 0
       value: 0.5
@@ -337,18 +339,6 @@ MonoBehaviour:
   GraphTimeMultiplier: 2
   GraphIntensityMultiplier: 2
   IsLoop: 1
---- !u!114 &11420126
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 198776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11a144aae082d4f478dce882e7a9ff3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MeshObject: {fileID: 0}
 --- !u!198 &19810660
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -7172,3 +7162,15 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 198776}
   m_IsPrefabParent: 1
+--- !u!114 &114000012321847852
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 198776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e5285c151422f04ea0bf3ac11cb3ea5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MeshObject: {fileID: 0}
