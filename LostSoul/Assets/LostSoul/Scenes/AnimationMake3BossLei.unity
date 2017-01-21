@@ -145,6 +145,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f11f5b52564c3654da1820d4b7f22609, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &213751427 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000012444867390, guid: e60dd2e4293020f428501fcb8ad22727,
+    type: 2}
+  m_PrefabInternal: {fileID: 1697072324}
+  m_Script: {fileID: 11500000, guid: ea64a8da36bea96488e076df3c62e364, type: 3}
 --- !u!1 &355440836 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1000010492490458, guid: ef6328717139f1742958372cf32ca031,
@@ -380,6 +386,18 @@ Transform:
   - {fileID: 885157107}
   m_Father: {fileID: 410265387}
   m_RootOrder: 0
+--- !u!114 &534096870 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000010300774926, guid: e60dd2e4293020f428501fcb8ad22727,
+    type: 2}
+  m_PrefabInternal: {fileID: 1697072324}
+  m_Script: {fileID: 11500000, guid: ea64a8da36bea96488e076df3c62e364, type: 3}
+--- !u!114 &612856641 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000012506554012, guid: e60dd2e4293020f428501fcb8ad22727,
+    type: 2}
+  m_PrefabInternal: {fileID: 1697072324}
+  m_Script: {fileID: 11500000, guid: ea64a8da36bea96488e076df3c62e364, type: 3}
 --- !u!1 &653459163
 GameObject:
   m_ObjectHideFlags: 0
@@ -714,6 +732,26 @@ Prefab:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 114000010234390374, guid: ef6328717139f1742958372cf32ca031,
+        type: 2}
+      propertyPath: defaultWeaponRange_1
+      value: 
+      objectReference: {fileID: 612856641}
+    - target: {fileID: 114000010234390374, guid: ef6328717139f1742958372cf32ca031,
+        type: 2}
+      propertyPath: defaultWeaponRange_3
+      value: 
+      objectReference: {fileID: 534096870}
+    - target: {fileID: 114000010234390374, guid: ef6328717139f1742958372cf32ca031,
+        type: 2}
+      propertyPath: defaultWeaponRange_4
+      value: 
+      objectReference: {fileID: 213751427}
+    - target: {fileID: 114000010234390374, guid: ef6328717139f1742958372cf32ca031,
+        type: 2}
+      propertyPath: defaultWeaponRange_5
+      value: 
+      objectReference: {fileID: 1876685984}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ef6328717139f1742958372cf32ca031, type: 2}
   m_IsPrefabParent: 0
@@ -1389,6 +1427,12 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1876685984 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114000010240486586, guid: e60dd2e4293020f428501fcb8ad22727,
+    type: 2}
+  m_PrefabInternal: {fileID: 1697072324}
+  m_Script: {fileID: 11500000, guid: ea64a8da36bea96488e076df3c62e364, type: 3}
 --- !u!1 &1926898252
 GameObject:
   m_ObjectHideFlags: 0
