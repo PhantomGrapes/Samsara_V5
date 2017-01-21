@@ -175,6 +175,7 @@ GameObject:
   - 114: {fileID: 114000012570899098}
   - 114: {fileID: 114000013490790900}
   - 114: {fileID: 114000012390484348}
+  - 60: {fileID: 60000012704806528}
   m_Layer: 8
   m_Name: MainCharacter
   m_TagString: Untagged
@@ -2184,7 +2185,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010492490458}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.64, y: -3.8, z: 0}
+  m_LocalPosition: {x: 8.91, y: -3.36, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0.59836936, z: 0}
   m_Children:
@@ -2598,6 +2599,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!60 &60000012704806528
+PolygonCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010492490458}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 2152d4f9dd4c83e4a8bffd46fa2241ba, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  m_Points:
+    m_Paths:
+    - - {x: -0.50466096, y: -0.9112897}
+      - {x: -0.50105226, y: 1.0601262}
+      - {x: 0.40992102, y: 1.0605946}
+      - {x: 0.4265868, y: -0.9726361}
+      - {x: -0.0072205863, y: -2.0548916}
 --- !u!61 &61000011780118728
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -2621,7 +2641,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 2152d4f9dd4c83e4a8bffd46fa2241ba, type: 2}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_Offset: {x: -0.039021492, y: -0.4979924}
   serializedVersion: 2
@@ -3054,7 +3074,7 @@ MonoBehaviour:
   hpReg: 1
   facingRight: 1
   controller: {fileID: 0}
-  jumpForce: 26
+  jumpForce: 30
   attacked: 0
   beingAttacked: 0
   canAttack: 0
@@ -3084,10 +3104,8 @@ MonoBehaviour:
   defaultWeaponRange_4: {fileID: 0}
   defaultWeaponRange_5: {fileID: 0}
   checkAttack: 0
-  BAAAttackState: 0
   arrow: {fileID: 1000014032304638, guid: 0e87b5f754f6a9e41906be92298faafa, type: 2}
   rightArmUp: {fileID: 0}
-  arrowList: []
   wave: {fileID: 1000013593490528, guid: e260b418e77b1e043aeada6fc276f198, type: 2}
   checkWeaponSkill: 0
   waRange: {fileID: 0}
