@@ -258,6 +258,28 @@ public class MainCharacter : Livings
     {
         // to check whether the ground overlap the circle on player's foot
         grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
+
+        if (grounded)
+            checkDoubleJump = false;
+        //print("1" + checkDoubleJump);
+        // set the position of camera
+        //playerCamera.transform.position = new Vector3(GetComponent<Transform>().position.x + xOffset, GetComponent<Transform>().position.y + yOffset, playerCamera.transform.position.z);
+
+        // movements
+        if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && ban.jump == 0 && alive && checkDoubleJump)
+        {
+            Move(new Vector2(rigi.velocity.x, jumpForce));
+            checkDoubleJump = false;
+            anim.SetTrigger("DoubleJump");
+        }
+        //print("2" + checkDoubleJump);
+        if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && grounded && ban.jump == 0 && alive && !checkDoubleJump)
+        {
+            checkDoubleJump = true;
+            Move(new Vector2(rigi.velocity.x, jumpForce));
+            
+        }
+        //print("3" + checkDoubleJump);
     }
 
     private void Move(Vector2 speed)
@@ -379,9 +401,10 @@ public class MainCharacter : Livings
     IEnumerator IgnoreCollisionBetweenPlayerAndMonster(float time)
     {
         Physics2D.IgnoreLayerCollision(8, 10, true);
+        Physics2D.IgnoreLayerCollision(8, 11, true);
         yield return new WaitForSeconds(time);
         Physics2D.IgnoreLayerCollision(8, 10, false);
-
+        Physics2D.IgnoreLayerCollision(8, 11, false);
     }
 
     IEnumerator WeaponSkill5()
@@ -488,27 +511,7 @@ public class MainCharacter : Livings
         else
             checkBeAttacked = false;
 
-        if (grounded)
-            checkDoubleJump = false;
-        //print("1" + checkDoubleJump);
-        // set the position of camera
-        //playerCamera.transform.position = new Vector3(GetComponent<Transform>().position.x + xOffset, GetComponent<Transform>().position.y + yOffset, playerCamera.transform.position.z);
-
-        // movements
-        if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && ban.jump == 0 && alive && checkDoubleJump)
-        {
-            Move(new Vector2(rigi.velocity.x, jumpForce));
-            checkDoubleJump = false;
-            anim.SetTrigger("DoubleJump");
-        }
-        //print("2" + checkDoubleJump);
-        if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && grounded && ban.jump == 0 && alive && !checkDoubleJump)
-        {
-            checkDoubleJump = true;
-            Move(new Vector2(rigi.velocity.x, jumpForce));
-            
-        }
-        //print("3" + checkDoubleJump);
+        
         
         float velocity = 0;
         if (Input.GetKey(KeyCode.A) && !checkAttack && !checkWeaponSkill && ban.walk == 0)
