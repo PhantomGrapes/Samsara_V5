@@ -87,6 +87,7 @@ public class BossRedLotus : Monster
 	{
 		if (hp <= 0) {
 			Die ();
+			anim.SetTrigger ("die");
 		} else if (this.hp > this.maxHp * 0.66f) {
 			this.Phase1 ();
 		} else if (this.hp <= this.maxHp * 0.66f && this.hp > this.maxHp * 0.33f) {
