@@ -20,6 +20,7 @@ public class MainCharacter : Livings
 
     // to test whether the player is on the gound
     private bool grounded;
+    private bool checkDoubleJump;
     // a circle attached to player's foot 
     public Transform groundCheck;
     public float groundCheckRadius;
@@ -487,7 +488,8 @@ public class MainCharacter : Livings
         else
             checkBeAttacked = false;
 
-
+        if (grounded)
+            checkDoubleJump = false;
         // set the position of camera
         //playerCamera.transform.position = new Vector3(GetComponent<Transform>().position.x + xOffset, GetComponent<Transform>().position.y + yOffset, playerCamera.transform.position.z);
 
@@ -495,6 +497,13 @@ public class MainCharacter : Livings
         if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && grounded && ban.jump == 0 && alive)
         {
             Move(new Vector2(rigi.velocity.x, jumpForce));
+            checkDoubleJump = true;
+        }
+        if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && !grounded && ban.jump == 0 && alive && checkDoubleJump)
+        {
+            Move(new Vector2(rigi.velocity.x, jumpForce));
+            checkDoubleJump = false;
+            anim.SetTrigger("DoubleJump");
         }
         float velocity = 0;
         if (Input.GetKey(KeyCode.A) && !checkAttack && !checkWeaponSkill && ban.walk == 0)
