@@ -117,7 +117,7 @@ public class Minion : Monster
 		}
 		// move towards target position unless reached
 		if (roamTo.x + 0.1 < selfPosition.x
-		          || roamTo.x - 0.1 > selfPosition.x) {
+		    || roamTo.x - 0.1 > selfPosition.x) {
 			if (roamTo.x > selfPosition.x)
 				MoveRight ();
 			else
@@ -189,7 +189,6 @@ public class Minion : Monster
 		this.movementSpeed = originSpeed;
 		yield return new WaitForSeconds (this.attackInterval - animDuration);
 		this.attacked = false;
-
 	}
 
 	public void DefaultAttack ()
@@ -216,12 +215,15 @@ public class Minion : Monster
 
 	public void MinionFlipping ()
 	{
-		Vector3 localScale = GetComponent<Transform> ().localScale;
-		if (!facingRight)
-			localScale.x = Mathf.Abs (localScale.x);
-		else
-			localScale.x = -1f * Mathf.Abs (localScale.x);
-		GetComponent<Transform> ().localScale = localScale;
+		if (!flipLock) {
+		
+			Vector3 localScale = GetComponent<Transform> ().localScale;
+			if (!facingRight)
+				localScale.x = Mathf.Abs (localScale.x);
+			else
+				localScale.x = -1f * Mathf.Abs (localScale.x);
+			GetComponent<Transform> ().localScale = localScale;
+		}
 	}
 
 
