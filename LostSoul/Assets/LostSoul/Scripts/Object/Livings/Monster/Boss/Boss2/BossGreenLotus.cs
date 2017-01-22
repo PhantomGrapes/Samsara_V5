@@ -60,6 +60,10 @@ public class BossGreenLotus : Monster
 
 			DecideState ();
 		}
+		if (hp <= 0) {
+			this.alive = false;
+			anim.SetTrigger ("die");
+		}
 	}
 
 	void DecideState ()
@@ -85,10 +89,7 @@ public class BossGreenLotus : Monster
 		}
 
 
-		if (hp <= 0) {
-			this.alive = false;
-			anim.SetTrigger ("die");
-		}
+
 
 	}
 
