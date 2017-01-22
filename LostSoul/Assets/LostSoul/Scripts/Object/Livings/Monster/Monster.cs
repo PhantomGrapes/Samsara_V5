@@ -14,8 +14,8 @@ public class Monster : Livings {
 	public float alertDistance = 35;
 
 	public bool flipLock = false;
-
 	public bool timeLock = false;
+	public bool moveLock = false;
 
 	public void beAttacked (float damageDealt){
 		this.hp -= damageDealt;
@@ -28,6 +28,14 @@ public class Monster : Livings {
 
 	public void FlipUnlock(){
 		flipLock = false;
+	}
+
+	public void MoveLock(){
+		moveLock = true;
+	}
+
+	public void MoveUnlock(){
+		moveLock = false;
 	}
 
 }

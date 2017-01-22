@@ -105,6 +105,10 @@ public class Livings : MonoBehaviour
 
     }
 
+	public void Deactivate(){
+		Destroy (this.gameObject);
+	}
+
     // This should be overriden in Maincharacter as we do implicitely chooce target
 //    public void DefaultAttack(MainCharacter target)
 //    {
