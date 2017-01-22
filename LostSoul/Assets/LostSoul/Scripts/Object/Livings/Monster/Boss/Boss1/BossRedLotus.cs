@@ -54,28 +54,31 @@ public class BossRedLotus : Monster
 		GetComponent<Rigidbody2D> ().mass = 100f;
 		bossWeaponCollider = FindObjectOfType<EnemyMeleeWeaponCollider> ();
 		defaultSpeed = movementSpeed;
-		jumpForce = 10f;
 
 	}
 
 	// Update is called once per frame
 	void Update ()
 	{
-		if (this != null) {
-			BossFlipping ();
+		if ((selfPosition - targetPosition).magnitude <= alertDistance) {
+			if (this != null) {
+				BossFlipping ();
+			}
 		}
 	}
 
 	void FixedUpdate ()
 	{
-		anim.SetFloat ("xSpeed", Mathf.Abs (GetComponent<Rigidbody2D> ().velocity.x));
-		selfPosition = GetComponent<Rigidbody2D> ().position;
-		targetPosition = target.GetComponent<Rigidbody2D> ().position;
-		CooldownChecker ();
-		DecideState ();
+		if ((selfPosition - targetPosition).magnitude <= alertDistance) {
+			anim.SetFloat ("xSpeed", Mathf.Abs (GetComponent<Rigidbody2D> ().velocity.x));
+			selfPosition = GetComponent<Rigidbody2D> ().position;
+			targetPosition = target.GetComponent<Rigidbody2D> ().position;
+			CooldownChecker ();
+			DecideState ();
 
-		if (this.fireBall.destroyed) {
-			StartCoroutine (DestroyFireBall ());
+			if (this.fireBall.destroyed) {
+				StartCoroutine (DestroyFireBall ());
+			}
 		}
 
 	}
@@ -253,12 +256,12 @@ public class BossRedLotus : Monster
 
 	IEnumerator Haste ()
 	{
-			this.movementSpeed = hasteSpeed;
-			yield return new WaitForSeconds (hasteDuration);
-			this.movementSpeed = defaultSpeed;
-			normalSkillAvailable = false;
-			yield return new WaitForSeconds (normalSkillCooldown - hasteDuration);
-			normalSkillAvailable = true;
+		this.movementSpeed = hasteSpeed;
+		yield return new WaitForSeconds (hasteDuration);
+		this.movementSpeed = defaultSpeed;
+		normalSkillAvailable = false;
+		yield return new WaitForSeconds (normalSkillCooldown - hasteDuration);
+		normalSkillAvailable = true;
 	}
 
 
@@ -277,7 +280,7 @@ public class BossRedLotus : Monster
 			this.firePool.transform.position = this.targetPosition;
 			this.firePool.gameObject.SetActive (true);
 			this.firePool.activated = true;
-			StartCoroutine(this.firePool.Deactivate());
+			StartCoroutine (this.firePool.Deactivate ());
 
 		}
 		yield return new WaitForSeconds (animDuration - animStartToDamage);

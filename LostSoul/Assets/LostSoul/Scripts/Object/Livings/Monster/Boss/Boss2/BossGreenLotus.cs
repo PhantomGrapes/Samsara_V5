@@ -44,19 +44,22 @@ public class BossGreenLotus : Monster
 	// Update is called once per frame
 	void Update ()
 	{
-		if (this != null) {
-			BossFlipping ();
+		if ((selfPosition - targetPosition).magnitude <= alertDistance) {
+			if (this != null) {
+				BossFlipping ();
+			}
 		}
 	}
 
 	void FixedUpdate ()
 	{
-		anim.SetFloat ("xSpeed", Mathf.Abs (GetComponent<Rigidbody2D> ().velocity.x));
-		selfPosition = GetComponent<Rigidbody2D> ().position;
-		targetPosition = target.GetComponent<Rigidbody2D> ().position;
+		if ((selfPosition - targetPosition).magnitude <= alertDistance) {
+			anim.SetFloat ("xSpeed", Mathf.Abs (GetComponent<Rigidbody2D> ().velocity.x));
+			selfPosition = GetComponent<Rigidbody2D> ().position;
+			targetPosition = target.GetComponent<Rigidbody2D> ().position;
 
-		DecideState ();
-
+			DecideState ();
+		}
 	}
 
 	void DecideState ()
@@ -94,7 +97,7 @@ public class BossGreenLotus : Monster
 
 		Projectile newStone = (Projectile)Instantiate (stone);
 //		newStone.transform.position = this.transform.position;
-		newStone.transform.position = new Vector2(selfPosition.x , selfPosition.y+3f);
+		newStone.transform.position = new Vector2 (selfPosition.x, selfPosition.y + 3f);
 		newStone.gameObject.SetActive (true);
 	}
 
@@ -119,11 +122,11 @@ public class BossGreenLotus : Monster
 			new_x = Random.Range (targetX_min, battleZone.x_min);
 		}
 		new_y = Random.Range (battleZone.y_max, battleZone.y_min);
-		print ("before: "+selfPosition);
-		print ("supposed to be(x): "+new_x);
-		print ("supposed to be(y): "+new_y);
-		this.transform.position = new Vector2 (new_x, new_y);
-		print ("turns out to be: "+selfPosition);
+		print ("before: " + selfPosition);
+		print ("supposed to be(x): " + new_x);
+		print ("supposed to be(y): " + new_y);
+		this.transform.position = new Vector2 (new_x, new_y);	
+		print ("turns out to be: " + selfPosition);
 		anim.SetTrigger ("appear");
 
 	}
