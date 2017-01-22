@@ -259,27 +259,8 @@ public class MainCharacter : Livings
         // to check whether the ground overlap the circle on player's foot
         grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
 
-        if (grounded)
-            checkDoubleJump = false;
-        //print("1" + checkDoubleJump);
-        // set the position of camera
-        //playerCamera.transform.position = new Vector3(GetComponent<Transform>().position.x + xOffset, GetComponent<Transform>().position.y + yOffset, playerCamera.transform.position.z);
 
-        // movements
-        if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && ban.jump == 0 && alive && checkDoubleJump)
-        {
-            Move(new Vector2(rigi.velocity.x, jumpForce));
-            checkDoubleJump = false;
-            anim.SetTrigger("DoubleJump");
-        }
-        //print("2" + checkDoubleJump);
-        if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && grounded && ban.jump == 0 && alive && !checkDoubleJump)
-        {
-            checkDoubleJump = true;
-            Move(new Vector2(rigi.velocity.x, jumpForce));
-            
-        }
-        //print("3" + checkDoubleJump);
+        
     }
 
     private void Move(Vector2 speed)
@@ -511,8 +492,22 @@ public class MainCharacter : Livings
         else
             checkBeAttacked = false;
 
-        
-        
+        // jump
+        if (grounded)
+            checkDoubleJump = false;
+        if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && grounded && ban.jump == 0 && alive)
+        {
+            Move(new Vector2(rigi.velocity.x, jumpForce));
+            //print("1");
+        }
+        else if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && !grounded && !checkDoubleJump && ban.jump == 0 && alive)
+        {
+            Move(new Vector2(rigi.velocity.x, jumpForce));
+            checkDoubleJump = true;
+            anim.SetTrigger("DoubleJump");
+            //print("2");
+        }
+
         float velocity = 0;
         if (Input.GetKey(KeyCode.A) && !checkAttack && !checkWeaponSkill && ban.walk == 0)
             velocity = -movementSpeed;
