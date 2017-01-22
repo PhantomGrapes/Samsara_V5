@@ -345,11 +345,13 @@ public class BossRedLotus : Monster
 
 	public void BossFlipping ()
 	{
-		Vector3 localScale = GetComponent<Transform> ().localScale;
-		if (!facingRight)
-			localScale.x = Mathf.Abs (localScale.x);
-		else
-			localScale.x = -1f * Mathf.Abs (localScale.x);
-		GetComponent<Transform> ().localScale = localScale;
+		if (!flipLock) {
+			Vector3 localScale = GetComponent<Transform> ().localScale;
+			if (!facingRight)
+				localScale.x = Mathf.Abs (localScale.x);
+			else
+				localScale.x = -1f * Mathf.Abs (localScale.x);
+			GetComponent<Transform> ().localScale = localScale;
+		}
 	}
 }
