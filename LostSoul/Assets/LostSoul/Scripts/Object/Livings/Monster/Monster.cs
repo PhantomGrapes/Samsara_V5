@@ -22,4 +22,12 @@ public class Monster : Livings {
 		anim.SetTrigger ("beAttacked");
 	}
 
+	public void FlipLock(){
+		flipLock = true;
+	}
+
+	public void FlipUnlock(){
+		flipLock = false;
+	}
+
 }

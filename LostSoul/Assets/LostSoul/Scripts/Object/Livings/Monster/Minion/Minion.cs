@@ -170,7 +170,6 @@ public class Minion : Monster
 
 	IEnumerator Attack ()
 	{
-		flipLock = true;
 		float animStartToDamage = 1f;
 		float animDuration = 1.3f;
 
@@ -190,7 +189,6 @@ public class Minion : Monster
 		this.movementSpeed = originSpeed;
 		yield return new WaitForSeconds (this.attackInterval - animDuration);
 		this.attacked = false;
-		flipLock = false;
 	}
 
 	public void DefaultAttack ()
