@@ -135,7 +135,7 @@ Prefab:
     - target: {fileID: 224000014003665410, guid: 17081d76402bad24aadb77a90f8c1592,
         type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 224000014003665410, guid: 17081d76402bad24aadb77a90f8c1592,
         type: 2}
@@ -317,7 +317,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 27.214546
+  orthographic size: 6.8116975
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -438,7 +438,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
 --- !u!61 &549141743
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -543,6 +543,60 @@ Prefab:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 137000013364132614, guid: 6c54afa670bf1294f96c7897f5d2bbb8,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 21000011352988168, guid: 379b8a79341faab41afea87640de2946,
+        type: 2}
+    - target: {fileID: 137000013256749772, guid: 6c54afa670bf1294f96c7897f5d2bbb8,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 21000010547891568, guid: afb5f54723bc8c848a3725d3091935c9,
+        type: 2}
+    - target: {fileID: 137000014121158650, guid: 6c54afa670bf1294f96c7897f5d2bbb8,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 21000010547891568, guid: afb5f54723bc8c848a3725d3091935c9,
+        type: 2}
+    - target: {fileID: 137000011888358750, guid: 6c54afa670bf1294f96c7897f5d2bbb8,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 21000013901484416, guid: 4bfbe979520be154d885e93a2d5e8142,
+        type: 2}
+    - target: {fileID: 137000013545245844, guid: 6c54afa670bf1294f96c7897f5d2bbb8,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 21000012003363468, guid: e44854656dcac1e4eb54228abcbd228b,
+        type: 2}
+    - target: {fileID: 137000011330950046, guid: 6c54afa670bf1294f96c7897f5d2bbb8,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 21000010298612760, guid: 3422b0d30f52bc846bf6f50b1a8a170f,
+        type: 2}
+    - target: {fileID: 137000010649511624, guid: 6c54afa670bf1294f96c7897f5d2bbb8,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 21000012090331206, guid: 483c785d32711124093368bfb5d10f4a,
+        type: 2}
+    - target: {fileID: 137000013528360576, guid: 6c54afa670bf1294f96c7897f5d2bbb8,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 21000013901484416, guid: 4bfbe979520be154d885e93a2d5e8142,
+        type: 2}
+    - target: {fileID: 137000011846361072, guid: 6c54afa670bf1294f96c7897f5d2bbb8,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 21000014172402540, guid: fe2f1c1f0744a024f84505504b49e66e,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6c54afa670bf1294f96c7897f5d2bbb8, type: 2}
   m_IsPrefabParent: 0
@@ -982,7 +1036,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000012598081620, guid: 20003d2e31ceb6b49bfb52e255b245c0, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 20003d2e31ceb6b49bfb52e255b245c0, type: 2}
@@ -1014,7 +1068,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
 --- !u!1001 &1882261621
 Prefab:
   m_ObjectHideFlags: 0
@@ -1123,7 +1177,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -3
   m_Sprite: {fileID: 21300000, guid: c6fca2cff3153b94fbe3a252708b2894, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
