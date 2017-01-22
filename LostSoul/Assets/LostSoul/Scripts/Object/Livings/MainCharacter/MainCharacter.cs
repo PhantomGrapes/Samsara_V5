@@ -498,14 +498,14 @@ public class MainCharacter : Livings
         if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && grounded && ban.jump == 0 && alive)
         {
             Move(new Vector2(rigi.velocity.x, jumpForce));
-            print("1");
+            //print("1");
         }
         else if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && !grounded && !checkDoubleJump && ban.jump == 0 && alive)
         {
             Move(new Vector2(rigi.velocity.x, jumpForce));
             checkDoubleJump = true;
             anim.SetTrigger("DoubleJump");
-            print("2");
+            //print("2");
         }
 
         float velocity = 0;
