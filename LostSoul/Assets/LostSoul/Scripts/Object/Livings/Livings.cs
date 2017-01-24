@@ -105,6 +105,12 @@ public class Livings : MonoBehaviour
 
     }
 
+	public void Deactivate(){
+		Destroy (GetComponent<Collider2D> ());
+		Destroy (this.gameObject);
+		this.gameObject.SetActive (false);
+	}
+
     // This should be overriden in Maincharacter as we do implicitely chooce target
 //    public void DefaultAttack(MainCharacter target)
 //    {

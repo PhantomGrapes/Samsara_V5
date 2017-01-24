@@ -60,35 +60,37 @@ public class BossGreenLotus : Monster
 
 			DecideState ();
 		}
+
 	}
 
 	void DecideState ()
 	{
-		if (canToss) {
-			anim.SetTrigger ("toss");
-			// to be put in anim
-//			Toss ();
-			StartCoroutine (TossCD ());
-		}
-
-		if (canBlink && Mathf.Abs ((selfPosition.x - targetPosition.x)) <= startBlinkDistance) {
-			anim.SetTrigger ("disappear");
-//			Blink ();
-			StartCoroutine (BlinkCD ());
-
-		}
-
-		if (targetPosition.x > selfPosition.x) {
-			this.facingRight = true;
-		} else {
-			this.facingRight = false;
-		}
-
-
 		if (hp <= 0) {
-			this.alive = false;
+			Die ();
 			anim.SetTrigger ("die");
+		} else {
+			if (canToss) {
+				anim.SetTrigger ("toss");
+				// to be put in anim
+//			Toss ();
+				StartCoroutine (TossCD ());
+			}
+
+			if (canBlink && Mathf.Abs ((selfPosition.x - targetPosition.x)) <= startBlinkDistance) {
+				anim.SetTrigger ("disappear");
+//			Blink ();
+				StartCoroutine (BlinkCD ());
+
+			}
+
+			if (targetPosition.x > selfPosition.x) {
+				this.facingRight = true;
+			} else {
+				this.facingRight = false;
+			}
 		}
+
+
 
 	}
 
