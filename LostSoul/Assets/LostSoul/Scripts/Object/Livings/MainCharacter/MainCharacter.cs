@@ -22,7 +22,8 @@ public class MainCharacter : Livings
     private bool grounded;
     private bool checkDoubleJump;
     // a circle attached to player's foot 
-    public Transform groundCheck;
+    public Transform frontGroundCheck;
+    public Transform backGroundCheck;
     public float groundCheckRadius;
     public LayerMask whatIsGround;
 
@@ -253,16 +254,6 @@ public class MainCharacter : Livings
     }
 
 
-
-    void FixedUpdate()
-    {
-        // to check whether the ground overlap the circle on player's foot
-        grounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
-
-
-        
-    }
-
     private void Move(Vector2 speed)
     {
         rigi.velocity = speed;
@@ -419,6 +410,39 @@ public class MainCharacter : Livings
             Move(new Vector2(rigi.velocity.x - movementSpeed * 0.5f / Time.deltaTime, rigi.velocity.y));
         }
     }
+
+    // normalize velocity while climbing slopes
+    void NormalizeSlope()
+    {
+        Vector2 vel = rigi.velocity;
+        if (grounded)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, 5f, whatIsGround);
+            if (hit.collider != null && Mathf.Abs(hit.normal.x) > 0.1f )
+            {
+                float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
+                //print(slopeAngle);
+                //print(rigi.gravityScale);
+                //print(grounded);
+                rigi.gravityScale = 0f;
+                var norm = Mathf.Sqrt(vel.x * vel.x + vel.y * vel.y);
+                rigi.velocity =  new Vector2(norm * Mathf.Abs(Mathf.Cos(slopeAngle*Mathf.Deg2Rad)) * Mathf.Sign(vel.x), norm * Mathf.Abs(Mathf.Sin(slopeAngle * Mathf.Deg2Rad)) * Mathf.Sign(vel.y));
+                return;
+                /*
+                // Apply the opposite force against the slope force 
+                rigi.velocity = new Vector2(rigi.velocity.x - (hit.normal.x * 2f), rigi.velocity.y);
+
+                //Move Player up or down to compensate for the slope below them
+                Vector3 pos = transform.position;
+                pos.y += -hit.normal.x * Mathf.Abs(rigi.velocity.x) * Time.deltaTime * (rigi.velocity.x - hit.normal.x > 0 ? 1 : -1);
+
+                transform.position = pos;
+                //print(pos);*/
+            }
+        }
+        rigi.gravityScale = 8f;
+        return ;
+    }
     // Use this for initialization
     void Start()
     {
@@ -435,6 +459,14 @@ public class MainCharacter : Livings
 
         anim.SetBool("Alive", alive);
         //defaultWeaponRange = FindObjectOfType<WeaponRangeController>();
+    }
+
+
+    void FixedUpdate()
+    {
+        // to check whether the ground overlap the circle on player's foot
+        grounded = Physics2D.OverlapCircle(frontGroundCheck.position, groundCheckRadius, whatIsGround) || Physics2D.OverlapCircle(backGroundCheck.position, groundCheckRadius, whatIsGround);
+        NormalizeSlope();
     }
 
     // Update is called once per frame
@@ -534,7 +566,9 @@ public class MainCharacter : Livings
             velocity = WARollSpeed;
         if (!alive)
             velocity = 0f;
+        //Move(NormalizeSlope(new Vector2(velocity, rigi.velocity.y)));
         Move(new Vector2(velocity, rigi.velocity.y));
+        
         //print(rigi.velocity.x);
         if (roll && alive)
         {
