@@ -15,7 +15,7 @@ public class SlopeController : MonoBehaviour {
     void FixedUpdate()
     {
         
-        //print(Physics2D.GetIgnoreCollision(player.GetComponent<PolygonCollider2D>(), bone.GetComponent<EdgeCollider2D>()));
+        print(Physics2D.GetIgnoreCollision(player.GetComponent<PolygonCollider2D>(), bone.GetComponent<EdgeCollider2D>()));
     }
 	// Update is called once per frame
 	void Update () {

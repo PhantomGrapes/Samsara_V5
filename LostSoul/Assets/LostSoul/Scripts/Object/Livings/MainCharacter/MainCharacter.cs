@@ -420,7 +420,7 @@ public class MainCharacter : Livings
         float xSign = 0, ySign = 0;
         if (grounded)
         {
-            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, -Vector2.up, 5f, whatIsGround);
+            RaycastHit2D[] hits = Physics2D.RaycastAll(frontGroundCheck.position, -Vector2.up, 1f, whatIsGround);
             foreach(RaycastHit2D hit in hits) {
                 if (hit.collider != null && Mathf.Abs(hit.normal.x) > 0.1f && !hit.collider.isTrigger && !Physics2D.GetIgnoreCollision(hit.collider.GetComponent<EdgeCollider2D>(), GetComponent<PolygonCollider2D>()))
                 {

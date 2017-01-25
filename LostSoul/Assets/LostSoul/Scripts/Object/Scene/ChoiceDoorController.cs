@@ -14,8 +14,9 @@ public class ChoiceDoorController : MonoBehaviour {
 	void Update () {
         if (playerStay)
         {
+            //print(Physics2D.GetIgnoreCollision(slop.player.GetComponent<PolygonCollider2D>(), slop.bone.GetComponent<EdgeCollider2D>()));
             if (Input.GetKey(KeyCode.S)) {
-                //print("ignore");
+                print("ignore");
                 Physics2D.IgnoreCollision(slop.player.GetComponent<PolygonCollider2D>(), slop.bone.GetComponent<EdgeCollider2D>(), true);
             }
         }
