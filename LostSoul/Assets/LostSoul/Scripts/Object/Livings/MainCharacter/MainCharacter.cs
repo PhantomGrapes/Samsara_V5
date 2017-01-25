@@ -21,6 +21,8 @@ public class MainCharacter : Livings
     // to test whether the player is on the gound
     private bool grounded;
     private bool checkDoubleJump;
+    private bool checkJump;
+    private float initGravity;
     // a circle attached to player's foot 
     public Transform frontGroundCheck;
     public Transform backGroundCheck;
@@ -415,18 +417,29 @@ public class MainCharacter : Livings
     void NormalizeSlope()
     {
         Vector2 vel = rigi.velocity;
+        float xSign = 0, ySign = 0;
         if (grounded)
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, 5f, whatIsGround);
-            if (hit.collider != null && Mathf.Abs(hit.normal.x) > 0.1f )
+            if (hit.collider != null && Mathf.Abs(hit.normal.x) > 0.1f)
             {
                 float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
                 //print(slopeAngle);
                 //print(rigi.gravityScale);
                 //print(grounded);
                 rigi.gravityScale = 0f;
+                xSign = Mathf.Sign(vel.x);
+                //ySign = Mathf.Sign(vel.y);
+                if (Mathf.Abs(vel.x) < 0.01f)
+                    xSign = facingRight ? -1 : 1;
+                //if (Mathf.Abs(vel.y) < 0.01f)
+                ySign = (hit.normal.x > 0 && vel.x < 0) || (hit.normal.x < 0 && vel.x > 0) ? 1 : -1;
+
                 var norm = Mathf.Sqrt(vel.x * vel.x + vel.y * vel.y);
-                rigi.velocity =  new Vector2(norm * Mathf.Abs(Mathf.Cos(slopeAngle*Mathf.Deg2Rad)) * Mathf.Sign(vel.x), norm * Mathf.Abs(Mathf.Sin(slopeAngle * Mathf.Deg2Rad)) * Mathf.Sign(vel.y));
+
+                rigi.velocity = new Vector2(norm * Mathf.Abs(Mathf.Cos(slopeAngle * Mathf.Deg2Rad)) * xSign, norm * Mathf.Abs(Mathf.Sin(slopeAngle * Mathf.Deg2Rad)) *ySign);
+
+                //print(rigi.velocity);
                 return;
                 /*
                 // Apply the opposite force against the slope force 
@@ -440,7 +453,13 @@ public class MainCharacter : Livings
                 //print(pos);*/
             }
         }
-        rigi.gravityScale = 8f;
+        else {
+            //print("jump");
+            //print(rigi.velocity);
+            //print(Mathf.Atan(Mathf.Abs(rigi.velocity.y/rigi.velocity.x)) * Mathf.Rad2Deg);
+        }
+            
+        rigi.gravityScale = initGravity;
         return ;
     }
     // Use this for initialization
@@ -456,6 +475,7 @@ public class MainCharacter : Livings
         waRange = FindObjectOfType<WASkillController>();
         checkWeaponSkill5 = false;
         coolDown = FindObjectOfType<CoolDownController>();
+        initGravity = rigi.gravityScale;
 
         anim.SetBool("Alive", alive);
         //defaultWeaponRange = FindObjectOfType<WeaponRangeController>();
@@ -466,7 +486,8 @@ public class MainCharacter : Livings
     {
         // to check whether the ground overlap the circle on player's foot
         grounded = Physics2D.OverlapCircle(frontGroundCheck.position, groundCheckRadius, whatIsGround) || Physics2D.OverlapCircle(backGroundCheck.position, groundCheckRadius, whatIsGround);
-        NormalizeSlope();
+        if (!checkJump)
+            NormalizeSlope();
     }
 
     // Update is called once per frame
@@ -526,10 +547,15 @@ public class MainCharacter : Livings
 
         // jump
         if (grounded)
+        {
             checkDoubleJump = false;
+            checkJump = false;
+        }
         if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && grounded && ban.jump == 0 && alive)
         {
             Move(new Vector2(rigi.velocity.x, jumpForce));
+            checkJump = true;
+            rigi.gravityScale = initGravity;
             //print("1");
         }
         else if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && !grounded && !checkDoubleJump && ban.jump == 0 && alive)

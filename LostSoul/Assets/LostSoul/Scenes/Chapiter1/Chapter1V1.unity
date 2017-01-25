@@ -12308,6 +12308,7 @@ GameObject:
   - 212: {fileID: 540863354}
   - 60: {fileID: 540863356}
   - 68: {fileID: 540863357}
+  - 68: {fileID: 540863358}
   m_Layer: 13
   m_Name: Bones_0
   m_TagString: Untagged
@@ -12979,6 +12980,21 @@ EdgeCollider2D:
   - {x: 2.1791239, y: -0.804871}
   - {x: 2.9955812, y: -0.9403384}
   - {x: 4.8594403, y: -1.5706084}
+--- !u!68 &540863358
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 540863353}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  m_Points:
+  - {x: -4.2413783, y: 2.1312654}
+  - {x: 4.577628, y: -1.9059665}
 --- !u!1001 &541886743
 Prefab:
   m_ObjectHideFlags: 0
@@ -29018,7 +29034,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1195357194
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -30836,6 +30852,16 @@ Prefab:
         type: 2}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[4].y
       value: -2.129
+      objectReference: {fileID: 0}
+    - target: {fileID: 60000012704806528, guid: ef6328717139f1742958372cf32ca031,
+        type: 2}
+      propertyPath: m_Offset.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 50000012830460348, guid: ef6328717139f1742958372cf32ca031,
+        type: 2}
+      propertyPath: m_AngularDrag
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ef6328717139f1742958372cf32ca031, type: 2}
