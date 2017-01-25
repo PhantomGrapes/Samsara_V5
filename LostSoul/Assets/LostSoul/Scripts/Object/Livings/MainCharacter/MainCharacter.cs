@@ -420,37 +420,39 @@ public class MainCharacter : Livings
         float xSign = 0, ySign = 0;
         if (grounded)
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, 5f, whatIsGround);
-            if (hit.collider != null && Mathf.Abs(hit.normal.x) > 0.1f)
-            {
-                float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
-                //print(slopeAngle);
-                //print(rigi.gravityScale);
-                //print(grounded);
-                rigi.gravityScale = 0f;
-                xSign = Mathf.Sign(vel.x);
-                //ySign = Mathf.Sign(vel.y);
-                if (Mathf.Abs(vel.x) < 0.01f)
-                    xSign = facingRight ? -1 : 1;
-                //if (Mathf.Abs(vel.y) < 0.01f)
-                ySign = (hit.normal.x > 0 && vel.x < 0) || (hit.normal.x < 0 && vel.x > 0) ? 1 : -1;
+            RaycastHit2D[] hits = Physics2D.RaycastAll(transform.position, -Vector2.up, 5f, whatIsGround);
+            foreach(RaycastHit2D hit in hits) {
+                if (hit.collider != null && Mathf.Abs(hit.normal.x) > 0.1f && !hit.collider.isTrigger && !Physics2D.GetIgnoreCollision(hit.collider.GetComponent<EdgeCollider2D>(), GetComponent<PolygonCollider2D>()))
+                {
+                    float slopeAngle = Vector2.Angle(hit.normal, Vector2.up);
+                    //print(slopeAngle);
+                    //print(rigi.gravityScale);
+                    //print(grounded);
+                    rigi.gravityScale = 0f;
+                    xSign = Mathf.Sign(vel.x);
+                    //ySign = Mathf.Sign(vel.y);
+                    if (Mathf.Abs(vel.x) < 0.01f)
+                        xSign = facingRight ? -1 : 1;
+                    //if (Mathf.Abs(vel.y) < 0.01f)
+                    ySign = (hit.normal.x > 0 && vel.x < 0) || (hit.normal.x < 0 && vel.x > 0) ? 1 : -1;
 
-                var norm = Mathf.Sqrt(vel.x * vel.x + vel.y * vel.y);
+                    var norm = Mathf.Sqrt(vel.x * vel.x + vel.y * vel.y);
 
-                rigi.velocity = new Vector2(norm * Mathf.Abs(Mathf.Cos(slopeAngle * Mathf.Deg2Rad)) * xSign, norm * Mathf.Abs(Mathf.Sin(slopeAngle * Mathf.Deg2Rad)) *ySign);
+                    rigi.velocity = new Vector2(norm * Mathf.Abs(Mathf.Cos(slopeAngle * Mathf.Deg2Rad)) * xSign, norm * Mathf.Abs(Mathf.Sin(slopeAngle * Mathf.Deg2Rad)) * ySign);
 
-                //print(rigi.velocity);
-                return;
-                /*
-                // Apply the opposite force against the slope force 
-                rigi.velocity = new Vector2(rigi.velocity.x - (hit.normal.x * 2f), rigi.velocity.y);
+                    //print(rigi.velocity);
+                    return;
+                    /*
+                    // Apply the opposite force against the slope force 
+                    rigi.velocity = new Vector2(rigi.velocity.x - (hit.normal.x * 2f), rigi.velocity.y);
 
-                //Move Player up or down to compensate for the slope below them
-                Vector3 pos = transform.position;
-                pos.y += -hit.normal.x * Mathf.Abs(rigi.velocity.x) * Time.deltaTime * (rigi.velocity.x - hit.normal.x > 0 ? 1 : -1);
+                    //Move Player up or down to compensate for the slope below them
+                    Vector3 pos = transform.position;
+                    pos.y += -hit.normal.x * Mathf.Abs(rigi.velocity.x) * Time.deltaTime * (rigi.velocity.x - hit.normal.x > 0 ? 1 : -1);
 
-                transform.position = pos;
-                //print(pos);*/
+                    transform.position = pos;
+                    //print(pos);*/
+                }
             }
         }
         else {
@@ -551,14 +553,14 @@ public class MainCharacter : Livings
             checkDoubleJump = false;
             checkJump = false;
         }
-        if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && grounded && ban.jump == 0 && alive)
+        if (Input.GetKeyDown(KeyCode.Space) && !Input.GetKey(KeyCode.S) && !checkWeaponSkill && grounded && ban.jump == 0 && alive)
         {
             Move(new Vector2(rigi.velocity.x, jumpForce));
             checkJump = true;
             rigi.gravityScale = initGravity;
             //print("1");
         }
-        else if (Input.GetKeyDown(KeyCode.Space) && !checkWeaponSkill && !grounded && !checkDoubleJump && ban.jump == 0 && alive)
+        else if (Input.GetKeyDown(KeyCode.Space) && !Input.GetKey(KeyCode.S) && !checkWeaponSkill && !grounded && !checkDoubleJump && ban.jump == 0 && alive)
         {
             Move(new Vector2(rigi.velocity.x, jumpForce));
             checkDoubleJump = true;
