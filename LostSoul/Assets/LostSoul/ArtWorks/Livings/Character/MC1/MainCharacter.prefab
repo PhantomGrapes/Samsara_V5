@@ -87,9 +87,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000010336938348}
   m_Layer: 8
-  m_Name: CheckGround
+  m_Name: CheckGroundBack
   m_TagString: Untagged
-  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 1862873201189522682, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -521,6 +521,21 @@ GameObject:
   m_Name: Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1000011282695112
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000011754488846}
+  m_Layer: 8
+  m_Name: CheckGroundFront
+  m_TagString: Untagged
+  m_Icon: {fileID: 1862873201189522682, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -1523,13 +1538,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010264672142}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2.129, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.38, y: -2.1290004, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000012741107394}
-  m_RootOrder: 7
+  m_RootOrder: 8
 --- !u!4 &4000010370024512
 Transform:
   m_ObjectHideFlags: 1
@@ -1621,7 +1636,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 4000012741107394}
-  m_RootOrder: 8
+  m_RootOrder: 9
 --- !u!4 &4000010780892548
 Transform:
   m_ObjectHideFlags: 1
@@ -1723,7 +1738,7 @@ Transform:
   - {fileID: 4000013938669954}
   - {fileID: 4000013096751652}
   m_Father: {fileID: 4000012741107394}
-  m_RootOrder: 11
+  m_RootOrder: 12
 --- !u!4 &4000011674321510
 Transform:
   m_ObjectHideFlags: 1
@@ -1750,6 +1765,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4000010041783998}
   m_RootOrder: 2
+--- !u!4 &4000011754488846
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011282695112}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.5, y: -2.129, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 4000012741107394}
+  m_RootOrder: 7
 --- !u!4 &4000011828428894
 Transform:
   m_ObjectHideFlags: 1
@@ -2185,7 +2213,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010492490458}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 605.5, y: -171.1, z: 0}
+  m_LocalPosition: {x: 313.3, y: -35.2, z: 1}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0.59836936, z: 0}
   m_Children:
@@ -2196,6 +2224,7 @@ Transform:
   - {fileID: 4000011056890168}
   - {fileID: 4000014180155414}
   - {fileID: 4000012769359472}
+  - {fileID: 4000011754488846}
   - {fileID: 4000010336938348}
   - {fileID: 4000010661715752}
   - {fileID: 4000014210599452}
@@ -2349,7 +2378,7 @@ Transform:
   m_Children:
   - {fileID: 4000010780892548}
   m_Father: {fileID: 4000012741107394}
-  m_RootOrder: 10
+  m_RootOrder: 11
 --- !u!4 &4000013676086950
 Transform:
   m_ObjectHideFlags: 1
@@ -2550,7 +2579,7 @@ Transform:
   m_Children:
   - {fileID: 4000012201957946}
   m_Father: {fileID: 4000012741107394}
-  m_RootOrder: 9
+  m_RootOrder: 10
 --- !u!4 &4000014228621586
 Transform:
   m_ObjectHideFlags: 1
@@ -2638,7 +2667,7 @@ BoxCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010492490458}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 6200000, guid: 2152d4f9dd4c83e4a8bffd46fa2241ba, type: 2}
   m_IsTrigger: 1
@@ -3088,7 +3117,8 @@ MonoBehaviour:
   luck: 0
   arrowRange: 20
   arrowSpeed: 15
-  groundCheck: {fileID: 4000010336938348}
+  frontGroundCheck: {fileID: 4000011754488846}
+  backGroundCheck: {fileID: 4000010336938348}
   groundCheckRadius: 0.2
   whatIsGround:
     serializedVersion: 2
