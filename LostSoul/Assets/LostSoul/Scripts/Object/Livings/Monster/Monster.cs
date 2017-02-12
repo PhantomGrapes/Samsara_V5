@@ -17,7 +17,7 @@ public class Monster : Livings {
 	public bool timeLock = false;
 	public bool moveLock = false;
 
-	public void beAttacked (float damageDealt){
+	public void BeAttacked (float damageDealt){
 		this.hp -= damageDealt;
 		anim.SetTrigger ("beAttacked");
 	}

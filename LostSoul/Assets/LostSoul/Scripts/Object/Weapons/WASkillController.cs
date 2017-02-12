@@ -20,7 +20,7 @@ public class WASkillController : MonoBehaviour {
         if (col.GetComponent<Monster>() != null)
         {
             //print("give damage");
-            col.GetComponent<Monster>().beAttacked(player.attack);
+            col.GetComponent<Monster>().BeAttacked(player.attack);
             col.GetComponent<Monster>().beingAttacked = true;
         }
     }

@@ -38,7 +38,7 @@ public class Projectile : MonoBehaviour
 //				print (hit.collider.tag);
 				// if the collider met is a reflector
 				if (hit.collider.gameObject.tag == "Reflectors") {
-//					print ("1");
+					print ("1");
 					// define the normal vector
 					Vector2 normal = hit.normal;
 					// defiine the reflected direction

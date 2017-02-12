@@ -27,7 +27,7 @@ public class ArrowManager : MonoBehaviour {
     {
         if (other.GetComponent<Monster>() != null)
         {
-            other.GetComponent<Monster>().beAttacked(player.attack);
+            other.GetComponent<Monster>().BeAttacked(player.attack);
             other.GetComponent<Monster>().beingAttacked = true;
             Destroy(gameObject);
         }

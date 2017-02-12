@@ -111,25 +111,7 @@ public class Livings : MonoBehaviour
 		this.gameObject.SetActive (false);
 	}
 
-    // This should be overriden in Maincharacter as we do implicitely chooce target
-//    public void DefaultAttack(MainCharacter target)
-//    {
-//        // direction sensitive
-//        Vector2 enemyDirection =
-//            target.GetComponent<Rigidbody2D>().position
-//            - GetComponent<Rigidbody2D>().position;
-//        float enemyDistance = enemyDirection.magnitude;
-//
-//
-//        if ((enemyDirection.x > 0 && facingRight) || (enemyDirection.x < 0 && !facingRight))
-//        {
-//            // correct direction case
-//            if (enemyDistance < attackRange)
-//            {
-//                target.BeAttacked(this.attack * (1 - target.physicalResistance));
-//            }
-//        }
-//    }
+
 
 
     //new function to change the direction of face according to facingRight

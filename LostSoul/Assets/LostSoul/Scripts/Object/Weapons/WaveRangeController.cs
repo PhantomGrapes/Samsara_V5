@@ -7,6 +7,7 @@ public class WaveRangeController : MonoBehaviour {
     private int counter = 0;
 
     public List<Minion> enemyList = new List<Minion>();
+	public List<MainCharacter> playerList = new List<MainCharacter> ();
     private MainCharacter player;
 
 
@@ -30,7 +31,7 @@ public class WaveRangeController : MonoBehaviour {
         if (other.GetComponent<Minion>() != null && !enemyList.Contains(other.GetComponent<Minion>()))
         {
             enemyList.Add(other.GetComponent<Minion>());
-            other.GetComponent<Minion>().beAttacked(player.attack);
+            other.GetComponent<Minion>().BeAttacked(player.attack);
         }
     }
 }

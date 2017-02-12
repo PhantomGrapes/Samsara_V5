@@ -23,7 +23,7 @@ public class MainCharacter : Livings
     private bool checkDoubleJump;
     private bool checkJump;
     private float initGravity;
-    // a circle attached to player's foot 
+    // a circle attached to player's foot
     public Transform frontGroundCheck;
     public Transform backGroundCheck;
     public float groundCheckRadius;
@@ -43,7 +43,7 @@ public class MainCharacter : Livings
     // rigibody2d of player
     private Rigidbody2D rigi;
 
-    // animation 
+    // animation
     public Animator anim;
 
     //attack
@@ -82,7 +82,7 @@ public class MainCharacter : Livings
     // ban controller
     public ForbiddenStateController ban;
 
-    //roll 
+    //roll
     public bool checkRoll;
     public float RollSpeed;
     public bool checkWARoll;
@@ -261,7 +261,7 @@ public class MainCharacter : Livings
         rigi.velocity = speed;
     }
 
-    public void giveDefaultDamageToEnemy()
+    public virtual void giveDefaultDamageToEnemy()
     {
         //print("give damage");
         List<Monster> enemyList = new List<Monster>();
@@ -285,10 +285,10 @@ public class MainCharacter : Livings
         }
         foreach (Monster target in enemyList)
         {
-            target.beAttacked(attack);
+            target.BeAttacked(attack);
             target.beingAttacked = true;
             //print(checkWeaponSkill5);
-            
+
         }
     }
 
@@ -443,7 +443,7 @@ public class MainCharacter : Livings
                     //print(rigi.velocity);
                     return;
                     /*
-                    // Apply the opposite force against the slope force 
+                    // Apply the opposite force against the slope force
                     rigi.velocity = new Vector2(rigi.velocity.x - (hit.normal.x * 2f), rigi.velocity.y);
 
                     //Move Player up or down to compensate for the slope below them
@@ -460,7 +460,7 @@ public class MainCharacter : Livings
             //print(rigi.velocity);
             //print(Mathf.Atan(Mathf.Abs(rigi.velocity.y/rigi.velocity.x)) * Mathf.Rad2Deg);
         }
-            
+
         rigi.gravityScale = initGravity;
         return ;
     }
@@ -596,7 +596,7 @@ public class MainCharacter : Livings
             velocity = 0f;
         //Move(NormalizeSlope(new Vector2(velocity, rigi.velocity.y)));
         Move(new Vector2(velocity, rigi.velocity.y));
-        
+
         //print(rigi.velocity.x);
         if (roll && alive)
         {
@@ -634,7 +634,7 @@ public class MainCharacter : Livings
             waRange.gameObject.SetActive(true);
         else if(!checkWARoll && waRange.gameObject.activeSelf)
             waRange.gameObject.SetActive(false);
-          // manage skill attack input 
+          // manage skill attack input
         if (Input.GetKeyDown(KeyCode.K) && !checkAttack && !checkWeaponSkill && ban.skillAttack == 0)
         {
             if (weaponEquiped)
@@ -671,7 +671,7 @@ public class MainCharacter : Livings
                         StartCoroutine(IgnoreCollisionBetweenPlayerAndMonster(weaponSkill5Length));
                         break;
                     case 6:
-                        
+
                         break;
                 }
 

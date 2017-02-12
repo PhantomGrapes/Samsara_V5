@@ -7,7 +7,8 @@ public class WeaponRangeController : MonoBehaviour {
     private int counter = 0;
 
     public List<Monster> enemyList = new List<Monster>();
- 
+	public List<MainCharacter> playerList = new List<MainCharacter> ();
+
     // Use this for initialization
 
 	void Start () {
