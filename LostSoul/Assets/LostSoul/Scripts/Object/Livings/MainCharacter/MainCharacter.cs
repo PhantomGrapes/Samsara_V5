@@ -19,10 +19,10 @@ public class MainCharacter : Livings
     // Armor equipedArmor; to do
 
     // to test whether the player is on the gound
-    private bool grounded;
-    private bool checkDoubleJump;
-    private bool checkJump;
-    private float initGravity;
+    protected bool grounded;
+    protected bool checkDoubleJump;
+    protected bool checkJump;
+    protected float initGravity;
     // a circle attached to player's foot
     public Transform frontGroundCheck;
     public Transform backGroundCheck;
@@ -41,7 +41,7 @@ public class MainCharacter : Livings
     public float yOffset = 9f;
 
     // rigibody2d of player
-    private Rigidbody2D rigi;
+    protected Rigidbody2D rigi;
 
     // animation
     public Animator anim;
@@ -74,7 +74,7 @@ public class MainCharacter : Livings
     //public List<string> stateBeforeBeAttacked = new List<string>();
 
     //changeWeapon
-    private SpriteRenderer weaponSprite;
+    protected SpriteRenderer weaponSprite;
 
     // play audio
     public MainCharacterAudioController audioController;
@@ -256,7 +256,7 @@ public class MainCharacter : Livings
     }
 
 
-    private void Move(Vector2 speed)
+    protected void Move(Vector2 speed)
     {
         rigi.velocity = speed;
     }
@@ -297,7 +297,7 @@ public class MainCharacter : Livings
         wave.transform.localScale = transform.localScale;
         Instantiate(wave, new Vector3(transform.position.x, transform.position.y - 2f, transform.position.z), transform.rotation);
     }
-    public void startDefaultBloodEffct()
+    public virtual void startDefaultBloodEffct()
     {
         List<Monster> enemyList = new List<Monster>();
         if (weaponEquiped)
@@ -381,7 +381,7 @@ public class MainCharacter : Livings
         Physics2D.IgnoreLayerCollision(8, 11, false);
     }
 
-    IEnumerator WeaponSkill5()
+    protected virtual IEnumerator WeaponSkill5()
     {
         Monster[] MonsterList = FindObjectsOfType(typeof(Monster)) as Monster[];
         checkWeaponSkill5 = true;
