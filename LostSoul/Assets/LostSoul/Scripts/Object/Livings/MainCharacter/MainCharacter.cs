@@ -149,42 +149,42 @@ public class MainCharacter : Livings
     }
 
 
-    IEnumerator BanWalk(float banTime)
+	protected IEnumerator BanWalk(float banTime)
     {
         ban.walk += 1;
         yield return new WaitForSeconds(banTime);
         ban.walk -= 1;
     }
 
-    IEnumerator BanAttack(float banTime)
+	protected IEnumerator BanAttack(float banTime)
     {
         ban.attack += 1;
         yield return new WaitForSeconds(banTime);
         ban.attack -= 1;
     }
 
-    IEnumerator BanJump(float banTime)
+	protected IEnumerator BanJump(float banTime)
     {
         ban.jump += 1;
         yield return new WaitForSeconds(banTime);
         ban.jump -= 1;
     }
 
-    IEnumerator BanSkillAttack(float banTime)
+	protected IEnumerator BanSkillAttack(float banTime)
     {
         ban.skillAttack += 1;
         yield return new WaitForSeconds(banTime);
         ban.skillAttack -= 1;
     }
 
-    IEnumerator BanBeAttacked(float banTime)
+	protected IEnumerator BanBeAttacked(float banTime)
     {
         ban.beAttacked += 1;
         yield return new WaitForSeconds(banTime);
         ban.beAttacked -= 1;
     }
 
-    IEnumerator BanRoll(float banTime)
+	protected IEnumerator BanRoll(float banTime)
     {
         ban.roll += 1;
         yield return new WaitForSeconds(banTime);
@@ -372,7 +372,7 @@ public class MainCharacter : Livings
         }
     }
 
-    IEnumerator IgnoreCollisionBetweenPlayerAndMonster(float time)
+	protected IEnumerator IgnoreCollisionBetweenPlayerAndMonster(float time)
     {
         Physics2D.IgnoreLayerCollision(8, 10, true);
         Physics2D.IgnoreLayerCollision(8, 11, true);
@@ -414,7 +414,7 @@ public class MainCharacter : Livings
     }
 
     // normalize velocity while climbing slopes
-    void NormalizeSlope()
+    protected void NormalizeSlope()
     {
         Vector2 vel = rigi.velocity;
         float xSign = 0, ySign = 0;
@@ -743,7 +743,7 @@ public class MainCharacter : Livings
 //        }
 //    }
 
-    void PickUpWeapon()
+    protected void PickUpWeapon()
     {
         if (weaponToBePickedUp != null)
         {
@@ -767,7 +767,7 @@ public class MainCharacter : Livings
         }
     }
 
-    void DropWeapon()
+    protected void DropWeapon()
     {
         anim.SetInteger("WeaponIndex", 0);
         this.weaponEquiped.transform.position = this.transform.position;
@@ -786,37 +786,37 @@ public class MainCharacter : Livings
     }
 
     // audio fonctions
-    void playHit()
+    protected void playHit()
     {
         audioController.audioHit.Play();
     }
 
-    void playDead()
+	protected void playDead()
     {
         audioController.audioDead.Play();
     }
 
-    void playHeavySword1()
+	protected void playHeavySword1()
     {
         audioController.audioHeavySword1.Play();
     }
-    void playHeavySword2()
+	protected void playHeavySword2()
     {
         audioController.audioHeavySword2.Play();
     }
-    void playArrow1()
+	protected void playArrow1()
     {
         audioController.audioArrow1.Play();
     }
-    void StopArrow1()
+	protected void StopArrow1()
     {
         audioController.audioArrow1.Stop();
     }
-    void playArrow2()
+	protected void playArrow2()
     {
         audioController.audioArrow2.Play();
     }
-    void playHeavySwordSkill1()
+	protected void playHeavySwordSkill1()
     {
         audioController.audioHeavySwordSkill1.Play();
     }

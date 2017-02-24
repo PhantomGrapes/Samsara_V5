@@ -8,6 +8,8 @@ public class WeaponRangeController : MonoBehaviour {
 
     public List<Monster> enemyList = new List<Monster>();
 	public List<MainCharacter> playerList = new List<MainCharacter> ();
+	// added for MA
+	public float range;
 
     // Use this for initialization
 
