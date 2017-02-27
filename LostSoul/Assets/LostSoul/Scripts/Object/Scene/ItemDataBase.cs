@@ -30,7 +30,7 @@ public class ItemDataBase : MonoBehaviour {
     {
         for(int i = 0; i < itemData.Count; i++)
         {
-            database.Add(new Item((int)itemData[i]["id"], itemData[i]["name"].ToString(), itemData[i]["description"].ToString()));
+            database.Add(new Item((int)itemData[i]["id"], itemData[i]["name"].ToString(), itemData[i]["description"].ToString(), (bool)itemData[i]["stackable"]));
         }
     }
 }
@@ -40,15 +40,16 @@ public class Item
     public int Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
+    public bool stackable { get; set; }
     public Sprite Sprite { get; set; }
 
-    public Item(int id, string name, string description)
+    public Item(int id, string name, string description, bool stackable)
     {
         this.Id = id;
         this.Name = name;
         this.Description = description;
         this.Sprite = Resources.Load<Sprite>("UIComponents/" + name);
-       
+        this.stackable = stackable;
     }
 
     public Item()
