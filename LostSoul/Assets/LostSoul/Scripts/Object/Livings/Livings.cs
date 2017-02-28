@@ -45,7 +45,7 @@ public class Livings : MonoBehaviour
 
     }
 
-    public void Move(Vector2 moveDirection, bool isRoaming = false)
+   	protected void Move(Vector2 moveDirection, bool isRoaming = false)
     {
 
         if (isRoaming)
@@ -61,7 +61,7 @@ public class Livings : MonoBehaviour
 
     }
 
-    public void MoveLeft()
+    protected virtual void MoveLeft()
     {
         Vector2 direction = new Vector2(-this.movementSpeed, GetComponent<Rigidbody2D>().velocity.y);
 
@@ -69,7 +69,7 @@ public class Livings : MonoBehaviour
         facingRight = false;
     }
 
-    public void MoveRight()
+	protected virtual void MoveRight()
     {
 
         Vector2 direction = new Vector2(this.movementSpeed, GetComponent<Rigidbody2D>().velocity.y);
@@ -95,7 +95,6 @@ public class Livings : MonoBehaviour
    	protected virtual void Jump()
     {
 
-
         Vector2 jumpForce = new Vector2(0, this.jumpForce);
         GetComponent<Rigidbody2D>().AddForce(jumpForce);
     }
@@ -119,6 +118,11 @@ public class Livings : MonoBehaviour
     //new function to change the direction of face according to facingRight
     public void Flipping()
     {
+		if (GetComponent<Rigidbody2D>().velocity.x > 0)
+			facingRight = false;
+		else if (GetComponent<Rigidbody2D>().velocity.x < 0)
+			facingRight = true;
+		
         Vector3 localScale = GetComponent<Transform>().localScale;
         if (facingRight)
             localScale.x = Mathf.Abs(localScale.x);

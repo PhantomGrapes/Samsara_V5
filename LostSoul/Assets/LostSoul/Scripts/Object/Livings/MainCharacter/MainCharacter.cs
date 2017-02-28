@@ -84,6 +84,8 @@ public class MainCharacter : Livings
 
 	//roll
 	public bool checkRoll;
+	protected bool roll = false;
+	protected float velocity = 0f;
 	public float RollSpeed;
 	public bool checkWARoll;
 	public float WARollSpeed;
@@ -312,9 +314,9 @@ public class MainCharacter : Livings
 			}
 		}
 		/*foreach (Monster target in enemyList)
-        {
-            Instantiate(target.bloodParticle, target.transform.position, target.transform.rotation);
-        }*/
+		{
+			Instantiate(target.bloodParticle, target.transform.position, target.transform.rotation);
+		}*/
 	}
 
 	public void startArrow ()
@@ -422,15 +424,15 @@ public class MainCharacter : Livings
 					//print(rigi.velocity);
 					return;
 					/*
-                    // Apply the opposite force against the slope force
-                    rigi.velocity = new Vector2(rigi.velocity.x - (hit.normal.x * 2f), rigi.velocity.y);
+					// Apply the opposite force against the slope force
+					rigi.velocity = new Vector2(rigi.velocity.x - (hit.normal.x * 2f), rigi.velocity.y);
 
-                    //Move Player up or down to compensate for the slope below them
-                    Vector3 pos = transform.position;
-                    pos.y += -hit.normal.x * Mathf.Abs(rigi.velocity.x) * Time.deltaTime * (rigi.velocity.x - hit.normal.x > 0 ? 1 : -1);
+					//Move Player up or down to compensate for the slope below them
+					Vector3 pos = transform.position;
+					pos.y += -hit.normal.x * Mathf.Abs(rigi.velocity.x) * Time.deltaTime * (rigi.velocity.x - hit.normal.x > 0 ? 1 : -1);
 
-                    transform.position = pos;
-                    //print(pos);*/
+					transform.position = pos;
+					//print(pos);*/
 				}
 			}
 		} else {
@@ -455,6 +457,7 @@ public class MainCharacter : Livings
 		waRange = FindObjectOfType<WASkillController> ();
 		checkWeaponSkill5 = false;
 		coolDown = FindObjectOfType<CoolDownController> ();
+		print (coolDown);
 		initGravity = rigi.gravityScale;
 
 		anim.SetBool ("Alive", alive);
@@ -466,61 +469,160 @@ public class MainCharacter : Livings
 	{
 		// to check whether the ground overlap the circle on player's foot
 		grounded = Physics2D.OverlapCircle (frontGroundCheck.position, groundCheckRadius, whatIsGround) || Physics2D.OverlapCircle (backGroundCheck.position, groundCheckRadius, whatIsGround);
-		if (!checkJump)
+		if (!checkJump) {
 			NormalizeSlope ();
-	}
-
-	// Update is called once per frame
-	void Update ()
-	{
-
-		// update the weapon
-		//if (weaponEquiped)
-		//    weaponSprite.sprite = weaponEquiped.GetComponent<SpriteRenderer>().sprite;
-		//else
-		//    weaponSprite.sprite = null;
+		}
 
 		CheckStatus ();
-
+		SetAxeAttackRange ();
+		/*
+		 * key controls
+		 */
 		// call function to pickup or drop Weapon
 		if (Input.GetKeyDown (KeyCode.G)) {
 			PickOrDropWeapon ();
 		}
-			
-		// Standard of key control: if(key only){function();}
+
 		// integrated jump and double jump to one function
 		if (Input.GetKeyDown (KeyCode.Space) && !Input.GetKey (KeyCode.S)) {
 			Jump ();
 		}
 
-		float velocity = 0;
-		if (Input.GetKey (KeyCode.A) && !checkAttack && !checkWeaponSkill && ban.walk == 0)
-			velocity = -movementSpeed;
-		if (Input.GetKey (KeyCode.D) && !checkAttack && !checkWeaponSkill && ban.walk == 0)
-			velocity = movementSpeed;
-		bool roll = false;
-		if (Input.GetKeyDown (KeyCode.U) && !checkAttack && !checkWeaponSkill && ban.roll == 0) {
-			StartCoroutine (BanRoll (coolDown.coolDowns [1].coolDownLength));
-			coolDown.coolDowns [1].currentCoolDown = 0f;
-			roll = true;
-			RollSpeed = -movementSpeed;
+		// move left or right, roll left or right, or normal attack
+		if (Input.GetKeyDown (KeyCode.J)) {
+			NormalAttack ();
+		} else if (Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.D)) {
+			MoveLeft ();
+		} else if (Input.GetKey (KeyCode.D) && !Input.GetKey (KeyCode.A)) {
+			MoveRight ();
+		} else if (Input.GetKeyDown (KeyCode.U) && !Input.GetKey (KeyCode.O)) {
+			RollLeft ();
+		} else if (Input.GetKeyDown (KeyCode.O) && !Input.GetKey (KeyCode.U)) {
+			RollRight ();
+		} else {
+			Move (new Vector2 (0f, rigi.velocity.y));
 		}
-		if (Input.GetKeyDown (KeyCode.O) && !checkAttack && !checkWeaponSkill && ban.roll == 0) {
-			StartCoroutine (BanRoll (coolDown.coolDowns [1].coolDownLength));
-			coolDown.coolDowns [1].currentCoolDown = 0f;
-			roll = true;
-			RollSpeed = movementSpeed;
+
+
+	}
+
+
+
+	// Update is called once per frame
+	void Update ()
+	{
+
+		Flipping ();
+
+
+
+
+
+	}
+
+	protected virtual void CheckStatus ()
+	{
+		velocity = 0f;
+		roll = false;
+		if (anim.GetCurrentAnimatorStateInfo (0).IsTag ("DefaultAttack"))
+			checkAttack = true;
+		else
+			checkAttack = false;
+
+		if (anim.GetCurrentAnimatorStateInfo (0).IsTag ("Roll"))
+			checkRoll = true;
+		else
+			checkRoll = false;
+
+		// to see whether the player is using weapon skill
+		if (weaponEquiped && anim.GetCurrentAnimatorStateInfo (0).IsTag ("WeaponSkill_" + weaponEquiped.GetComponent<Weapon> ().index))
+			checkWeaponSkill = true;
+		else
+			checkWeaponSkill = false;
+
+		if (weaponEquiped && anim.GetCurrentAnimatorStateInfo (0).IsTag ("WeaponSkill_3"))
+			checkWARoll = true;
+		else
+			checkWARoll = false;
+
+		// to see whether the player is being attacked
+
+		if (anim.GetCurrentAnimatorStateInfo (0).IsTag ("Hit"))
+			checkBeAttacked = true;
+		else
+			checkBeAttacked = false;
+
+		// jump
+		if (grounded) {
+			checkDoubleJump = false;
+			checkJump = false;
 		}
+
+		// roll
 		if (checkRoll)
 			velocity = RollSpeed;
 		if (checkWARoll)
 			velocity = WARollSpeed;
 		if (!alive)
 			velocity = 0f;
-		//Move(NormalizeSlope(new Vector2(velocity, rigi.velocity.y)));
+
+		if (hp <= 0)
+			alive = false;
+		else
+			alive = true;
+
+		// animation control
+		anim.SetFloat ("XSpeed", Mathf.Abs (rigi.velocity.x));
+		anim.SetFloat ("YSpeed", Mathf.Abs (rigi.velocity.y));
+		anim.SetBool ("Grounded", grounded);
+		anim.SetBool ("Alive", alive);
+	}
+
+	protected override void MoveLeft ()
+	{
+		if (!checkAttack && !checkWeaponSkill && ban.walk == 0) {
+			velocity = -movementSpeed;
+		}
 		Move (new Vector2 (velocity, rigi.velocity.y));
 
-		//print(rigi.velocity.x);
+	}
+
+	protected override void MoveRight ()
+	{
+		if (!checkAttack && !checkWeaponSkill && ban.walk == 0) {
+			velocity = movementSpeed;
+		}
+		Move (new Vector2 (velocity, rigi.velocity.y));
+
+	}
+
+	protected void RollLeft ()
+	{
+		if (!checkAttack && !checkWeaponSkill && ban.roll == 0) {
+			StartCoroutine (BanRoll (coolDown.coolDowns [1].coolDownLength));
+			coolDown.coolDowns [1].currentCoolDown = 0f;
+			roll = true;
+			RollSpeed = -movementSpeed;
+		}
+		Roll ();
+
+	}
+
+	protected void RollRight ()
+	{
+		if (!checkAttack && !checkWeaponSkill && ban.roll == 0) {
+			StartCoroutine (BanRoll (coolDown.coolDowns [1].coolDownLength));
+			coolDown.coolDowns [1].currentCoolDown = 0f;
+			roll = true;
+			RollSpeed = movementSpeed;
+		}
+		Roll ();
+
+	}
+
+	protected void Roll ()
+	{
+		Move (new Vector2 (velocity, rigi.velocity.y));
 		if (roll && alive) {
 			float rollLength = 0;
 			rollLength = GetAnimLength ("Roll");
@@ -533,24 +635,24 @@ public class MainCharacter : Livings
 		}
 
 
-		// check the direction of face
-		if (rigi.velocity.x > 0)
-			facingRight = false;
-		else if (rigi.velocity.x < 0)
-			facingRight = true;
+	}
 
-		// to turn the face to correct direction
-		Flipping ();
 
-		// check alive
-		if (hp <= 0)
-			alive = false;
-		else
-			alive = true;
-		//print(Physics2D.GetIgnoreLayerCollision(8, 10));
+	protected override void Jump ()
+	{
+		if (!checkWeaponSkill && grounded && ban.jump == 0 && alive) {
+			Move (new Vector2 (rigi.velocity.x, jumpForce));
+			checkJump = true;
+			rigi.gravityScale = initGravity;
+		} else if (!checkWeaponSkill && !grounded && !checkDoubleJump && ban.jump == 0 && alive) {
+			Move (new Vector2 (rigi.velocity.x, jumpForce));
+			checkDoubleJump = true;
+			anim.SetTrigger ("DoubleJump");
+		}
+	}
 
-		// weapon skill
-
+	protected void SetAxeAttackRange ()
+	{
 		// WASkill range control
 		if (checkWARoll && !waRange.gameObject.activeSelf)
 			waRange.gameObject.SetActive (true);
@@ -558,6 +660,7 @@ public class MainCharacter : Livings
 			waRange.gameObject.SetActive (false);
 		// manage skill attack input
 		if (Input.GetKeyDown (KeyCode.K) && !checkAttack && !checkWeaponSkill && ban.skillAttack == 0) {
+			// put into SkillAttack()
 			if (weaponEquiped) {
 				StartCoroutine (BanSkillAttack (coolDown.coolDowns [0].coolDownLength));
 				coolDown.coolDowns [0].currentCoolDown = 0f;
@@ -596,96 +699,15 @@ public class MainCharacter : Livings
 
 			}
 		}
-		// animation control
-		anim.SetFloat ("XSpeed", Mathf.Abs (rigi.velocity.x));
-		anim.SetFloat ("YSpeed", Mathf.Abs (rigi.velocity.y));
-		anim.SetBool ("Grounded", grounded);
-		anim.SetBool ("Alive", alive);
-		//attacks
-		if (Input.GetKeyDown (KeyCode.J) && !checkAttack && !checkWeaponSkill && ban.attack == 0 && weaponEquiped != null) {
-			Move (new Vector2 (0, 0));
-			switch (weaponEquiped.GetComponent<Weapon> ().index) {
-			case 1:
-				DefaultAttack ();
-				break;
-			case 2:
-				DefaultAttack ();
-				break;
-			case 3:
-				DefaultAttack ();
-				break;
-			case 4:
-				DefaultAttack ();
-				break;
-			case 5:
-				DefaultAttack ();
-				break;
-			case 6:
-				DefaultAttack ();
-				break;
-			}
-		}
-
 	}
-
-	protected virtual void CheckStatus ()
-	{
-		if (anim.GetCurrentAnimatorStateInfo (0).IsTag ("DefaultAttack"))
-			checkAttack = true;
-		else
-			checkAttack = false;
-
-		if (anim.GetCurrentAnimatorStateInfo (0).IsTag ("Roll"))
-			checkRoll = true;
-		else
-			checkRoll = false;
-
-		// to see whether the player is using weapon skill
-		if (weaponEquiped && anim.GetCurrentAnimatorStateInfo (0).IsTag ("WeaponSkill_" + weaponEquiped.GetComponent<Weapon> ().index))
-			checkWeaponSkill = true;
-		else
-			checkWeaponSkill = false;
-
-		if (weaponEquiped && anim.GetCurrentAnimatorStateInfo (0).IsTag ("WeaponSkill_3"))
-			checkWARoll = true;
-		else
-			checkWARoll = false;
-
-		// to see whether the player is being attacked
-
-		if (anim.GetCurrentAnimatorStateInfo (0).IsTag ("Hit"))
-			checkBeAttacked = true;
-		else
-			checkBeAttacked = false;
-
-		// jump
-		if (grounded) {
-			checkDoubleJump = false;
-			checkJump = false;
-		}
-	}
-
-	protected override void Jump ()
-	{
-		if (!checkWeaponSkill && grounded && ban.jump == 0 && alive) {
-			Move (new Vector2 (rigi.velocity.x, jumpForce));
-			checkJump = true;
-			rigi.gravityScale = initGravity;
-		} else if (!checkWeaponSkill && !grounded && !checkDoubleJump && ban.jump == 0 && alive) {
-			Move (new Vector2 (rigi.velocity.x, jumpForce));
-			checkDoubleJump = true;
-			anim.SetTrigger ("DoubleJump");
-		}
-	}
-
 	/*float CalculateAngleToMouse(GameObject source)
-    {
-        var mousePos = Input.mousePosition;
-        var objectPos = Camera.main.WorldToScreenPoint(source.transform.position);
-        mousePos.x = mousePos.x - objectPos.x;
-        mousePos.y = mousePos.y - objectPos.y;
-        return Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
-    }*/
+	{
+		var mousePos = Input.mousePosition;
+		var objectPos = Camera.main.WorldToScreenPoint(source.transform.position);
+		mousePos.x = mousePos.x - objectPos.x;
+		mousePos.y = mousePos.y - objectPos.y;
+		return Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
+	}*/
 	// code for picking up weapon from the ground or drop it
 	// set the weapon to be available for pickup when collide
 	//    void OnTriggerStay2D(Collider2D col)
@@ -711,7 +733,8 @@ public class MainCharacter : Livings
 	//    }
 
 
-	protected void PickOrDropWeapon(){
+	protected void PickOrDropWeapon ()
+	{
 		if (anim.GetInteger ("WeaponIndex") == 0) {
 			PickUpWeapon ();
 		} else {
@@ -755,6 +778,34 @@ public class MainCharacter : Livings
 
 		}
 		this.weaponEquiped = null;
+	}
+
+	protected void NormalAttack ()
+	{
+		if (!checkAttack && !checkWeaponSkill && ban.attack == 0 && weaponEquiped != null) {
+			// put into defaultAttack()
+			Move (new Vector2 (0, 0));
+			switch (weaponEquiped.GetComponent<Weapon> ().index) {
+			case 1:
+				DefaultAttack ();
+				break;
+			case 2:
+				DefaultAttack ();
+				break;
+			case 3:
+				DefaultAttack ();
+				break;
+			case 4:
+				DefaultAttack ();
+				break;
+			case 5:
+				DefaultAttack ();
+				break;
+			case 6:
+				DefaultAttack ();
+				break;
+			}
+		}
 	}
 
 	// audio fonctions
