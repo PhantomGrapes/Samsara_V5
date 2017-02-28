@@ -511,16 +511,10 @@ public class MainCharacter : Livings
 	// Update is called once per frame
 	void Update ()
 	{
-
 		Flipping ();
-
-
-
-
-
 	}
 
-	protected virtual void CheckStatus ()
+	protected void CheckStatus ()
 	{
 		velocity = 0f;
 		roll = false;
