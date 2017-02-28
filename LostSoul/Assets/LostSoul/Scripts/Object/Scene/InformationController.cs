@@ -2,16 +2,26 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class InformationController : MonoBehaviour {
+public class InformationController : Observer {
     public Text info;
-    public Inventory inventory;
-    public int itemSelected;
+    Inventory inventory;
 	// Use this for initialization
 	void Start () {
-        itemSelected = -1;
         info = GetComponent<Text>();
-        info.text = "";
         inventory = FindObjectOfType<Inventory>();
+        info.text = "";
 	}
-	
+    public override void inventoryUpdate(ItemData o, string message) { }
+    public override void inventoryUpdate(int o, string message)
+    {
+        if(message == "itemSelected")
+        {
+            if (o == -1)
+            {
+                info.text = "";
+                return;
+            }
+            info.text = inventory.database.FetchItemById(o).Description;
+        }
+    }
 }

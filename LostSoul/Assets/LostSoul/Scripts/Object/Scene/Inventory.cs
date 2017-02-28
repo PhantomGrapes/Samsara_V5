@@ -3,27 +3,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class Inventory : MonoBehaviour {
+public class Inventory : Observable {
 
     public GameObject inventoryPanel;
     private GameObject slotPanel;
     public ItemDataBase database;
     public GameObject inventorySlot;
     public GameObject inventoryItem;
-    public int itemSelected;
+    private int itemSelected;
+    public int tauxSoulEssence = 5;
+    InventoryMainWeapon mainWeapon;
+    InventorySecondWeapon secondWeapon;
 
     int slotAmount;
     public List<Item> items = new List<Item>();
     public List<GameObject> slots = new List<GameObject>();
 
+
     void Start()
     {
+        itemSelected = -1;
         slotAmount = 32;
         database = GetComponent<ItemDataBase>();
+        mainWeapon = FindObjectOfType<InventoryMainWeapon>();
+        secondWeapon = FindObjectOfType<InventorySecondWeapon>();
         slotPanel = this.gameObject;
+        initializeBroadcast();
         //inventoryPanel = GameObject.Find("Inventory Panel");
         //slotPanel = inventoryPanel.transform.FindChild("SlotPanel").gameObject;
-        for(int i = 0; i < slotAmount; i++)
+        for (int i = 0; i < slotAmount; i++)
         {
             items.Add(new Item());
             slots.Add(Instantiate(inventorySlot));
@@ -48,16 +56,14 @@ public class Inventory : MonoBehaviour {
     public void AddItem(int id)
     {
         Item itemToAdd = database.FetchItemById(id);
-        int position = ItemPositionInInventory(itemToAdd);
+        int position = itemPositionInInventory(itemToAdd.Id);
         if (position > -1) {
             if (!itemToAdd.stackable)
                 return;
             ItemData data = slots[position].transform.GetChild(0).GetComponent<ItemData>();
-            data.amount++;
-            data.transform.GetChild(0).GetComponent<Text>().text = data.amount.ToString();
+            data.setAmount(data.getAmount() + 1);
             return;
         }
-
 
         for(int i = 0; i < items.Count; i++)
         {
@@ -66,59 +72,131 @@ public class Inventory : MonoBehaviour {
                 items[i] = itemToAdd;
                 GameObject itemObj = Instantiate(inventoryItem);
                 itemObj.transform.SetParent(slots[i].transform);
-                itemObj.transform.position = Vector2.zero;
+                itemObj.transform.position = slots[i].transform.position;
                 itemObj.transform.localScale = Vector3.one;
                 itemObj.GetComponent<Image>().sprite = itemToAdd.Sprite;
                 itemObj.name = itemToAdd.Name;
                 ItemData data = itemObj.GetComponent<ItemData>();
-                data.item = itemObj;
                 data.id = itemToAdd.Id;
-                data.amount++;
-                data.transform.GetChild(0).GetComponent<Text>().text = "1";
+                data.setAmount(data.getAmount() + 1);
+                data.setAttack(itemToAdd.attack);
+                data.setIsMainWeapon(false);
+                data.setIsSecondWeapon(false);
                 return;
             }
         }
     }
-
+    void Update()
+    {
+        //print(items[3].Sprite);
+    }
     public void delItemById(int id)
     {
         Item itemToAdd = database.FetchItemById(id);
-        int position = ItemPositionInInventory(itemToAdd);
+        int position = itemPositionInInventory(itemToAdd.Id);
         if (position == -1)
             return;
         ItemData data = slots[position].transform.GetChild(0).GetComponent<ItemData>();
-        if(data.amount > 1)
+        if(data.getAmount() > 1)
         {
-            data.amount--;
-            data.transform.GetChild(0).GetComponent<Text>().text = data.amount.ToString();
+            data.setAmount(data.getAmount() - 1);
             return;
         }
-        for(int i = position + 1; i < slots.Count; i++)
+        if (getItemSelected() == items[position].Id)
+            setItemSelected(-1);
+        for (int i = position + 1; i < slots.Count; i++)
         {
             items[i - 1] = items[i];
-            Transform oldItem = slots[i - 1].transform.GetChild(0);
+            ItemData oldItem = slots[i - 1].transform.GetChild(0).GetComponent<ItemData>();
             if (items[i].Id == -1)
             {
                 Destroy(oldItem.gameObject);
                 break;
             }
-            Transform newItem = slots[i].transform.GetChild(0);
-            oldItem.GetComponent<ItemData>().id = newItem.GetComponent<ItemData>().id;
-            oldItem.GetComponent<ItemData>().amount = newItem.GetComponent<ItemData>().amount;
-            oldItem.GetComponent<ItemData>().item = newItem.GetComponent<ItemData>().item;
-            oldItem.GetChild(0).GetComponent<Text>().text = newItem.GetChild(0).GetComponent<Text>().text;
+            ItemData newItem = slots[i].transform.GetChild(0).GetComponent<ItemData>();
+            oldItem.id = newItem.id;
+            oldItem.setAmount(newItem.getAmount());
+            oldItem.setAttack(newItem.getAttack());
+            oldItem.setIsMainWeapon(newItem.getIsMainWeapon());
+            oldItem.setIsSecondWeapon(newItem.getIsSecondWeapon());
             oldItem.GetComponent<Image>().sprite = newItem.GetComponent<Image>().sprite;
             oldItem.name = newItem.name;
         }
+        
     }
 
-    int ItemPositionInInventory(Item item)
+
+    public void eventMakeEssence()
+    {
+        int soulPos;
+        soulPos = itemPositionInInventory(12);
+        if (soulPos == -1)
+            return;
+        if (slots[soulPos].transform.GetChild(0).GetComponent<ItemData>().getAmount() >= tauxSoulEssence)
+        {
+            for (int i = 0; i < tauxSoulEssence; i++)
+            {
+                delItemById(12);
+            }
+            AddItem(13);
+        }
+    }
+
+    public void eventSetMainWeapon()
+    {
+        //annual old main weapon if exist
+        if(mainWeapon.current != -1)
+            slots[itemPositionInInventory(mainWeapon.current)].transform.GetChild(0).GetComponent<ItemData>().setIsMainWeapon(false);
+
+        //add new main weapon
+        slots[itemPositionInInventory(itemSelected)].transform.GetChild(0).GetComponent<ItemData>().setIsMainWeapon(true);
+    }
+
+    public void eventSetSecondWeapon()
+    {
+        //annual old second weapon if exist
+        if(secondWeapon.current != -1)
+            slots[itemPositionInInventory(secondWeapon.current)].transform.GetChild(0).GetComponent<ItemData>().setIsSecondWeapon(false);
+        //add new second weapon
+        slots[itemPositionInInventory(itemSelected)].transform.GetChild(0).GetComponent<ItemData>().setIsSecondWeapon(true);
+    }
+
+    public void eventLevelUp()
+    {
+        ItemData essence = slots[itemPositionInInventory(13)].transform.GetChild(0).GetComponent<ItemData>();
+        if (essence.getAmount() < 1)
+            return;
+        delItemById(13);
+        int position = itemPositionInInventory(itemSelected);
+        items[position] = database.FetchItemById(itemSelected + 6);
+        slots[position].transform.GetChild(0).GetComponent<Image>().sprite = items[position].Sprite;
+        ItemData data = slots[position].transform.GetChild(0).GetComponent<ItemData>();
+        data.id = items[position].Id;
+        data.name = items[position].Name;
+        data.setAttack(items[position].attack);
+        data.setIsMainWeapon(data.getIsMainWeapon());
+        data.setIsSecondWeapon(data.getIsSecondWeapon());
+
+    }
+
+    int itemPositionInInventory(int id)
     {
         for(int i = 0; i< items.Count; i++)
         {
-            if (items[i].Id == item.Id)
+            if (items[i].Id == id)
                 return i;
         }
         return -1;
+    }
+
+    public int getItemSelected()
+    {
+        return itemSelected;
+    }
+
+    public void setItemSelected(int s)
+    {
+        itemSelected = s;
+        notifyChanges(s, "itemSelected");
     }
 }

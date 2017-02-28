@@ -3,35 +3,71 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class ItemData : MonoBehaviour {
+public class ItemData : Observable {
 
     public int id;
-    public GameObject item;
-    public int amount=0;
-    InformationController infoBoard;
-    LevelUpButtonController[] levelUpButtons;
-    MakeEssenceButtonController makeEssenceButton;
+    int amount;
+    bool isMainWeapon;
+    bool isSecondWeapon;
+    float attack;
+    Inventory inventory;
+    
 
     void Start()
     {
         GetComponent<Button>().onClick.AddListener(TaskOnClick);
-        infoBoard = FindObjectOfType<InformationController>();
-        levelUpButtons = FindObjectsOfType<LevelUpButtonController>();
-        makeEssenceButton = FindObjectOfType<MakeEssenceButtonController>();
+        inventory = FindObjectOfType<Inventory>();
+        initializeBroadcast();
     }
 
+    
     void TaskOnClick()
     {
-        infoBoard.info.text = infoBoard.inventory.database.FetchItemById(id).Description;
-        infoBoard.itemSelected = id;
-        if (id > -1 && id < 6) {
-            for(int i = 0; i<levelUpButtons.Length;i++)
-            {
-                levelUpButtons[i].gameObject.SetActive(true);
-            }
-        }
-        if (id == 12) {
-            makeEssenceButton.gameObject.SetActive(true);
-        }
+        inventory.setItemSelected(id);
+    }
+
+    public int getAmount()
+    {
+        return amount;
+    }
+
+    public void setAmount(int newAmount)
+    {
+        amount = newAmount;
+        notifyChanges(this, "amount");
+        transform.GetChild(0).GetComponent<Text>().text = amount.ToString();
+    }
+
+    public bool getIsMainWeapon()
+    {
+        return isMainWeapon;
+    }
+
+    public void setIsMainWeapon(bool newIsMainWeapon)
+    {
+        isMainWeapon = newIsMainWeapon;
+        notifyChanges(this, "isMainWeapon");
+    }
+
+    public bool getIsSecondWeapon()
+    {
+        return isSecondWeapon;
+    }
+
+    public void setIsSecondWeapon(bool newIsSecondWeapon)
+    {
+        isSecondWeapon = newIsSecondWeapon;
+        notifyChanges(this, "isSecondWeapon");
+    }
+
+    public float getAttack()
+    {
+        return attack;
+    }
+
+    public void setAttack(float newAttack)
+    {
+        attack = newAttack;
+        notifyChanges(this, "attack");
     }
 }
