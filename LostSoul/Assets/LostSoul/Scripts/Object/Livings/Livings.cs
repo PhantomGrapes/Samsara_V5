@@ -92,8 +92,10 @@ public class Livings : MonoBehaviour
         this.Move(direction);
     }
 
-    public void Jump()
+   	protected virtual void Jump()
     {
+
+
         Vector2 jumpForce = new Vector2(0, this.jumpForce);
         GetComponent<Rigidbody2D>().AddForce(jumpForce);
     }

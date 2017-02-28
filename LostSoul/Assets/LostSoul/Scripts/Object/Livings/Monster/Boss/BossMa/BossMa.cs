@@ -39,9 +39,14 @@ public class BossMa : MainCharacter
 		grounded = Physics2D.OverlapCircle (frontGroundCheck.position, groundCheckRadius, whatIsGround) || Physics2D.OverlapCircle (backGroundCheck.position, groundCheckRadius, whatIsGround);
 		if (!checkJump)
 			NormalizeSlope ();
+
+
+		CheckStatus ();
+		
 	}
 
-	void CheckStatus(){
+	protected override void CheckStatus ()
+	{
 		// list of cooldowns
 
 		// distance to player
@@ -69,9 +74,45 @@ public class BossMa : MainCharacter
 				break;
 			}
 		}
+
+		if (anim.GetCurrentAnimatorStateInfo(0).IsTag("DefaultAttack"))
+			checkAttack = true;
+		else
+			checkAttack = false;
+
+		if (anim.GetCurrentAnimatorStateInfo(0).IsTag("Roll"))
+			checkRoll = true;
+		else
+			checkRoll = false;
+
+		// to see whether the player is using weapon skill
+		if (weaponEquiped && anim.GetCurrentAnimatorStateInfo(0).IsTag("WeaponSkill_" + weaponEquiped.GetComponent<Weapon>().index))
+			checkWeaponSkill = true;
+		else
+			checkWeaponSkill = false;
+
+		if (weaponEquiped && anim.GetCurrentAnimatorStateInfo(0).IsTag("WeaponSkill_3"))
+			checkWARoll = true;
+		else
+			checkWARoll = false;
+
+		// to see whether the player is being attacked
+
+		if (anim.GetCurrentAnimatorStateInfo(0).IsTag("Hit"))
+			checkBeAttacked = true;
+		else
+			checkBeAttacked = false;
+
+		// jump
+		if (grounded)
+		{
+			checkDoubleJump = false;
+			checkJump = false;
+		}
 	}
 
-	void DecideStrategy(){
+	void DecideStrategy ()
+	{
 		// if every skill is available, be offensive
 		// if all offensive skills are on cooldown, be defensive
 		// if all defensive skills are on cooldown, avoid fight
@@ -80,7 +121,8 @@ public class BossMa : MainCharacter
 	/// <summary>
 	/// states
 	/// </summary>
-	void Offenssive(){
+	void Offenssive ()
+	{
 		Vector2 enemyDirection = targetPosition - selfPosition;
 
 		float enemyDistance = enemyDirection.magnitude;
@@ -88,253 +130,257 @@ public class BossMa : MainCharacter
 
 	}
 
-	void Defensive(){
+	void Defensive ()
+	{
 	}
 
-	void AvoidFight(){
+	void AvoidFight ()
+	{
 	}
 
 	/// <summary>
 	/// movements
 	/// </summary>
-	void Approach(){
+	void Approach ()
+	{
 		
 	}
 
-	void Retreat(){
+	void Retreat ()
+	{
 	}
 
 
-// 	/// <summary>
-//	/// main part to be edited 
-//	/// </summary>
-//	// Update is called once per frame
-//	void Update()
-//	{
-//
-//		// call function to pickup Weapon
-//		// to be replaced with logic to change weapon
-//		/***
-//		if (Input.GetKeyDown(KeyCode.G))
-//		{
-//			// pickup weapon if not equiping any
-//			if (anim.GetInteger("WeaponIndex") == 0)
-//			{
-//				PickUpWeapon();
-//			}
-//			else
-//			{
-//				// drop weapon if equiped
-//				DropWeapon();
-//			}
-//		}
-//		***/ 
-//
-//
-//		// to see whether Ma is attacking
-//
-//		if (anim.GetCurrentAnimatorStateInfo(0).IsTag("DefaultAttack"))
-//			checkAttack = true;
-//		else
-//			checkAttack = false;
-//
-//		if (anim.GetCurrentAnimatorStateInfo(0).IsTag("Roll"))
-//			checkRoll = true;
-//		else
-//			checkRoll = false;
-//		// to see whether the player is using weapon skill
-//		if (weaponEquiped && anim.GetCurrentAnimatorStateInfo(0).IsTag("WeaponSkill_" + weaponEquiped.GetComponent<Weapon>().index))
-//			checkWeaponSkill = true;
-//		else
-//			checkWeaponSkill = false;
-//
-//		if (weaponEquiped && anim.GetCurrentAnimatorStateInfo(0).IsTag("WeaponSkill_3"))
-//			checkWARoll = true;
-//		else
-//			checkWARoll = false;
-//
-//		// to see whether Ma is being attacked
-//
-//		if (anim.GetCurrentAnimatorStateInfo(0).IsTag("Hit"))
-//			checkBeAttacked = true;
-//		else
-//			checkBeAttacked = false;
-//
-//		// jump
-//		if (grounded)
-//		{
-//			checkDoubleJump = false;
-//			checkJump = false;
-//		}
-//
-//		// to be replaced with logic to jump
-//		/***
-//		if (Input.GetKeyDown(KeyCode.Space) && !Input.GetKey(KeyCode.S) && !checkWeaponSkill && grounded && ban.jump == 0 && alive)
-//		{
-//			Move(new Vector2(rigi.velocity.x, jumpForce));
-//			checkJump = true;
-//			rigi.gravityScale = initGravity;
-//			//print("1");
-//		}
-//		else if (Input.GetKeyDown(KeyCode.Space) && !Input.GetKey(KeyCode.S) && !checkWeaponSkill && !grounded && !checkDoubleJump && ban.jump == 0 && alive)
-//		{
-//			Move(new Vector2(rigi.velocity.x, jumpForce));
-//			checkDoubleJump = true;
-//			anim.SetTrigger("DoubleJump");
-//			//print("2");
-//		}
-//		***/
-//
-//
-//
-//		float velocity = 0;
-//		// to be replaced with logic to move
-//		/***
-//		if (Input.GetKey(KeyCode.A) && !checkAttack && !checkWeaponSkill && ban.walk == 0)
-//			velocity = -movementSpeed;
-//		if (Input.GetKey(KeyCode.D) && !checkAttack && !checkWeaponSkill && ban.walk == 0)
-//			velocity = movementSpeed;
-//		bool roll = false;
-//		if (Input.GetKeyDown(KeyCode.U) && !checkAttack && !checkWeaponSkill && ban.roll == 0)
-//		{
-//			StartCoroutine(BanRoll(coolDown.coolDowns[1].coolDownLength));
-//			coolDown.coolDowns[1].currentCoolDown = 0f;
-//			roll = true;
-//			RollSpeed = -movementSpeed;
-//		}
-//		if (Input.GetKeyDown(KeyCode.O) && !checkAttack && !checkWeaponSkill && ban.roll == 0)
-//		{
-//			StartCoroutine(BanRoll(coolDown.coolDowns[1].coolDownLength));
-//			coolDown.coolDowns[1].currentCoolDown = 0f;
-//			roll = true;
-//			RollSpeed = movementSpeed;
-//		}
-//		***/
-//
-//		if (checkRoll)
-//			velocity = RollSpeed;
-//		if (checkWARoll)
-//			velocity = WARollSpeed;
-//		if (!alive)
-//			velocity = 0f;
-//		//Move(NormalizeSlope(new Vector2(velocity, rigi.velocity.y)));
-//		Move(new Vector2(velocity, rigi.velocity.y));
-//
-//		//print(rigi.velocity.x);
-//		if (roll && alive)
-//		{
-//			float rollLength = 0;
-//			rollLength = GetAnimLength("Roll");
-//			StartCoroutine(BanWalk(rollLength));
-//			//StartCoroutine(BanJump(rollLength));
-//			StartCoroutine(BanBeAttacked(rollLength));
-//			StartCoroutine(BanRoll(rollLength));
-//			StartCoroutine(IgnoreCollisionBetweenPlayerAndMonster(rollLength));
-//			anim.SetTrigger("Roll");
-//		}
-//
-//
-//		// check the direction of face
-//		if (rigi.velocity.x > 0)
-//			facingRight = false;
-//		else if (rigi.velocity.x < 0)
-//			facingRight = true;
-//
-//		// to turn the face to correct direction
-//		Flipping();
-//
-//		// check alive
-//		if (hp <= 0)
-//			alive = false;
-//		else
-//			alive = true;
-//		//print(Physics2D.GetIgnoreLayerCollision(8, 10));
-//
-//		// weapon skill
-//
-//		// WASkill range control
-//		if (checkWARoll && !waRange.gameObject.activeSelf)
-//			waRange.gameObject.SetActive(true);
-//		else if(!checkWARoll && waRange.gameObject.activeSelf)
-//			waRange.gameObject.SetActive(false);
-//		// manage skill attack input
-//		if (Input.GetKeyDown(KeyCode.K) && !checkAttack && !checkWeaponSkill && ban.skillAttack == 0)
-//		{
-//			if (weaponEquiped)
-//			{
-//				StartCoroutine(BanSkillAttack(coolDown.coolDowns[0].coolDownLength));
-//				coolDown.coolDowns[0].currentCoolDown = 0f;
-//				Move(new Vector2(0, 0));
-//				anim.SetTrigger("WeaponSkill_" + weaponEquiped.GetComponent<Weapon>().index);
-//				switch (weaponEquiped.GetComponent<Weapon>().index)
-//				{
-//				case 1:
-//
-//					break;
-//				case 2:
-//
-//					break;
-//				case 3:
-//					float WARollLength = 0;
-//					WARollLength = GetAnimLength("SkillWA");
-//					StartCoroutine(IgnoreCollisionBetweenPlayerAndMonster(WARollLength));
-//					StartCoroutine(BanBeAttacked(WARollLength));
-//					if (facingRight)
-//						WARollSpeed = -movementSpeed;
-//					else
-//						WARollSpeed = movementSpeed;
-//					break;
-//				case 4:
-//
-//					break;
-//				case 5:
-//					StartCoroutine(BanSkillAttack(weaponSkill5Length));
-//					StartCoroutine(BanBeAttacked(weaponSkill5Length));
-//					StartCoroutine(WeaponSkill5());
-//					StartCoroutine(IgnoreCollisionBetweenPlayerAndMonster(weaponSkill5Length));
-//					break;
-//				case 6:
-//
-//					break;
-//				}
-//
-//			}
-//		}
-//		// animation control
-//		anim.SetFloat("XSpeed", Mathf.Abs(rigi.velocity.x));
-//		anim.SetFloat("YSpeed", Mathf.Abs(rigi.velocity.y));
-//		anim.SetBool("Grounded", grounded);
-//		anim.SetBool("Alive", alive);
-//		//attacks
-//		if (Input.GetKeyDown(KeyCode.J) && !checkAttack && !checkWeaponSkill && ban.attack == 0 && weaponEquiped != null)
-//		{
-//			Move(new Vector2(0, 0));
-//			switch (weaponEquiped.GetComponent<Weapon>().index)
-//			{
-//			case 1:
-//				DefaultAttack();
-//				break;
-//			case 2:
-//				DefaultAttack();
-//				break;
-//			case 3:
-//				DefaultAttack();
-//				break;
-//			case 4:
-//				DefaultAttack();
-//				break;
-//			case 5:
-//				DefaultAttack();
-//				break;
-//			case 6:
-//				DefaultAttack();
-//				break;
-//			}
-//		}
-//
-//	}
-//
-////----------------------------------------------------------------------------------------
+	// 	/// <summary>
+	//	/// main part to be edited
+	//	/// </summary>
+	//	// Update is called once per frame
+	//	void Update()
+	//	{
+	//
+	//		// call function to pickup Weapon
+	//		// to be replaced with logic to change weapon
+	//		/***
+	//		if (Input.GetKeyDown(KeyCode.G))
+	//		{
+	//			// pickup weapon if not equiping any
+	//			if (anim.GetInteger("WeaponIndex") == 0)
+	//			{
+	//				PickUpWeapon();
+	//			}
+	//			else
+	//			{
+	//				// drop weapon if equiped
+	//				DropWeapon();
+	//			}
+	//		}
+	//		***/
+	//
+	//
+	//		// to see whether Ma is attacking
+	//
+	//		if (anim.GetCurrentAnimatorStateInfo(0).IsTag("DefaultAttack"))
+	//			checkAttack = true;
+	//		else
+	//			checkAttack = false;
+	//
+	//		if (anim.GetCurrentAnimatorStateInfo(0).IsTag("Roll"))
+	//			checkRoll = true;
+	//		else
+	//			checkRoll = false;
+	//		// to see whether the player is using weapon skill
+	//		if (weaponEquiped && anim.GetCurrentAnimatorStateInfo(0).IsTag("WeaponSkill_" + weaponEquiped.GetComponent<Weapon>().index))
+	//			checkWeaponSkill = true;
+	//		else
+	//			checkWeaponSkill = false;
+	//
+	//		if (weaponEquiped && anim.GetCurrentAnimatorStateInfo(0).IsTag("WeaponSkill_3"))
+	//			checkWARoll = true;
+	//		else
+	//			checkWARoll = false;
+	//
+	//		// to see whether Ma is being attacked
+	//
+	//		if (anim.GetCurrentAnimatorStateInfo(0).IsTag("Hit"))
+	//			checkBeAttacked = true;
+	//		else
+	//			checkBeAttacked = false;
+	//
+	//		// jump
+	//		if (grounded)
+	//		{
+	//			checkDoubleJump = false;
+	//			checkJump = false;
+	//		}
+	//
+	//		// to be replaced with logic to jump
+	//		/***
+	//		if (Input.GetKeyDown(KeyCode.Space) && !Input.GetKey(KeyCode.S) && !checkWeaponSkill && grounded && ban.jump == 0 && alive)
+	//		{
+	//			Move(new Vector2(rigi.velocity.x, jumpForce));
+	//			checkJump = true;
+	//			rigi.gravityScale = initGravity;
+	//			//print("1");
+	//		}
+	//		else if (Input.GetKeyDown(KeyCode.Space) && !Input.GetKey(KeyCode.S) && !checkWeaponSkill && !grounded && !checkDoubleJump && ban.jump == 0 && alive)
+	//		{
+	//			Move(new Vector2(rigi.velocity.x, jumpForce));
+	//			checkDoubleJump = true;
+	//			anim.SetTrigger("DoubleJump");
+	//			//print("2");
+	//		}
+	//		***/
+	//
+	//
+	//
+	//		float velocity = 0;
+	//		// to be replaced with logic to move
+	//		/***
+	//		if (Input.GetKey(KeyCode.A) && !checkAttack && !checkWeaponSkill && ban.walk == 0)
+	//			velocity = -movementSpeed;
+	//		if (Input.GetKey(KeyCode.D) && !checkAttack && !checkWeaponSkill && ban.walk == 0)
+	//			velocity = movementSpeed;
+	//		bool roll = false;
+	//		if (Input.GetKeyDown(KeyCode.U) && !checkAttack && !checkWeaponSkill && ban.roll == 0)
+	//		{
+	//			StartCoroutine(BanRoll(coolDown.coolDowns[1].coolDownLength));
+	//			coolDown.coolDowns[1].currentCoolDown = 0f;
+	//			roll = true;
+	//			RollSpeed = -movementSpeed;
+	//		}
+	//		if (Input.GetKeyDown(KeyCode.O) && !checkAttack && !checkWeaponSkill && ban.roll == 0)
+	//		{
+	//			StartCoroutine(BanRoll(coolDown.coolDowns[1].coolDownLength));
+	//			coolDown.coolDowns[1].currentCoolDown = 0f;
+	//			roll = true;
+	//			RollSpeed = movementSpeed;
+	//		}
+	//		***/
+	//
+	//		if (checkRoll)
+	//			velocity = RollSpeed;
+	//		if (checkWARoll)
+	//			velocity = WARollSpeed;
+	//		if (!alive)
+	//			velocity = 0f;
+	//		//Move(NormalizeSlope(new Vector2(velocity, rigi.velocity.y)));
+	//		Move(new Vector2(velocity, rigi.velocity.y));
+	//
+	//		//print(rigi.velocity.x);
+	//		if (roll && alive)
+	//		{
+	//			float rollLength = 0;
+	//			rollLength = GetAnimLength("Roll");
+	//			StartCoroutine(BanWalk(rollLength));
+	//			//StartCoroutine(BanJump(rollLength));
+	//			StartCoroutine(BanBeAttacked(rollLength));
+	//			StartCoroutine(BanRoll(rollLength));
+	//			StartCoroutine(IgnoreCollisionBetweenPlayerAndMonster(rollLength));
+	//			anim.SetTrigger("Roll");
+	//		}
+	//
+	//
+	//		// check the direction of face
+	//		if (rigi.velocity.x > 0)
+	//			facingRight = false;
+	//		else if (rigi.velocity.x < 0)
+	//			facingRight = true;
+	//
+	//		// to turn the face to correct direction
+	//		Flipping();
+	//
+	//		// check alive
+	//		if (hp <= 0)
+	//			alive = false;
+	//		else
+	//			alive = true;
+	//		//print(Physics2D.GetIgnoreLayerCollision(8, 10));
+	//
+	//		// weapon skill
+	//
+	//		// WASkill range control
+	//		if (checkWARoll && !waRange.gameObject.activeSelf)
+	//			waRange.gameObject.SetActive(true);
+	//		else if(!checkWARoll && waRange.gameObject.activeSelf)
+	//			waRange.gameObject.SetActive(false);
+	//		// manage skill attack input
+	//		if (Input.GetKeyDown(KeyCode.K) && !checkAttack && !checkWeaponSkill && ban.skillAttack == 0)
+	//		{
+	//			if (weaponEquiped)
+	//			{
+	//				StartCoroutine(BanSkillAttack(coolDown.coolDowns[0].coolDownLength));
+	//				coolDown.coolDowns[0].currentCoolDown = 0f;
+	//				Move(new Vector2(0, 0));
+	//				anim.SetTrigger("WeaponSkill_" + weaponEquiped.GetComponent<Weapon>().index);
+	//				switch (weaponEquiped.GetComponent<Weapon>().index)
+	//				{
+	//				case 1:
+	//
+	//					break;
+	//				case 2:
+	//
+	//					break;
+	//				case 3:
+	//					float WARollLength = 0;
+	//					WARollLength = GetAnimLength("SkillWA");
+	//					StartCoroutine(IgnoreCollisionBetweenPlayerAndMonster(WARollLength));
+	//					StartCoroutine(BanBeAttacked(WARollLength));
+	//					if (facingRight)
+	//						WARollSpeed = -movementSpeed;
+	//					else
+	//						WARollSpeed = movementSpeed;
+	//					break;
+	//				case 4:
+	//
+	//					break;
+	//				case 5:
+	//					StartCoroutine(BanSkillAttack(weaponSkill5Length));
+	//					StartCoroutine(BanBeAttacked(weaponSkill5Length));
+	//					StartCoroutine(WeaponSkill5());
+	//					StartCoroutine(IgnoreCollisionBetweenPlayerAndMonster(weaponSkill5Length));
+	//					break;
+	//				case 6:
+	//
+	//					break;
+	//				}
+	//
+	//			}
+	//		}
+	//		// animation control
+	//		anim.SetFloat("XSpeed", Mathf.Abs(rigi.velocity.x));
+	//		anim.SetFloat("YSpeed", Mathf.Abs(rigi.velocity.y));
+	//		anim.SetBool("Grounded", grounded);
+	//		anim.SetBool("Alive", alive);
+	//		//attacks
+	//		if (Input.GetKeyDown(KeyCode.J) && !checkAttack && !checkWeaponSkill && ban.attack == 0 && weaponEquiped != null)
+	//		{
+	//			Move(new Vector2(0, 0));
+	//			switch (weaponEquiped.GetComponent<Weapon>().index)
+	//			{
+	//			case 1:
+	//				DefaultAttack();
+	//				break;
+	//			case 2:
+	//				DefaultAttack();
+	//				break;
+	//			case 3:
+	//				DefaultAttack();
+	//				break;
+	//			case 4:
+	//				DefaultAttack();
+	//				break;
+	//			case 5:
+	//				DefaultAttack();
+	//				break;
+	//			case 6:
+	//				DefaultAttack();
+	//				break;
+	//			}
+	//		}
+	//
+	//	}
+	//
+	////----------------------------------------------------------------------------------------
 		
 	// Overriding functions in Maincharacter
 	public override void giveDefaultDamageToEnemy ()
