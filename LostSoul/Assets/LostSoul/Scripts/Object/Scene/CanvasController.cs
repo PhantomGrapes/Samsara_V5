@@ -21,6 +21,7 @@ public class CanvasController : MonoBehaviour {
         {
             if(allCanvas[i].canvasName == canvasName)
             {
+                print(canvasName);
                 allCanvas[i].GetComponent<Canvas>().enabled = true;
                 if (canvasName == "state")
                     Time.timeScale = 1f;

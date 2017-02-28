@@ -170,10 +170,11 @@ public class Inventory : Observable {
 
     public void eventLevelUp()
     {
-        ItemData essence = slots[itemPositionInInventory(13)].transform.GetChild(0).GetComponent<ItemData>();
-        if (essence.getAmount() < 1)
+        int esPosition = itemPositionInInventory(13);
+        if (esPosition == -1)
             return;
         delItemById(13);
+
         int position = itemPositionInInventory(itemSelected);
         items[position] = database.FetchItemById(itemSelected + 6);
         slots[position].transform.GetChild(0).GetComponent<Image>().sprite = items[position].Sprite;
@@ -183,7 +184,7 @@ public class Inventory : Observable {
         data.setAttack(items[position].attack);
         data.setIsMainWeapon(data.getIsMainWeapon());
         data.setIsSecondWeapon(data.getIsSecondWeapon());
-
+        setItemSelected(data.id);
     }
 
     int itemPositionInInventory(int id)
