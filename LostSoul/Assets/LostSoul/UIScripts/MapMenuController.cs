@@ -2,21 +2,22 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class MapMenuController : MonoBehaviour {
+public class MapMenuController : CanvasParents {
 
-    public bool menuOn = false;
     private MainCharacter player;
-    public Canvas mapCanvas;
+    CanvasController canvasController;
     public TeleportController teleport1;
     public TeleportController teleport2;
     public TeleportController teleport3;
     // Use this for initialization
     void Start () {
-        mapCanvas = GetComponent<Canvas>();
+        canvasName = "map";
         player = FindObjectOfType<MainCharacter>();
+        canvasController = FindObjectOfType<CanvasController>();
 	}
 	
 	// Update is called once per frame
+    /*
 	void Update () {
         mapCanvas.enabled = menuOn;
         if (Input.GetKeyDown(KeyCode.Escape) && menuOn)
@@ -30,26 +31,27 @@ public class MapMenuController : MonoBehaviour {
             Time.timeScale = 1f;
         }
 	}
+    */
 
 
     public void goToTeleport1()
     {
-        menuOn = false;
         player.transform.position = teleport1.transform.position;
+        canvasController.goToCanvas("state");
         //print("in fonction1");
     }
 
     public void goToTeleport2()
     {
-        menuOn = false;
         player.transform.position = teleport2.transform.position;
+        canvasController.goToCanvas("state");
         //print("in fonction2");
     }
 
     public void goToTeleport3()
     {
-        menuOn = false;
         player.transform.position = teleport3.transform.position;
+        canvasController.goToCanvas("state");
         //print("in fonction3");
     }
 }

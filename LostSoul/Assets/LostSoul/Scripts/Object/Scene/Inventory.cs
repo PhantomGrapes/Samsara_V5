@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
+
 public class Inventory : Observable {
 
     public GameObject inventoryPanel;
@@ -16,18 +17,22 @@ public class Inventory : Observable {
     InventorySecondWeapon secondWeapon;
 
     int slotAmount;
-    public List<Item> items = new List<Item>();
-    public List<GameObject> slots = new List<GameObject>();
+    public List<Item> items;
+    public List<GameObject> slots;
 
 
     void Start()
     {
+
         itemSelected = -1;
         slotAmount = 32;
+        GetComponent<ItemDataBase>().Start();
         database = GetComponent<ItemDataBase>();
         mainWeapon = FindObjectOfType<InventoryMainWeapon>();
         secondWeapon = FindObjectOfType<InventorySecondWeapon>();
-        slotPanel = this.gameObject;
+        slotPanel = FindObjectOfType<SlotController>().gameObject;
+        items = new List<Item>();
+        slots = new List<GameObject>();
         initializeBroadcast();
         //inventoryPanel = GameObject.Find("Inventory Panel");
         //slotPanel = inventoryPanel.transform.FindChild("SlotPanel").gameObject;
@@ -40,7 +45,7 @@ public class Inventory : Observable {
             slots[i].transform.localScale = new Vector3(1, 1, 1);
 
         }
-        GetComponent<SlotController>().Adjust();
+        slotPanel.GetComponent<SlotController>().Adjust();
         AddItem(1);
         AddItem(0);
         AddItem(0);
@@ -51,7 +56,12 @@ public class Inventory : Observable {
         AddItem(12);
         AddItem(12);
         AddItem(13);
+        AddItem(14);
+        AddItem(14);
+        AddItem(14);
+        AddItem(14);
     }
+
 
     public void AddItem(int id)
     {
@@ -86,10 +96,7 @@ public class Inventory : Observable {
             }
         }
     }
-    void Update()
-    {
-        //print(items[3].Sprite);
-    }
+
     public void delItemById(int id)
     {
         Item itemToAdd = database.FetchItemById(id);
@@ -97,11 +104,9 @@ public class Inventory : Observable {
         if (position == -1)
             return;
         ItemData data = slots[position].transform.GetChild(0).GetComponent<ItemData>();
-        if(data.getAmount() > 1)
-        {
-            data.setAmount(data.getAmount() - 1);
+        data.setAmount(data.getAmount() - 1);
+        if (data.getAmount() >= 1)
             return;
-        }
         if (getItemSelected() == items[position].Id)
             setItemSelected(-1);
         for (int i = position + 1; i < slots.Count; i++)
@@ -132,11 +137,13 @@ public class Inventory : Observable {
         soulPos = itemPositionInInventory(12);
         if (soulPos == -1)
             return;
+
         if (slots[soulPos].transform.GetChild(0).GetComponent<ItemData>().getAmount() >= tauxSoulEssence)
         {
             for (int i = 0; i < tauxSoulEssence; i++)
             {
                 delItemById(12);
+
             }
             AddItem(13);
         }

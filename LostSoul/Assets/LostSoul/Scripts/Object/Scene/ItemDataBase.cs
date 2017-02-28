@@ -8,8 +8,9 @@ public class ItemDataBase : MonoBehaviour {
     List<Item> database = new List<Item>();
     JsonData itemData;
 
-    void Start()
+    public void Start()
     {
+
         itemData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/LostSoul/Scripts/Object/Scene/Items.json"));
         ConstructItemDatabase();
 

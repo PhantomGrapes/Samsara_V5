@@ -90,6 +90,10 @@ public class MainCharacter : Livings
 	public bool checkWARoll;
 	public float WARollSpeed;
 
+    // UI control
+    public bool playerOnTeleport = false;
+    public bool playerOnNPC = false;
+
 	public void Interact ()
 	{
 		// to do
@@ -457,7 +461,7 @@ public class MainCharacter : Livings
 		waRange = FindObjectOfType<WASkillController> ();
 		checkWeaponSkill5 = false;
 		coolDown = FindObjectOfType<CoolDownController> ();
-		print (coolDown);
+		//print (coolDown);
 		initGravity = rigi.gravityScale;
 
 		anim.SetBool ("Alive", alive);

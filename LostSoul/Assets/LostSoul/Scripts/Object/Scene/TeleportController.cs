@@ -6,11 +6,10 @@ public class TeleportController : MonoBehaviour {
     public bool active = false;
     public Sprite activePort;
     public Sprite inactivePort;
-    private bool playerInCollider = false;
-    public MapMenuController map;
+    MainCharacter player;
 	// Use this for initialization
 	void Start () {
-        map = FindObjectOfType<MapMenuController>();
+        player = FindObjectOfType<MainCharacter>();
 	}
 	
 	// Update is called once per frame
@@ -19,17 +18,13 @@ public class TeleportController : MonoBehaviour {
             GetComponent<SpriteRenderer>().sprite = activePort;
         else
             GetComponent<SpriteRenderer>().sprite = inactivePort;
-        if (Input.GetKeyDown(KeyCode.F) && playerInCollider)
-        {
-            map.menuOn = true;
-        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.GetComponent<MainCharacter>() != null) {
             active = true;
-            playerInCollider = true;
+            player.playerOnTeleport = true;
         }
     }
 
@@ -37,7 +32,7 @@ public class TeleportController : MonoBehaviour {
     {
         if (other.GetComponent<MainCharacter>() != null)
         {
-            playerInCollider = false; 
+            player.playerOnTeleport = false;
         }
     }
 }
