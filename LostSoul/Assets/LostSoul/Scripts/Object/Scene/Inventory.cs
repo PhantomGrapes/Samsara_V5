@@ -15,7 +15,7 @@ public class Inventory : Observable {
     public int tauxSoulEssence = 5;
     InventoryMainWeapon mainWeapon;
     InventorySecondWeapon secondWeapon;
-
+    bool initialized;
     int slotAmount;
     public List<Item> items;
     public List<GameObject> slots;
@@ -23,7 +23,7 @@ public class Inventory : Observable {
 
     void Start()
     {
-
+        initialized = false;
         itemSelected = -1;
         slotAmount = 32;
         GetComponent<ItemDataBase>().Start();
@@ -34,34 +34,28 @@ public class Inventory : Observable {
         items = new List<Item>();
         slots = new List<GameObject>();
         initializeBroadcast();
-        //inventoryPanel = GameObject.Find("Inventory Panel");
-        //slotPanel = inventoryPanel.transform.FindChild("SlotPanel").gameObject;
         for (int i = 0; i < slotAmount; i++)
         {
             items.Add(new Item());
             slots.Add(Instantiate(inventorySlot));
-            
+
             slots[i].transform.SetParent(slotPanel.transform);
             slots[i].transform.localScale = new Vector3(1, 1, 1);
 
         }
         slotPanel.GetComponent<SlotController>().Adjust();
         AddItem(1);
-        AddItem(0);
-        AddItem(0);
-        AddItem(12);
-        AddItem(12);
-        AddItem(12);
-        AddItem(12);
-        AddItem(12);
-        AddItem(12);
+        AddItem(2);
+        AddItem(2);
+        AddItem(13);
+        AddItem(13);
+        AddItem(13);
+        AddItem(13);
+        AddItem(13);
         AddItem(13);
         AddItem(14);
         AddItem(14);
-        AddItem(14);
-        AddItem(14);
     }
-
 
     public void AddItem(int id)
     {
@@ -88,6 +82,7 @@ public class Inventory : Observable {
                 itemObj.name = itemToAdd.Name;
                 ItemData data = itemObj.GetComponent<ItemData>();
                 data.id = itemToAdd.Id;
+                data.initializeBroadcast();
                 data.setAmount(data.getAmount() + 1);
                 data.setAttack(itemToAdd.attack);
                 data.setIsMainWeapon(false);
@@ -134,7 +129,7 @@ public class Inventory : Observable {
     public void eventMakeEssence()
     {
         int soulPos;
-        soulPos = itemPositionInInventory(12);
+        soulPos = itemPositionInInventory(13);
         if (soulPos == -1)
             return;
 
@@ -142,10 +137,10 @@ public class Inventory : Observable {
         {
             for (int i = 0; i < tauxSoulEssence; i++)
             {
-                delItemById(12);
+                delItemById(13);
 
             }
-            AddItem(13);
+            AddItem(14);
         }
     }
 
@@ -170,10 +165,10 @@ public class Inventory : Observable {
 
     public void eventLevelUp()
     {
-        int esPosition = itemPositionInInventory(13);
+        int esPosition = itemPositionInInventory(14);
         if (esPosition == -1)
             return;
-        delItemById(13);
+        delItemById(14);
 
         int position = itemPositionInInventory(itemSelected);
         items[position] = database.FetchItemById(itemSelected + 6);
@@ -187,7 +182,7 @@ public class Inventory : Observable {
         setItemSelected(data.id);
     }
 
-    int itemPositionInInventory(int id)
+    public int itemPositionInInventory(int id)
     {
         for(int i = 0; i< items.Count; i++)
         {

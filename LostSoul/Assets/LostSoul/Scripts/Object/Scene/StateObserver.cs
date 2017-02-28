@@ -12,7 +12,6 @@ public class StateObserver : Observer {
 	}
 
     public override void inventoryUpdate(ItemData o, string message) {
-        print("notify medicine");
         if(message == "amount" && o.id == itemId)
         {
             GetComponent<Transform>().GetChild(0).GetComponent<Text>().text = o.getAmount().ToString();

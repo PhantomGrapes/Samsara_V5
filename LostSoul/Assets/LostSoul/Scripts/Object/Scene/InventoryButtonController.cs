@@ -20,28 +20,28 @@ public class InventoryButtonController : Observer {
     public override void inventoryUpdate(int o, string message) {
         if(message == "itemSelected")
         {
-            if(o == -1 || o == 13 || o == 14)
+            if(o == -1 || o == 14 || o == 15)
             {
                 levelUp.gameObject.SetActive(false);
                 makeEssence.gameObject.SetActive(false);
                 mainWeapon.gameObject.SetActive(false);
                 secondWeapon.gameObject.SetActive(false);
             }
-            if(o == 12)
+            if(o == 13)
             {
                 levelUp.gameObject.SetActive(false);
                 makeEssence.gameObject.SetActive(true);
                 mainWeapon.gameObject.SetActive(false);
                 secondWeapon.gameObject.SetActive(false);
             }
-            if (o > -1 && o < 6)
+            if (o > 0 && o < 7)
             {
                 levelUp.gameObject.SetActive(true);
                 makeEssence.gameObject.SetActive(false);
                 mainWeapon.gameObject.SetActive(true);
                 secondWeapon.gameObject.SetActive(true);
             }
-            if(o > 5 && o < 12)
+            if(o > 6 && o < 13)
             {
                 levelUp.gameObject.SetActive(false);
                 makeEssence.gameObject.SetActive(false);
