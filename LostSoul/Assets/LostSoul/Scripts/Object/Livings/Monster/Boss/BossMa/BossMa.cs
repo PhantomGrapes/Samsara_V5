@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -44,6 +44,7 @@ public class BossMa : MainCharacter
 		CheckStatus ();
 		LocalCheckStatus ();
 
+		DecideStrategy ();
 
 
 	}
@@ -57,9 +58,46 @@ public class BossMa : MainCharacter
 
 	void DecideStrategy ()
 	{
-		// if every skill is available, be offensive
-		// if all offensive skills are on cooldown, be defensive
-		// if all defensive skills are on cooldown, avoid fight
+		// defensive
+//		if (target.anim.GetCurrentAnimatorStateInfo (0).IsTag ("Attack1HS")) {
+//
+//		} else if (target.anim.GetCurrentAnimatorStateInfo (0).IsTag ("Attack2HS")) {
+//
+//		} else if (target.anim.GetCurrentAnimatorStateInfo (0).IsTag ("Attack3HS")) {
+//
+//		} else if (target.anim.GetCurrentAnimatorStateInfo (0).IsTag ("HSSkill")) {
+//
+//		} else if (target.anim.GetCurrentAnimatorStateInfo (0).IsTag ("JumpAttackHS1")) {
+//
+//		} else if (target.anim.GetCurrentAnimatorStateInfo (0).IsTag ("AttackBAA")) {
+//
+//		} else if (target.anim.GetCurrentAnimatorStateInfo (0).IsTag ("SkillBAA")) {
+//
+//		} else if (target.anim.GetCurrentAnimatorStateInfo (0).IsTag ("AttackBAAP02")) {
+//
+//		} else if (target.anim.GetCurrentAnimatorStateInfo (0).IsTag ("AttackBAAP03")) {
+//
+//		} else if (target.anim.GetCurrentAnimatorStateInfo (0).IsTag ("AttackBAAP01")) {
+//
+//		} else if (target.anim.GetCurrentAnimatorStateInfo (0).IsTag ("AttackWA")) {
+//
+//		} else if (target.anim.GetCurrentAnimatorStateInfo (0).IsTag ("SkillWA")) {
+//
+//		} else if (target.anim.GetCurrentAnimatorStateInfo (0).IsTag ("AttackSS")) {
+//
+//		} else if (target.anim.GetCurrentAnimatorStateInfo (0).IsTag ("AttackDagger")) {
+//
+//		} else if (target.anim.GetCurrentAnimatorStateInfo (0).IsTag ("SkillDagger")) {
+//
+//		} else if (target.anim.GetCurrentAnimatorStateInfo (0).IsTag ("SkillCB")) {
+//
+//		} else if (target.anim.GetCurrentAnimatorStateInfo (0).IsTag ("AttackCB")) {
+//
+//		}
+
+		if (target.checkAttack) {
+			Retreat ();
+		}
 	}
 
 	/// <summary>
@@ -78,9 +116,9 @@ public class BossMa : MainCharacter
 	}
 
 	void Defensive ()
-	{	
-		
-		
+	{
+
+
 	}
 
 
@@ -94,7 +132,7 @@ public class BossMa : MainCharacter
 		} else {
 			MoveLeft ();
 		}
-		
+
 	}
 
 	void Retreat ()
