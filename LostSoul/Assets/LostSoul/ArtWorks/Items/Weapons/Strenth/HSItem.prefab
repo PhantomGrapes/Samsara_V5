@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000011544412324}
   - 212: {fileID: 212000011327067280}
-  - 114: {fileID: 114000012117474234}
   - 50: {fileID: 50000012352732952}
   - 58: {fileID: 58000013490985580}
+  - 114: {fileID: 114000013422127732}
   m_Layer: 0
   m_Name: HSItem
   m_TagString: Weapon
@@ -74,7 +74,7 @@ CircleCollider2D:
   m_Offset: {x: -0.013212471, y: 3.07}
   serializedVersion: 2
   m_Radius: 0.7
---- !u!114 &114000012117474234
+--- !u!114 &114000013422127732
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -82,11 +82,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000012894342462}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46c0b7d13e4654749a873d2456b9ab06, type: 3}
+  m_Script: {fileID: 11500000, guid: 669aa5bad588f974ab76ccfd4ae53d65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 1
-  level: -0.52
+  id: 1
+  level: 0
 --- !u!212 &212000011327067280
 SpriteRenderer:
   m_ObjectHideFlags: 1

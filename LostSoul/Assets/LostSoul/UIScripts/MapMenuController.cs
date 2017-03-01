@@ -9,6 +9,9 @@ public class MapMenuController : CanvasParents {
     public TeleportController teleport1;
     public TeleportController teleport2;
     public TeleportController teleport3;
+    public TeleportController teleport4;
+    public TeleportController teleport5;
+    public TeleportController teleport6;
     // Use this for initialization
     void Start () {
         canvasName = "map";
@@ -51,6 +54,24 @@ public class MapMenuController : CanvasParents {
     public void goToTeleport3()
     {
         player.transform.position = teleport3.transform.position;
+        canvasController.goToCanvas("state");
+        //print("in fonction3");
+    }
+    public void goToTeleport4()
+    {
+        player.transform.position = teleport4.transform.position;
+        canvasController.goToCanvas("state");
+        //print("in fonction3");
+    }
+    public void goToTeleport5()
+    {
+        player.transform.position = teleport5.transform.position;
+        canvasController.goToCanvas("state");
+        //print("in fonction3");
+    }
+    public void goToTeleport6()
+    {
+        player.transform.position = teleport6.transform.position;
         canvasController.goToCanvas("state");
         //print("in fonction3");
     }

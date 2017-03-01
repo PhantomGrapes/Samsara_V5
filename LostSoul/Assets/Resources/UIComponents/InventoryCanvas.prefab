@@ -600,13 +600,14 @@ GameObject:
   - 114: {fileID: 114000011299478942}
   - 222: {fileID: 222000011465002460}
   - 114: {fileID: 114000011370292118}
+  - 114: {fileID: 114000012300771322}
   m_Layer: 5
   m_Name: InventoryCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &114000010102160722
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1475,6 +1476,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   current: 0
+--- !u!114 &114000012300771322
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000014094247328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4af5c13fae3854047871cf5a25f43b0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvasName: inventory
 --- !u!114 &114000012352362170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1785,6 +1798,8 @@ MonoBehaviour:
   inventoryItem: {fileID: 1000013689496796, guid: 76837f3bd9d48df46b901e62d99ff9d8,
     type: 2}
   tauxSoulEssence: 5
+  mainWeapon: {fileID: 0}
+  secondWeapon: {fileID: 0}
   slots: []
 --- !u!114 &114000013418972850
 MonoBehaviour:
@@ -2459,8 +2474,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 224000012144516754}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 0.5174788}
-  m_AnchorMax: {x: 1, y: 0.99947035}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2740,8 +2755,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 224000013134156732}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 0.4811765}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}

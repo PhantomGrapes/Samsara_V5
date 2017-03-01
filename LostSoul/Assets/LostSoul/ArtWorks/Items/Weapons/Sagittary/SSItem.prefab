@@ -23,6 +23,7 @@ GameObject:
   - 114: {fileID: 114000013285955922}
   - 50: {fileID: 50000011072676338}
   - 58: {fileID: 58000011669234300}
+  - 114: {fileID: 114000013635112696}
   m_Layer: 0
   m_Name: SSItem
   m_TagString: Weapon
@@ -86,6 +87,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   index: 5
+  level: -2.08
+--- !u!114 &114000013635112696
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010282934464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 669aa5bad588f974ab76ccfd4ae53d65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 5
   level: -2.08
 --- !u!212 &212000013704831030
 SpriteRenderer:
