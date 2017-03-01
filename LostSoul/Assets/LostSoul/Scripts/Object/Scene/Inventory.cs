@@ -13,12 +13,13 @@ public class Inventory : Observable {
     public GameObject inventoryItem;
     private int itemSelected;
     public int tauxSoulEssence = 5;
-    InventoryMainWeapon mainWeapon;
-    InventorySecondWeapon secondWeapon;
+    public InventoryMainWeapon mainWeapon;
+    public InventorySecondWeapon secondWeapon;
     bool initialized;
     int slotAmount;
     public List<Item> items;
     public List<GameObject> slots;
+    MainCharacter player;
 
 
     void Start()
@@ -33,6 +34,7 @@ public class Inventory : Observable {
         slotPanel = FindObjectOfType<SlotController>().gameObject;
         items = new List<Item>();
         slots = new List<GameObject>();
+        player = FindObjectOfType<MainCharacter>();
         initializeBroadcast();
         for (int i = 0; i < slotAmount; i++)
         {
@@ -44,9 +46,6 @@ public class Inventory : Observable {
 
         }
         slotPanel.GetComponent<SlotController>().Adjust();
-        AddItem(1);
-        AddItem(2);
-        AddItem(2);
         AddItem(13);
         AddItem(13);
         AddItem(13);
@@ -154,6 +153,16 @@ public class Inventory : Observable {
         slots[itemPositionInInventory(itemSelected)].transform.GetChild(0).GetComponent<ItemData>().setIsMainWeapon(true);
     }
 
+    public void eventSetMainWeaponById(int id)
+    {
+        //annual old main weapon if exist
+        if (mainWeapon.current != -1)
+            slots[itemPositionInInventory(mainWeapon.current)].transform.GetChild(0).GetComponent<ItemData>().setIsMainWeapon(false);
+
+        //add new main weapon
+        slots[itemPositionInInventory(id)].transform.GetChild(0).GetComponent<ItemData>().setIsMainWeapon(true);
+    }
+
     public void eventSetSecondWeapon()
     {
         //annual old second weapon if exist
@@ -161,6 +170,15 @@ public class Inventory : Observable {
             slots[itemPositionInInventory(secondWeapon.current)].transform.GetChild(0).GetComponent<ItemData>().setIsSecondWeapon(false);
         //add new second weapon
         slots[itemPositionInInventory(itemSelected)].transform.GetChild(0).GetComponent<ItemData>().setIsSecondWeapon(true);
+    }
+
+    public void eventSetSecondWeaponById(int id)
+    {
+        //annual old second weapon if exist
+        if (secondWeapon.current != -1)
+            slots[itemPositionInInventory(secondWeapon.current)].transform.GetChild(0).GetComponent<ItemData>().setIsSecondWeapon(false);
+        //add new second weapon
+        slots[itemPositionInInventory(id)].transform.GetChild(0).GetComponent<ItemData>().setIsSecondWeapon(true);
     }
 
     public void eventLevelUp()

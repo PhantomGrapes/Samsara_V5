@@ -24,7 +24,7 @@ public class WeaponPIckupRangeController : MonoBehaviour {
 		if (col.gameObject.CompareTag("Weapon"))
 		{
 			//print ("1");
-			player.weaponToBePickedUp = col.gameObject;
+			//player.weaponToBePickedUp = col.gameObject;
 		}
 		else
 		{
@@ -37,7 +37,7 @@ public class WeaponPIckupRangeController : MonoBehaviour {
 	{
 		if (col.gameObject.CompareTag("Weapon"))
 		{
-			player.weaponToBePickedUp = null;
+			//player.weaponToBePickedUp = null;
 		}
 	}
 }

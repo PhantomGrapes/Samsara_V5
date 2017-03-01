@@ -157,8 +157,8 @@ public class BossMa : MainCharacter
 
 
 		// attack range
-		if (weaponEquiped) {
-			switch (weaponEquiped.GetComponent<Weapon> ().index) {
+		if (target.inventory.mainWeapon.current != -1) {
+			switch (target.inventory.mainWeapon.current) {
 			case 1:
 				attackRange = defaultWeaponRange_1.range;
 				break;
@@ -181,8 +181,8 @@ public class BossMa : MainCharacter
 	{
 		//print("give damage");
 		List<MainCharacter> playerList = new List<MainCharacter> ();
-		if (weaponEquiped) {
-			switch (weaponEquiped.GetComponent<Weapon> ().index) {
+		if (target.inventory.mainWeapon.current != -1) {
+			switch (target.inventory.mainWeapon.current) {
 			case 1:
 				playerList = defaultWeaponRange_1.playerList;
 				break;
@@ -197,9 +197,9 @@ public class BossMa : MainCharacter
 				break;
 			}
 		}
-		foreach (MainCharacter target in playerList) {
-			target.BeAttacked (attack);
-			target.beingAttacked = true;
+		foreach (MainCharacter player in playerList) {
+			player.BeAttacked (attack);
+			player.beingAttacked = true;
 			//print(checkWeaponSkill5);
 
 		}
@@ -209,8 +209,8 @@ public class BossMa : MainCharacter
 	public void startDefaultBloodEffct ()
 	{
 		List<MainCharacter> playerList = new List<MainCharacter> ();
-		if (weaponEquiped) {
-			switch (weaponEquiped.GetComponent<Weapon> ().index) {
+		if (target.inventory.mainWeapon.current != -1) {
+			switch (target.inventory.mainWeapon.current) {
 			case 1:
 				playerList = defaultWeaponRange_1.playerList;
 				break;

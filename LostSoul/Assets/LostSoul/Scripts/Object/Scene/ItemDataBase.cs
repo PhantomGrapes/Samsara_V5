@@ -27,6 +27,16 @@ public class ItemDataBase : MonoBehaviour {
         return null;
     }
 
+    public Item FetchItemByName(string name)
+    {
+        for (int i = 0; i < database.Count; i++)
+        {
+            if (database[i].Name == name)
+                return database[i];
+        }
+        return null;
+    }
+
     void ConstructItemDatabase()
     {
         for(int i = 0; i < itemData.Count; i++)
@@ -44,6 +54,7 @@ public class Item
     public bool stackable { get; set; }
     public float attack { get; set; }
     public Sprite Sprite { get; set; }
+    public Sprite RealSprite { get; set; }
 
     public Item(int id, string name, string description, bool stackable, float attack)
     {
@@ -53,6 +64,8 @@ public class Item
         this.Sprite = Resources.Load<Sprite>("UIComponents/" + name);
         this.attack = attack;
         this.stackable = stackable;
+        if(id > 0 && id < 7)
+            this.RealSprite = Resources.Load<Sprite>("RealWeapon/" + name);
     }
 
     public Item()

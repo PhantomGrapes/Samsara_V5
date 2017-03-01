@@ -30,8 +30,12 @@ public class MainCharacter : Livings
 	public LayerMask whatIsGround;
 
 
-	public GameObject weaponToBePickedUp;
-	public GameObject weaponEquiped;
+	//public GameObject weaponToBePickedUp;
+	//public GameObject weaponEquiped;
+
+    public ItemToBePickedUp itemToBePickedUp;
+    public Inventory inventory;
+
 
 
 	// control camera
@@ -74,7 +78,7 @@ public class MainCharacter : Livings
 	//public List<string> stateBeforeBeAttacked = new List<string>();
 
 	//changeWeapon
-	protected SpriteRenderer weaponSprite;
+	public SpriteRenderer weaponSprite;
 
 	// play audio
 	public MainCharacterAudioController audioController;
@@ -268,8 +272,8 @@ public class MainCharacter : Livings
 	{
 		//print("give damage");
 		List<Monster> enemyList = new List<Monster> ();
-		if (weaponEquiped) {
-			switch (weaponEquiped.GetComponent<Weapon> ().index) {
+		if (inventory.mainWeapon.current != -1) {
+			switch (inventory.mainWeapon.current) {
 			case 1:
 				enemyList = defaultWeaponRange_1.enemyList;
 				break;
@@ -301,8 +305,8 @@ public class MainCharacter : Livings
 	public virtual void startDefaultBloodEffct ()
 	{
 		List<Monster> enemyList = new List<Monster> ();
-		if (weaponEquiped) {
-			switch (weaponEquiped.GetComponent<Weapon> ().index) {
+		if (inventory.mainWeapon.current != -1) {
+			switch (inventory.mainWeapon.current) {
 			case 1:
 				enemyList = defaultWeaponRange_1.enemyList;
 				break;
@@ -461,6 +465,7 @@ public class MainCharacter : Livings
 		waRange = FindObjectOfType<WASkillController> ();
 		checkWeaponSkill5 = false;
 		coolDown = FindObjectOfType<CoolDownController> ();
+        inventory = FindObjectOfType<Inventory>();
 		//print (coolDown);
 		initGravity = rigi.gravityScale;
 
@@ -477,14 +482,20 @@ public class MainCharacter : Livings
 			NormalizeSlope ();
 		}
 
+        // tab change weapon
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+
+        }
+
 		CheckStatus ();
 		SetAxeAttackRange ();
 		/*
 		 * key controls
 		 */
 		// call function to pickup or drop Weapon
-		if (Input.GetKeyDown (KeyCode.G)) {
-			PickOrDropWeapon ();
+		if (Input.GetKeyDown (KeyCode.E)) {
+            PickUpItem();
 		}
 
 		// integrated jump and double jump to one function
@@ -533,12 +544,12 @@ public class MainCharacter : Livings
 			checkRoll = false;
 
 		// to see whether the player is using weapon skill
-		if (weaponEquiped && anim.GetCurrentAnimatorStateInfo (0).IsTag ("WeaponSkill_" + weaponEquiped.GetComponent<Weapon> ().index))
+		if (inventory.mainWeapon.current != -1 && anim.GetCurrentAnimatorStateInfo (0).IsTag ("WeaponSkill_" + inventory.mainWeapon.current))
 			checkWeaponSkill = true;
 		else
 			checkWeaponSkill = false;
 
-		if (weaponEquiped && anim.GetCurrentAnimatorStateInfo (0).IsTag ("WeaponSkill_3"))
+		if (inventory.mainWeapon.current != -1 && anim.GetCurrentAnimatorStateInfo (0).IsTag ("WeaponSkill_3"))
 			checkWARoll = true;
 		else
 			checkWARoll = false;
@@ -660,12 +671,12 @@ public class MainCharacter : Livings
 		// manage skill attack input
 		if (Input.GetKeyDown (KeyCode.K) && !checkAttack && !checkWeaponSkill && ban.skillAttack == 0) {
 			// put into SkillAttack()
-			if (weaponEquiped) {
+			if (inventory.mainWeapon.current != -1) {
 				StartCoroutine (BanSkillAttack (coolDown.coolDowns [0].coolDownLength));
 				coolDown.coolDowns [0].currentCoolDown = 0f;
 				Move (new Vector2 (0, 0));
-				anim.SetTrigger ("WeaponSkill_" + weaponEquiped.GetComponent<Weapon> ().index);
-				switch (weaponEquiped.GetComponent<Weapon> ().index) {
+				anim.SetTrigger ("WeaponSkill_" + inventory.mainWeapon.current);
+				switch (inventory.mainWeapon.current) {
 				case 1:
 
 					break;
@@ -730,8 +741,35 @@ public class MainCharacter : Livings
 	//            weaponToBePickedUp = null;
 	//        }
 	//    }
+    protected void PickUpWeapon()
+    {
+        inventory.AddItem(itemToBePickedUp.id);
+        if (inventory.mainWeapon.current == -1)
+        {
+            inventory.eventSetMainWeaponById(itemToBePickedUp.id);
+            
+        }
+        else if (inventory.secondWeapon.current == -1)
+            inventory.eventSetSecondWeaponById(itemToBePickedUp.id);
+        itemToBePickedUp.gameObject.SetActive(false);
+    }
 
+    protected void PickUpSoul()
+    {
+        inventory.AddItem(itemToBePickedUp.id);
+        itemToBePickedUp.gameObject.SetActive(false);
+    }
 
+    protected void PickUpItem()
+    {
+        if (itemToBePickedUp == null)
+            return;
+        if (itemToBePickedUp.id == inventory.database.FetchItemByName("Soul").Id)
+            PickUpSoul();
+        else if (itemToBePickedUp.id > 0 && itemToBePickedUp.id < 7)
+            PickUpWeapon();
+    }
+    /*
 	protected void PickOrDropWeapon ()
 	{
 		if (anim.GetInteger ("WeaponIndex") == 0) {
@@ -741,7 +779,6 @@ public class MainCharacter : Livings
 			DropWeapon ();
 		}
 	}
-
 	protected void PickUpWeapon ()
 	{
 		if (weaponToBePickedUp != null) {
@@ -778,13 +815,13 @@ public class MainCharacter : Livings
 		}
 		this.weaponEquiped = null;
 	}
-
+    */
 	protected void NormalAttack ()
 	{
-		if (!checkAttack && !checkWeaponSkill && ban.attack == 0 && weaponEquiped != null) {
+		if (!checkAttack && !checkWeaponSkill && ban.attack == 0 && inventory.mainWeapon.current != -1) {
 			// put into defaultAttack()
 			Move (new Vector2 (0, 0));
-			switch (weaponEquiped.GetComponent<Weapon> ().index) {
+			switch (inventory.mainWeapon.current) {
 			case 1:
 				DefaultAttack ();
 				break;
