@@ -485,10 +485,16 @@ public class MainCharacter : Livings
         // tab change weapon
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-
+            changeWeapon();
         }
 
-		CheckStatus ();
+        // use medicine
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            useMedicine();
+        }
+
+        CheckStatus ();
 		SetAxeAttackRange ();
 		/*
 		 * key controls
@@ -660,6 +666,16 @@ public class MainCharacter : Livings
 			anim.SetTrigger ("DoubleJump");
 		}
 	}
+
+    protected void useMedicine()
+    {
+        int id = inventory.database.FetchItemByName("Medicine").Id;
+        int pos = inventory.itemPositionInInventory(id);
+        if (pos == -1)
+            return;
+        inventory.delItemById(id);
+        hp = hp + inventory.items[pos].attack > maxHp ? maxHp : hp + inventory.items[pos].attack;
+    }
 
 	protected void SetAxeAttackRange ()
 	{
@@ -844,6 +860,16 @@ public class MainCharacter : Livings
 		}
 	}
 
+    void changeWeapon()
+    {
+        int mainWeapon = inventory.mainWeapon.current;
+        int secondWeapon = inventory.secondWeapon.current;
+
+        if (mainWeapon == -1 || secondWeapon == -1)
+            return;
+        inventory.eventSetMainWeaponById(secondWeapon);
+        inventory.eventSetSecondWeaponById(mainWeapon);
+    }
 	// audio fonctions
 	protected void playHit ()
 	{
