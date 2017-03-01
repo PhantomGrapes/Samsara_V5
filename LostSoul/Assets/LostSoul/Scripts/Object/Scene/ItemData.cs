@@ -17,7 +17,6 @@ public class ItemData : Observable {
     {
         GetComponent<Button>().onClick.AddListener(TaskOnClick);
         inventory = FindObjectOfType<Inventory>();
-        initializeBroadcast();
     }
 
     

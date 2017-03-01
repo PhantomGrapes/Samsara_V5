@@ -9,12 +9,10 @@ public class TeleportButtonController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         teleportButton = GetComponent<Button>();
-
 	}
 	
 	// Update is called once per frame
 	void Update () {
         teleportButton.interactable = teleport.active;
-
 	}
 }
