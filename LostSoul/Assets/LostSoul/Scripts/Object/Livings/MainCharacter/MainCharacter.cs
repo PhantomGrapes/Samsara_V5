@@ -492,8 +492,10 @@ public class MainCharacter : Livings
 			Jump ();
 		}
 
-		// move left or right, roll left or right, or normal attack
-		if (Input.GetKeyDown (KeyCode.J)) {
+        // roll, move left or right, roll left or right, or normal attack
+        if (velocity != 0)
+            Move(new Vector2(velocity, rigi.velocity.y));
+        else if (Input.GetKeyDown (KeyCode.J)) {
 			NormalAttack ();
 		} else if (Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.D)) {
 			MoveLeft ();
@@ -506,8 +508,6 @@ public class MainCharacter : Livings
 		} else {
 			Move (new Vector2 (0f, rigi.velocity.y));
 		}
-
-
 	}
 
 
@@ -563,8 +563,9 @@ public class MainCharacter : Livings
 			velocity = WARollSpeed;
 		if (!alive)
 			velocity = 0f;
+        
 
-		if (hp <= 0)
+        if (hp <= 0)
 			alive = false;
 		else
 			alive = true;
