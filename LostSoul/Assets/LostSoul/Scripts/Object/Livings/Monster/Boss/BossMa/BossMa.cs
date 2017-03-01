@@ -11,7 +11,7 @@ public class BossMa : MainCharacter
 	Vector2 selfPosition;
 	public MainCharacter target;
 	protected float attackRange;
-
+	bool facingPlayer;
 
 	void Start ()
 	{
@@ -97,20 +97,22 @@ public class BossMa : MainCharacter
 
 		if (target.checkAttack) {
 			Retreat ();
+		} else {
+			Offensive ();
 		}
 	}
 
 	/// <summary>
 	/// states
 	/// </summary>
-	void Offenssive ()
+	void Offensive ()
 	{
 		Vector2 enemyDirection = targetPosition - selfPosition;
 		float enemyDistance = enemyDirection.magnitude;
-		if (enemyDistance > attackRange) {
+		if (enemyDistance > attackRange && facingPlayer) {
 			Approach ();
 		} else {
-			// try to attack
+			NormalAttack ();
 		}
 
 	}
@@ -173,7 +175,7 @@ public class BossMa : MainCharacter
 				break;
 			}
 		}
-
+		facingPlayer = (targetPosition.x < selfPosition.x && !facingRight) || (targetPosition.x > selfPosition.x && facingRight);
 	}
 
 	// Overriding functions in Maincharacter
