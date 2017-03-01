@@ -643,6 +643,7 @@ public class MainCharacter : Livings
 			checkDoubleJump = true;
 			anim.SetTrigger ("DoubleJump");
 		}
+
 	}
 
 	protected void SetAxeAttackRange ()
