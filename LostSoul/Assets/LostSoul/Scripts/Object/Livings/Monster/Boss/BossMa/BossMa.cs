@@ -86,8 +86,11 @@ public class BossMa : MainCharacter
 //
 //		}
 
+		if (enemyDistance < closestRange) {
+			Retreat ();	
+		}
 
-		if (target.GetCheckAttack ()) {
+		if (target.GetCheckAttack () && enemyDistance < target.attackRange) {
 			print ("player attacking");
 			Retreat ();
 		} else {
@@ -100,14 +103,14 @@ public class BossMa : MainCharacter
 	/// </summary>
 	void Offensive ()
 	{
-		if ((closestRange < enemyDistance) && (enemyDistance < attackRange) && facingPlayer) {
+		if ((enemyDistance < attackRange) && facingPlayer) {
 			print ("attacking");
 			NormalAttack ();
 
 		} else if (enemyDistance > closestRange) {
 			print ("approaching");
 			Approach ();
-		} else {
+		}else{
 			Idle ();
 		}
 
