@@ -1327,13 +1327,13 @@ MonoBehaviour:
   attackSpeed: 1
   attackInterval: 0
   melee: 1
-  attackRange: 0
+  attackRange: 5
   critChance: 0.01
   evasion: 0.01
   hpReg: 1
   facingRight: 0
   controller: {fileID: 0}
-  jumpForce: 0
+  jumpForce: 30
   attacked: 0
   beingAttacked: 0
   canAttack: 1
@@ -1349,7 +1349,7 @@ MonoBehaviour:
   arrowSpeed: 10
   frontGroundCheck: {fileID: 4000011479255602}
   backGroundCheck: {fileID: 4000010980208242}
-  groundCheckRadius: 0
+  groundCheckRadius: 0.2
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8192
@@ -1363,7 +1363,6 @@ MonoBehaviour:
   defaultWeaponRange_3: {fileID: 0}
   defaultWeaponRange_4: {fileID: 0}
   defaultWeaponRange_5: {fileID: 0}
-  checkAttack: 0
   arrow: {fileID: 0}
   rightArmUp: {fileID: 0}
   wave: {fileID: 0}
@@ -1382,6 +1381,7 @@ MonoBehaviour:
   WARollSpeed: 0
   playerOnTeleport: 0
   playerOnNPC: 0
+  closestRange: 2
   target: {fileID: 0}
 --- !u!114 &114000013083102714
 MonoBehaviour:

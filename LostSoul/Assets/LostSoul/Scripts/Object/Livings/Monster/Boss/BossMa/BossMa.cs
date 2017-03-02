@@ -9,8 +9,10 @@ public class BossMa : MainCharacter
 
 	Vector2 targetPosition;
 	Vector2 selfPosition;
+	float enemyDistance;
+	public float closestRange;
 	public MainCharacter target;
-	protected float attackRange;
+	//	public float attackRange;
 	bool facingPlayer;
 
 	void Start ()
@@ -85,11 +87,10 @@ public class BossMa : MainCharacter
 //		}
 
 
-		if (target.checkAttack) {
-
+		if (target.GetCheckAttack ()) {
+			print ("player attacking");
 			Retreat ();
 		} else {
-
 			Offensive ();
 		}
 	}
@@ -99,12 +100,15 @@ public class BossMa : MainCharacter
 	/// </summary>
 	void Offensive ()
 	{
-		Vector2 enemyDirection = targetPosition - selfPosition;
-		float enemyDistance = enemyDirection.magnitude;
-		if (enemyDistance > attackRange && facingPlayer) {
+		if ((closestRange < enemyDistance) && (enemyDistance < attackRange) && facingPlayer) {
+			print ("attacking");
+			NormalAttack ();
+
+		} else if (enemyDistance > closestRange) {
+			print ("approaching");
 			Approach ();
 		} else {
-			NormalAttack ();
+			Idle ();
 		}
 
 	}
@@ -122,8 +126,10 @@ public class BossMa : MainCharacter
 	void Approach ()
 	{
 		if (targetPosition.x > selfPosition.x) {
+			print ("movingright");
 			MoveRight ();
 		} else {
+			print ("moving left");
 			MoveLeft ();
 		}
 
@@ -145,28 +151,31 @@ public class BossMa : MainCharacter
 		// distance to player
 		selfPosition = GetComponent<Rigidbody2D> ().position;
 		targetPosition = target.GetComponent<Rigidbody2D> ().position;
-
+		Vector2 enemyDirection = targetPosition - selfPosition;
+		enemyDistance = enemyDirection.magnitude;
 
 		// distance to border
 
 
 		// attack range
-		if (target.inventory.mainWeapon.current != -1) {
-			switch (target.inventory.mainWeapon.current) {
-			case 1:
-				attackRange = defaultWeaponRange_1.range;
-				break;
-			case 3:
-				attackRange = defaultWeaponRange_3.range;
-				break;
-			case 4:
-				attackRange = defaultWeaponRange_4.range;
-				break;
-			case 5:
-				attackRange = defaultWeaponRange_5.range;
-				break;
-			}
+		switch (target.inventory.mainWeapon.current) {
+		case -1:
+			this.attackRange = 10f;
+			break;
+		case 1:
+			this.attackRange = defaultWeaponRange_1.range;
+			break;
+		case 3:
+			this.attackRange = defaultWeaponRange_3.range;
+			break;
+		case 4:
+			this.attackRange = defaultWeaponRange_4.range;
+			break;
+		case 5:
+			this.attackRange = defaultWeaponRange_5.range;
+			break;
 		}
+
 		facingPlayer = (targetPosition.x < selfPosition.x && !facingRight) || (targetPosition.x > selfPosition.x && facingRight);
 	}
 
