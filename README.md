@@ -1,5 +1,6 @@
 # Samsara_V5
-
+ 
+ To anyone who would like to contribute: you may open an issue if you find a bug, or make a pull request if you wish to. We regret to say that this project will unlikely accept more developer as contributor.
 ## 目前工作重点
 
 ### BossMa AI
