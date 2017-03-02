@@ -56,6 +56,7 @@ public class Inventory : Observable {
         AddItem(14);
     }
 
+
     public void AddItem(int id)
     {
         Item itemToAdd = database.FetchItemById(id);

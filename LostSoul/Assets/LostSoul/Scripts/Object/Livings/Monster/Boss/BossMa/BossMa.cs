@@ -14,22 +14,10 @@ public class BossMa : MainCharacter
 	bool facingPlayer;
 
 	void Start ()
-	{
-		rigi = GetComponent<Rigidbody2D> ();
-		anim = GetComponent<Animator> ();
-		weaponSprite = FindObjectOfType<CharacterWeaponManager> ().GetComponent<SpriteRenderer> ();
-		rightArmUp = GameObject.Find ("MainCharacter/Hip/Corp/RightArmUp");
-		audioController = GetComponent<MainCharacterAudioController> ();
-		ban = GetComponent<ForbiddenStateController> ();
-		waRange = FindObjectOfType<WASkillController> ();
-		checkWeaponSkill5 = false;
-		coolDown = FindObjectOfType<CoolDownController> ();
-		initGravity = rigi.gravityScale;
-
+	{	
 		target = FindObjectOfType<MainCharacter> ();
+		base.Start ();
 
-		anim.SetBool ("Alive", alive);
-		//defaultWeaponRange = FindObjectOfType<WeaponRangeController>();
 	}
 
 
@@ -41,7 +29,8 @@ public class BossMa : MainCharacter
 			NormalizeSlope ();
 
 
-		CheckStatus ();
+
+//		CheckStatus ();
 		LocalCheckStatus ();
 
 		DecideStrategy ();
@@ -95,9 +84,12 @@ public class BossMa : MainCharacter
 //
 //		}
 
+
 		if (target.checkAttack) {
+
 			Retreat ();
 		} else {
+
 			Offensive ();
 		}
 	}

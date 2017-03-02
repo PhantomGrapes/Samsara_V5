@@ -33,8 +33,8 @@ public class MainCharacter : Livings
 	//public GameObject weaponToBePickedUp;
 	//public GameObject weaponEquiped;
 
-    public ItemToBePickedUp itemToBePickedUp;
-    public Inventory inventory;
+	public ItemToBePickedUp itemToBePickedUp;
+	public Inventory inventory;
 
 
 
@@ -94,9 +94,9 @@ public class MainCharacter : Livings
 	public bool checkWARoll;
 	public float WARollSpeed;
 
-    // UI control
-    public bool playerOnTeleport = false;
-    public bool playerOnNPC = false;
+	// UI control
+	public bool playerOnTeleport = false;
+	public bool playerOnNPC = false;
 
 	public void Interact ()
 	{
@@ -453,8 +453,9 @@ public class MainCharacter : Livings
 		return;
 	}
 	// Use this for initialization
-	void Start ()
+	protected void Start ()
 	{
+
 		//playerCamera = FindObjectOfType<Camera>();
 		rigi = GetComponent<Rigidbody2D> ();
 		anim = GetComponent<Animator> ();
@@ -465,12 +466,14 @@ public class MainCharacter : Livings
 		waRange = FindObjectOfType<WASkillController> ();
 		checkWeaponSkill5 = false;
 		coolDown = FindObjectOfType<CoolDownController> ();
-        inventory = FindObjectOfType<Inventory>();
+		inventory = FindObjectOfType<Inventory> ();
 		//print (coolDown);
 		initGravity = rigi.gravityScale;
 
 		anim.SetBool ("Alive", alive);
 		//defaultWeaponRange = FindObjectOfType<WeaponRangeController>();
+
+
 	}
 
 
@@ -482,26 +485,24 @@ public class MainCharacter : Livings
 			NormalizeSlope ();
 		}
 
-        // tab change weapon
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            changeWeapon();
-        }
+		// tab change weapon
+		if (Input.GetKeyDown (KeyCode.Tab)) {
+			changeWeapon ();
+		}
 
-        // use medicine
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            useMedicine();
-        }
+		// use medicine
+		if (Input.GetKeyDown (KeyCode.Q)) {
+			useMedicine ();
+		}
 
-        CheckStatus ();
+
 		SetAxeAttackRange ();
 		/*
 		 * key controls
 		 */
 		// call function to pickup or drop Weapon
 		if (Input.GetKeyDown (KeyCode.E)) {
-            PickUpItem();
+			PickUpItem ();
 		}
 
 		// integrated jump and double jump to one function
@@ -509,10 +510,10 @@ public class MainCharacter : Livings
 			Jump ();
 		}
 
-        // roll, move left or right, roll left or right, or normal attack
-        if (velocity != 0)
-            Move(new Vector2(velocity, rigi.velocity.y));
-        else if (Input.GetKeyDown (KeyCode.J)) {
+		// roll, move left or right, roll left or right, or normal attack
+		if (velocity != 0)
+			Move (new Vector2 (velocity, rigi.velocity.y));
+		else if (Input.GetKeyDown (KeyCode.J)) {
 			NormalAttack ();
 		} else if (Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.D)) {
 			MoveLeft ();
@@ -532,6 +533,7 @@ public class MainCharacter : Livings
 	// Update is called once per frame
 	void Update ()
 	{
+		CheckStatus ();
 		Flipping ();
 	}
 
@@ -550,15 +552,16 @@ public class MainCharacter : Livings
 			checkRoll = false;
 
 		// to see whether the player is using weapon skill
-		if (inventory.mainWeapon.current != -1 && anim.GetCurrentAnimatorStateInfo (0).IsTag ("WeaponSkill_" + inventory.mainWeapon.current))
+		print (inventory.mainWeapon.current);
+		if (inventory.mainWeapon.current != -1 && anim.GetCurrentAnimatorStateInfo (0).IsTag ("WeaponSkill_" + inventory.mainWeapon.current)) {
 			checkWeaponSkill = true;
-		else
+		} else
 			checkWeaponSkill = false;
 
-		if (inventory.mainWeapon.current != -1 && anim.GetCurrentAnimatorStateInfo (0).IsTag ("WeaponSkill_3"))
-			checkWARoll = true;
-		else
-			checkWARoll = false;
+//		if (inventory.mainWeapon.current != -1 && anim.GetCurrentAnimatorStateInfo (0).IsTag ("WeaponSkill_3"))
+//			checkWARoll = true;
+//		else
+//			checkWARoll = false;
 
 		// to see whether the player is being attacked
 
@@ -582,7 +585,7 @@ public class MainCharacter : Livings
 			velocity = 0f;
         
 
-        if (hp <= 0)
+		if (hp <= 0)
 			alive = false;
 		else
 			alive = true;
@@ -668,15 +671,15 @@ public class MainCharacter : Livings
 
 	}
 
-    protected void useMedicine()
-    {
-        int id = inventory.database.FetchItemByName("Medicine").Id;
-        int pos = inventory.itemPositionInInventory(id);
-        if (pos == -1)
-            return;
-        inventory.delItemById(id);
-        hp = hp + inventory.items[pos].attack > maxHp ? maxHp : hp + inventory.items[pos].attack;
-    }
+	protected void useMedicine ()
+	{
+		int id = inventory.database.FetchItemByName ("Medicine").Id;
+		int pos = inventory.itemPositionInInventory (id);
+		if (pos == -1)
+			return;
+		inventory.delItemById (id);
+		hp = hp + inventory.items [pos].attack > maxHp ? maxHp : hp + inventory.items [pos].attack;
+	}
 
 	protected void SetAxeAttackRange ()
 	{
@@ -758,35 +761,33 @@ public class MainCharacter : Livings
 	//            weaponToBePickedUp = null;
 	//        }
 	//    }
-    protected void PickUpWeapon()
-    {
-        inventory.AddItem(itemToBePickedUp.id);
-        if (inventory.mainWeapon.current == -1)
-        {
-            inventory.eventSetMainWeaponById(itemToBePickedUp.id);
+	protected void PickUpWeapon ()
+	{
+		inventory.AddItem (itemToBePickedUp.id);
+		if (inventory.mainWeapon.current == -1) {
+			inventory.eventSetMainWeaponById (itemToBePickedUp.id);
             
-        }
-        else if (inventory.secondWeapon.current == -1)
-            inventory.eventSetSecondWeaponById(itemToBePickedUp.id);
-        itemToBePickedUp.gameObject.SetActive(false);
-    }
+		} else if (inventory.secondWeapon.current == -1)
+			inventory.eventSetSecondWeaponById (itemToBePickedUp.id);
+		itemToBePickedUp.gameObject.SetActive (false);
+	}
 
-    protected void PickUpSoul()
-    {
-        inventory.AddItem(itemToBePickedUp.id);
-        itemToBePickedUp.gameObject.SetActive(false);
-    }
+	protected void PickUpSoul ()
+	{
+		inventory.AddItem (itemToBePickedUp.id);
+		itemToBePickedUp.gameObject.SetActive (false);
+	}
 
-    protected void PickUpItem()
-    {
-        if (itemToBePickedUp == null)
-            return;
-        if (itemToBePickedUp.id == inventory.database.FetchItemByName("Soul").Id)
-            PickUpSoul();
-        else if (itemToBePickedUp.id > 0 && itemToBePickedUp.id < 7)
-            PickUpWeapon();
-    }
-    /*
+	protected void PickUpItem ()
+	{
+		if (itemToBePickedUp == null)
+			return;
+		if (itemToBePickedUp.id == inventory.database.FetchItemByName ("Soul").Id)
+			PickUpSoul ();
+		else if (itemToBePickedUp.id > 0 && itemToBePickedUp.id < 7)
+			PickUpWeapon ();
+	}
+	/*
 	protected void PickOrDropWeapon ()
 	{
 		if (anim.GetInteger ("WeaponIndex") == 0) {
@@ -861,16 +862,16 @@ public class MainCharacter : Livings
 		}
 	}
 
-    void changeWeapon()
-    {
-        int mainWeapon = inventory.mainWeapon.current;
-        int secondWeapon = inventory.secondWeapon.current;
+	void changeWeapon ()
+	{
+		int mainWeapon = inventory.mainWeapon.current;
+		int secondWeapon = inventory.secondWeapon.current;
 
-        if (mainWeapon == -1 || secondWeapon == -1)
-            return;
-        inventory.eventSetMainWeaponById(secondWeapon);
-        inventory.eventSetSecondWeaponById(mainWeapon);
-    }
+		if (mainWeapon == -1 || secondWeapon == -1)
+			return;
+		inventory.eventSetMainWeaponById (secondWeapon);
+		inventory.eventSetSecondWeaponById (mainWeapon);
+	}
 	// audio fonctions
 	protected void playHit ()
 	{
