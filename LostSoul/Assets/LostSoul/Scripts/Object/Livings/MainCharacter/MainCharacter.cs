@@ -553,8 +553,8 @@ public class MainCharacter : Livings
 			coolDown.coolDowns [1].currentCoolDown = 0f;
 			roll = true;
 			RollSpeed = -movementSpeed;
-		}
-		Roll ();
+            Roll();
+        }
 
 	}
 
@@ -565,8 +565,9 @@ public class MainCharacter : Livings
 			coolDown.coolDowns [1].currentCoolDown = 0f;
 			roll = true;
 			RollSpeed = movementSpeed;
-		}
-		Roll ();
+            Roll();
+        }
+		
 
 	}
 
