@@ -22,6 +22,8 @@ public class BossRedLotus : Monster
 
 	public FireBall fireBall;
 
+	public GroundLevel groundLevel;
+
 	float defaultSpeed;
 	public float hasteSpeed;
 	public float hasteDuration;
@@ -49,6 +51,8 @@ public class BossRedLotus : Monster
 		this.firePool.gameObject.SetActive (false);
 		// attack interval formula
 		this.attackInterval = 2 / this.attackSpeed;
+
+		groundLevel = FindObjectOfType<GroundLevel> ();
 
 		this.anim = GetComponent<Animator> ();
 		GetComponent<Rigidbody2D> ().mass = 100f;
@@ -278,7 +282,8 @@ public class BossRedLotus : Monster
 		this.anim.SetTrigger ("normalSkill");
 		yield return new WaitForSeconds (animStartToDamage);
 		if (this.alive) {
-			this.firePool.transform.position = this.targetPosition;
+			this.firePool.transform.position = new Vector2 (this.targetPosition.x, groundLevel.transform.position.y);
+			print ("firepool active");
 			this.firePool.gameObject.SetActive (true);
 			this.firePool.activated = true;
 			StartCoroutine (this.firePool.Deactivate ());
