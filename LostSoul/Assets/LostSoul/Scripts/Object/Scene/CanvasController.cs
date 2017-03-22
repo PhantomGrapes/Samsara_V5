@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class CanvasController : MonoBehaviour {
     CanvasParents[] allCanvas;
@@ -16,6 +17,16 @@ public class CanvasController : MonoBehaviour {
         goToCanvas(initialCanvas);
 	}
 	
+    public void loadScene(string name)
+    {
+        SceneManager.LoadScene(name);
+    }
+
+    public void exitGame()
+    {
+        Application.Quit();
+    }
+
 	public void goToCanvas(string canvasName)
     {
         for (int i = 0; i < allCanvas.Length; i++)
@@ -86,6 +97,31 @@ public class CanvasController : MonoBehaviour {
             goToCanvas("state");
         }
     }
+
+    void caseMainMenu()
+    {
+
+    }
+
+    void caseLoad()
+    {
+
+    }
+
+    void caseThanks()
+    {
+
+    }
+
+    void caseMainMenuSetting()
+    {
+
+    }
+
+    void caseAboutUs()
+    {
+
+    }
     void Update()
     {
         switch (currentCanvas)
@@ -104,6 +140,21 @@ public class CanvasController : MonoBehaviour {
                 break;
             case "map":
                 caseMap();
+                break;
+            case "mainMenu":
+                caseMainMenu();
+                break;
+            case "load":
+                caseLoad();
+                break;
+            case "thanks":
+                caseThanks();
+                break;
+            case "mainMenuSetting":
+                caseMainMenuSetting();
+                break;
+            case "aboutUs":
+                caseAboutUs();
                 break;
         }
     }
