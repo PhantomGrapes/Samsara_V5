@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
-
 public class Monster : Livings {
 
 
@@ -16,6 +14,7 @@ public class Monster : Livings {
 	public bool flipLock = false;
 	public bool timeLock = false;
 	public bool moveLock = false;
+	public bool attackLock = false;
 
 	public void BeAttacked (float damageDealt){
 		this.hp -= damageDealt;
@@ -36,6 +35,14 @@ public class Monster : Livings {
 
 	public void MoveUnlock(){
 		moveLock = false;
+	}
+
+	public void AttackLock(){
+		attackLock = true;
+	}
+
+	public void AttackUnlock(){
+		attackLock = false;
 	}
 
 }

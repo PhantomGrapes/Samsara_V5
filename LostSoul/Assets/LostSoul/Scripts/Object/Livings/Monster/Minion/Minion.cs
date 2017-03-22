@@ -73,6 +73,12 @@ public class Minion : Monster
 			this.movementSpeed = originalSpeed;
 		}
 
+		if (this.moveLock) {
+			this.movementSpeed = 0f;
+		} else {
+			this.movementSpeed = originalSpeed;
+		}
+
 	}
 
 
@@ -84,10 +90,12 @@ public class Minion : Monster
 			if (hp <= 0) {
 				Die ();
 				this.anim.SetBool ("alive", false);
-			} else if (hp < maxHp * retreatPercent) {
-				isRoaming = false;              // if low heath, retreat
-				Retreat ();
-			} else if (Vector2.Distance (selfPosition, targetPosition) > alertDistance) {
+			}
+//			else if (hp < maxHp * retreatPercent) {
+//				isRoaming = false;              // if low heath, retreat
+//				Retreat ();
+//			}
+			else if (Vector2.Distance (selfPosition, targetPosition) > alertDistance) {
 				Roam ();     // if far, roam
 			} else {
 				isRoaming = false;  // else be aggressive
@@ -149,7 +157,7 @@ public class Minion : Monster
 
 		if (this.canAttack && enemyDistance < this.attackRange) {
 			if ((enemyDirection.x > 0 && this.facingRight) || (enemyDirection.x < 0 && !this.facingRight)) {
-				StartCoroutine (this.Attack ());
+				Attack ();
 			} else {
 				if (enemyDirection.x > 0)
 					this.MoveRight ();
@@ -168,27 +176,10 @@ public class Minion : Monster
 		}
 	}
 
-	IEnumerator Attack ()
+	void Attack ()
 	{
-		float animStartToDamage = 1f;
-		float animDuration = 1.3f;
-
-		this.attacked = true;
 		anim.SetTrigger ("attack");
-		print ("attacking");
-		float originSpeed = this.movementSpeed;
-		this.movementSpeed = 1f;
-		yield return new WaitForSeconds (animStartToDamage);
-//		if (!this.beingAttacked && !this.retreating)
-//        {
-//			print ("Attacking!");
-//            DefaultAttack();
-//        }
 		this.beingAttacked = false;
-		yield return new WaitForSeconds (animDuration - animStartToDamage);
-		this.movementSpeed = originSpeed;
-		yield return new WaitForSeconds (this.attackInterval - animDuration);
-		this.attacked = false;
 	}
 
 	public void DefaultAttack ()
@@ -216,7 +207,6 @@ public class Minion : Monster
 	public void MinionFlipping ()
 	{
 		if (!flipLock) {
-		
 			Vector3 localScale = GetComponent<Transform> ().localScale;
 			if (!facingRight)
 				localScale.x = Mathf.Abs (localScale.x);
