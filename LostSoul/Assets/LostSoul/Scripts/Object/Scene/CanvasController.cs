@@ -7,12 +7,13 @@ public class CanvasController : MonoBehaviour {
     CanvasParents[] allCanvas;
     MainCharacter player;
     string currentCanvas;
+    public string initialCanvas;
     
 	// Use this for initialization
 	void Start () {
         allCanvas = FindObjectsOfType<CanvasParents>();
         player = FindObjectOfType<MainCharacter>();
-        goToCanvas("state");
+        goToCanvas(initialCanvas);
 	}
 	
 	public void goToCanvas(string canvasName)
