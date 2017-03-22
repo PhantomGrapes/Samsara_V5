@@ -55,7 +55,7 @@ public class MainCharacter : Livings
 	public WeaponRangeController defaultWeaponRange_3;
 	public WeaponRangeController defaultWeaponRange_4;
 	public WeaponRangeController defaultWeaponRange_5;
-	public bool checkAttack = false;
+	protected bool checkAttack;
 
 	//arrow attack
 	public GameObject arrow;
@@ -541,10 +541,10 @@ public class MainCharacter : Livings
 	{
 		velocity = 0f;
 		roll = false;
-		if (anim.GetCurrentAnimatorStateInfo (0).IsTag ("DefaultAttack"))
-			checkAttack = true;
-		else
-			checkAttack = false;
+//		if (anim.GetCurrentAnimatorStateInfo (0).IsTag ("DefaultAttack"))
+//			checkAttack = true;
+//		else
+//			checkAttack = false;
 
 		if (anim.GetCurrentAnimatorStateInfo (0).IsTag ("Roll"))
 			checkRoll = true;
@@ -552,7 +552,6 @@ public class MainCharacter : Livings
 			checkRoll = false;
 
 		// to see whether the player is using weapon skill
-		print (inventory.mainWeapon.current);
 		if (inventory.mainWeapon.current != -1 && anim.GetCurrentAnimatorStateInfo (0).IsTag ("WeaponSkill_" + inventory.mainWeapon.current)) {
 			checkWeaponSkill = true;
 		} else
@@ -860,6 +859,21 @@ public class MainCharacter : Livings
 				break;
 			}
 		}
+	}
+
+	protected void OnCheckAttack(){
+
+		this.checkAttack = true;
+		print (this.checkAttack);
+	}
+
+	protected void OffCheckAttack(){
+		this.checkAttack = false;
+		print (this.checkAttack);
+	}
+
+	public bool GetCheckAttack(){
+		return this.checkAttack;
 	}
 
 	void changeWeapon ()
