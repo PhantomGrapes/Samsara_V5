@@ -5,6 +5,9 @@ public class ItemToBePickedUp : MonoBehaviour {
     public int id;
     public float level;
 
+	void Start(){
+		this.level = this.transform.position.y - 1f;
+	}
     void Update()
     {
 
