@@ -27,6 +27,14 @@ public class CanvasController : MonoBehaviour {
         Application.Quit();
     }
 
+    void escToInit()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            goToCanvas(initialCanvas);
+        }
+    }
+
 	public void goToCanvas(string canvasName)
     {
         for (int i = 0; i < allCanvas.Length; i++)
@@ -68,34 +76,22 @@ public class CanvasController : MonoBehaviour {
 
     void caseSetting()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            goToCanvas("state");
-        }
+        escToInit();
     }
 
     void caseDialog()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            goToCanvas("state");
-        }
+        escToInit();
     }
 
     void caseInventory()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            goToCanvas("state");
-        }
+        escToInit();
     }
 
     void caseMap()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            goToCanvas("state");
-        }
+        escToInit();
     }
 
     void caseMainMenu()
@@ -105,22 +101,18 @@ public class CanvasController : MonoBehaviour {
 
     void caseLoad()
     {
-
+        escToInit();
     }
 
     void caseThanks()
     {
-
+        escToInit();
     }
 
-    void caseMainMenuSetting()
-    {
-
-    }
 
     void caseAboutUs()
     {
-
+        escToInit();
     }
     void Update()
     {
@@ -149,9 +141,6 @@ public class CanvasController : MonoBehaviour {
                 break;
             case "thanks":
                 caseThanks();
-                break;
-            case "mainMenuSetting":
-                caseMainMenuSetting();
                 break;
             case "aboutUs":
                 caseAboutUs();
