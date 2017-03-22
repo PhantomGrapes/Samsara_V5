@@ -441,14 +441,7 @@ public class MainCharacter : Livings
         {
             useSkill();
         }
-        else if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
-        {
-            MoveLeft();
-        }
-        else if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
-        {
-            MoveRight();
-        }
+ 
         else if (Input.GetKeyDown(KeyCode.U) && !Input.GetKey(KeyCode.O))
         {
             RollLeft();
@@ -457,6 +450,14 @@ public class MainCharacter : Livings
         {
             RollRight();
         }
+		else if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
+		{
+			MoveLeft();
+		}
+		else if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
+		{
+			MoveRight();
+		}
         else
         {
             Move(new Vector2(0f, rigi.velocity.y));
