@@ -68,6 +68,7 @@ public class MainCharacter : Livings
 	public WASkillController waRange;
 	public float weaponSkill5Length = 3f;
 	public bool checkWeaponSkill5;
+    bool checkWeaponSkill6;
 
 	// cool down
 	public CoolDownController coolDown;
@@ -384,7 +385,9 @@ public class MainCharacter : Livings
 	{
 		// to check whether the ground overlap the circle on player's foot
 		grounded = Physics2D.OverlapCircle (frontGroundCheck.position, groundCheckRadius, whatIsGround) || Physics2D.OverlapCircle (backGroundCheck.position, groundCheckRadius, whatIsGround);
-        Flipping();
+        // weapon skill 6 need to move backward while character face forward, so don't need flip
+        if (!checkWeaponSkill6)
+            Flipping();
         if (!checkJump)
         {
             NormalizeSlope();
@@ -485,9 +488,14 @@ public class MainCharacter : Livings
 		else
 			checkWARoll = false;
 
-		// to see whether the player is being attacked
+        if (inventory.mainWeapon.current != -1 && anim.GetCurrentAnimatorStateInfo(0).IsTag("WeaponSkill_6"))
+            checkWeaponSkill6 = true;
+        else
+            checkWeaponSkill6 = false;
 
-		if (anim.GetCurrentAnimatorStateInfo (0).IsTag ("Hit"))
+        // to see whether the player is being attacked
+
+        if (anim.GetCurrentAnimatorStateInfo (0).IsTag ("Hit"))
 			checkBeAttacked = true;
 		else
 			checkBeAttacked = false;
