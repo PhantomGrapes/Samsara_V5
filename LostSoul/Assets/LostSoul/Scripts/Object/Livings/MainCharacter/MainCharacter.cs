@@ -98,60 +98,7 @@ public class MainCharacter : Livings
 	public bool playerOnTeleport = false;
 	public bool playerOnNPC = false;
 
-	public void Interact ()
-	{
-		// to do
-	}
-
-	public void Dash ()
-	{
-		// to do
-	}
-
-	public void Smash ()
-	{
-		// to do
-	}
-
-	public void UseMedKit ()
-	{
-		// to do
-	}
-
-	public void UseItem1 ()
-	{
-		// to do
-	}
-
-	public void UseItem2 ()
-	{
-		// to do
-	}
-
-	public void UseItem3 ()
-	{
-		// to do
-	}
-
-	public void UseItem4 ()
-	{
-		// to do
-	}
-
-	public void UseItem5 ()
-	{
-		// to do
-	}
-
-	public void UseItem6 ()
-	{
-		// to do
-	}
-
-	public void WeaponDefaultSkill ()
-	{
-		// to do
-	}
+	
 
 	public void DefaultAttack ()
 	{
@@ -235,33 +182,6 @@ public class MainCharacter : Livings
 		}
 
 	}
-
-	public void AdditionalSkill1 ()
-	{
-		// to do
-	}
-
-	public void AdditionalSkill2 ()
-	{
-		// to do
-	}
-
-	public void AdditionalSkill3 ()
-	{
-		// to do
-	}
-
-	public void AdditionalSkill4 ()
-	{
-		// to do
-	}
-
-
-	public void PickUp ()
-	{
-		// to do
-	}
-
 
 	protected void Move (Vector2 speed)
 	{
@@ -423,32 +343,15 @@ public class MainCharacter : Livings
 					if (Mathf.Abs (vel.x) < 0.01f)
 						xSign = facingRight ? -1 : 1;
 					//if (Mathf.Abs(vel.y) < 0.01f)
-					ySign = (hit.normal.x > 0 && vel.x < 0) || (hit.normal.x < 0 && vel.x > 0) ? 1 : -1;
-
+					ySign = (hit.normal.x > 0 && facingRight) || (hit.normal.x < 0 && !(facingRight)) ? 1 : -1;
+       
 					var norm = Mathf.Sqrt (vel.x * vel.x + vel.y * vel.y);
 
 					rigi.velocity = new Vector2 (norm * Mathf.Abs (Mathf.Cos (slopeAngle * Mathf.Deg2Rad)) * xSign, norm * Mathf.Abs (Mathf.Sin (slopeAngle * Mathf.Deg2Rad)) * ySign);
-
-					//print(rigi.velocity);
 					return;
-					/*
-					// Apply the opposite force against the slope force
-					rigi.velocity = new Vector2(rigi.velocity.x - (hit.normal.x * 2f), rigi.velocity.y);
-
-					//Move Player up or down to compensate for the slope below them
-					Vector3 pos = transform.position;
-					pos.y += -hit.normal.x * Mathf.Abs(rigi.velocity.x) * Time.deltaTime * (rigi.velocity.x - hit.normal.x > 0 ? 1 : -1);
-
-					transform.position = pos;
-					//print(pos);*/
 				}
 			}
-		} else {
-			//print("jump");
-			//print(rigi.velocity);
-			//print(Mathf.Atan(Mathf.Abs(rigi.velocity.y/rigi.velocity.x)) * Mathf.Rad2Deg);
 		}
-
 		rigi.gravityScale = initGravity;
 		return;
 	}
@@ -481,61 +384,81 @@ public class MainCharacter : Livings
 	{
 		// to check whether the ground overlap the circle on player's foot
 		grounded = Physics2D.OverlapCircle (frontGroundCheck.position, groundCheckRadius, whatIsGround) || Physics2D.OverlapCircle (backGroundCheck.position, groundCheckRadius, whatIsGround);
-		if (!checkJump) {
-			NormalizeSlope ();
-		}
-
-		// tab change weapon
-		if (Input.GetKeyDown (KeyCode.Tab)) {
-			changeWeapon ();
-		}
-
-		// use medicine
-		if (Input.GetKeyDown (KeyCode.Q)) {
-			useMedicine ();
-		}
-
-
-		SetAxeAttackRange ();
-		/*
-		 * key controls
-		 */
-		// call function to pickup or drop Weapon
-		if (Input.GetKeyDown (KeyCode.E)) {
-			PickUpItem ();
-		}
-
-		// integrated jump and double jump to one function
-		if (Input.GetKeyDown (KeyCode.Space) && !Input.GetKey (KeyCode.S)) {
-			Jump ();
-		}
-
-		// roll, move left or right, roll left or right, or normal attack
-		if (velocity != 0)
-			Move (new Vector2 (velocity, rigi.velocity.y));
-		else if (Input.GetKeyDown (KeyCode.J)) {
-			NormalAttack ();
-		} else if (Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.D)) {
-			MoveLeft ();
-		} else if (Input.GetKey (KeyCode.D) && !Input.GetKey (KeyCode.A)) {
-			MoveRight ();
-		} else if (Input.GetKeyDown (KeyCode.U) && !Input.GetKey (KeyCode.O)) {
-			RollLeft ();
-		} else if (Input.GetKeyDown (KeyCode.O) && !Input.GetKey (KeyCode.U)) {
-			RollRight ();
-		} else {
-			Move (new Vector2 (0f, rigi.velocity.y));
-		}
-	}
+        Flipping();
+        if (!checkJump)
+        {
+            NormalizeSlope();
+        }
+    }
 
 
 
 	// Update is called once per frame
 	void Update ()
 	{
-		CheckStatus ();
-		Flipping ();
-	}
+        
+        CheckStatus();
+        // tab change weapon
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            changeWeapon();
+        }
+
+        // use medicine
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            useMedicine();
+        }
+
+        // seperated from useSkill
+        SetAxeAttackRange();
+        /*
+		 * key controls
+		 */
+        // call function to pickup or drop Weapon
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            PickUpItem();
+        }
+
+        // integrated jump and double jump to one function
+        if (Input.GetKeyDown(KeyCode.Space) && !Input.GetKey(KeyCode.S))
+        {
+            Jump();
+        }
+
+        // roll, move left or right, roll left or right, or normal attack
+        if (velocity != 0)
+            Move(new Vector2(velocity, rigi.velocity.y));
+        else if (Input.GetKeyDown(KeyCode.J))
+        {
+            NormalAttack();
+        }
+        else if (Input.GetKeyDown(KeyCode.K) && !checkAttack && !checkWeaponSkill && ban.skillAttack == 0)
+        {
+            useSkill();
+        }
+        else if (Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
+        {
+            MoveLeft();
+        }
+        else if (Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
+        {
+            MoveRight();
+        }
+        else if (Input.GetKeyDown(KeyCode.U) && !Input.GetKey(KeyCode.O))
+        {
+            RollLeft();
+        }
+        else if (Input.GetKeyDown(KeyCode.O) && !Input.GetKey(KeyCode.U))
+        {
+            RollRight();
+        }
+        else
+        {
+            Move(new Vector2(0f, rigi.velocity.y));
+        }
+    }
 
 	protected void CheckStatus ()
 	{
@@ -687,48 +610,51 @@ public class MainCharacter : Livings
 			waRange.gameObject.SetActive (true);
 		else if (!checkWARoll && waRange.gameObject.activeSelf)
 			waRange.gameObject.SetActive (false);
-		// manage skill attack input
-		if (Input.GetKeyDown (KeyCode.K) && !checkAttack && !checkWeaponSkill && ban.skillAttack == 0) {
-			// put into SkillAttack()
-			if (inventory.mainWeapon.current != -1) {
-				StartCoroutine (BanSkillAttack (coolDown.coolDowns [0].coolDownLength));
-				coolDown.coolDowns [0].currentCoolDown = 0f;
-				Move (new Vector2 (0, 0));
-				anim.SetTrigger ("WeaponSkill_" + inventory.mainWeapon.current);
-				switch (inventory.mainWeapon.current) {
-				case 1:
-
-					break;
-				case 2:
-
-					break;
-				case 3:
-					float WARollLength = 0;
-					WARollLength = GetAnimLength ("SkillWA");
-					StartCoroutine (IgnoreCollisionBetweenPlayerAndMonster (WARollLength));
-					StartCoroutine (BanBeAttacked (WARollLength));
-					if (facingRight)
-						WARollSpeed = -movementSpeed;
-					else
-						WARollSpeed = movementSpeed;
-					break;
-				case 4:
-
-					break;
-				case 5:
-					StartCoroutine (BanSkillAttack (weaponSkill5Length));
-					StartCoroutine (BanBeAttacked (weaponSkill5Length));
-					StartCoroutine (WeaponSkill5 ());
-					StartCoroutine (IgnoreCollisionBetweenPlayerAndMonster (weaponSkill5Length));
-					break;
-				case 6:
-
-					break;
-				}
-
-			}
-		}
 	}
+
+    protected void useSkill()
+    {
+        // put into SkillAttack()
+        if (inventory.mainWeapon.current != -1)
+        {
+            StartCoroutine(BanSkillAttack(coolDown.coolDowns[0].coolDownLength));
+            coolDown.coolDowns[0].currentCoolDown = 0f;
+            Move(new Vector2(0, 0));
+            anim.SetTrigger("WeaponSkill_" + inventory.mainWeapon.current);
+            switch (inventory.mainWeapon.current)
+            {
+                case 1:
+
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+                    float WARollLength = 0;
+                    WARollLength = GetAnimLength("SkillWA");
+                    StartCoroutine(IgnoreCollisionBetweenPlayerAndMonster(WARollLength));
+                    StartCoroutine(BanBeAttacked(WARollLength));
+                    if (facingRight)
+                        WARollSpeed = -movementSpeed;
+                    else
+                        WARollSpeed = movementSpeed;
+                    break;
+                case 4:
+
+                    break;
+                case 5:
+                    StartCoroutine(BanSkillAttack(weaponSkill5Length));
+                    StartCoroutine(BanBeAttacked(weaponSkill5Length));
+                    StartCoroutine(WeaponSkill5());
+                    StartCoroutine(IgnoreCollisionBetweenPlayerAndMonster(weaponSkill5Length));
+                    break;
+                case 6:
+
+                    break;
+            }
+
+        }
+    }
 	/*float CalculateAngleToMouse(GameObject source)
 	{
 		var mousePos = Input.mousePosition;
@@ -737,29 +663,7 @@ public class MainCharacter : Livings
 		mousePos.y = mousePos.y - objectPos.y;
 		return Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
 	}*/
-	// code for picking up weapon from the ground or drop it
-	// set the weapon to be available for pickup when collide
-	//    void OnTriggerStay2D(Collider2D col)
-	//    {
-	//        if (col.gameObject.CompareTag("Weapon"))
-	//        {
-	//            //print ("1");
-	//            weaponToBePickedUp = col.gameObject;
-	//        }
-	//        else
-	//        {
-	//            //print ("2");
-	//        }
-	//    }
-	//
-	//    // set the weapon to be unavailable for pickup when they no longer collide
-	//    void OnTriggerExit2D(Collider2D col)
-	//    {
-	//        if (col.gameObject.CompareTag("Weapon"))
-	//        {
-	//            weaponToBePickedUp = null;
-	//        }
-	//    }
+
 	protected void PickUpWeapon ()
 	{
 		inventory.AddItem (itemToBePickedUp.id);
@@ -786,53 +690,6 @@ public class MainCharacter : Livings
 		else if (itemToBePickedUp.id > 0 && itemToBePickedUp.id < 7)
 			PickUpWeapon ();
 	}
-	/*
-	protected void PickOrDropWeapon ()
-	{
-		if (anim.GetInteger ("WeaponIndex") == 0) {
-			PickUpWeapon ();
-		} else {
-			// drop weapon if equiped
-			DropWeapon ();
-		}
-	}
-	protected void PickUpWeapon ()
-	{
-		if (weaponToBePickedUp != null) {
-			anim.SetInteger ("WeaponIndex", weaponToBePickedUp.GetComponent<Weapon> ().index);
-			weaponEquiped = weaponToBePickedUp;
-			weaponToBePickedUp.SetActive (false);
-			switch (weaponToBePickedUp.GetComponent<Weapon> ().index) {
-			case 1:
-				weaponSprite.sprite = weaponEquiped.GetComponent<SpriteRenderer> ().sprite;
-				break;
-			case 2:
-				weaponSprite.sprite = weaponEquiped.GetComponent<SpriteRenderer> ().sprite;
-				break;
-
-			}
-		} else {
-			print ("No weapon on the ground!");
-		}
-	}
-
-	protected void DropWeapon ()
-	{
-		anim.SetInteger ("WeaponIndex", 0);
-		this.weaponEquiped.transform.position = this.transform.position;
-		this.weaponEquiped.SetActive (true);
-		switch (weaponEquiped.GetComponent<Weapon> ().index) {
-		case 1:
-			weaponSprite.sprite = null;
-			break;
-		case 2:
-			weaponSprite.sprite = null;
-			break;
-
-		}
-		this.weaponEquiped = null;
-	}
-    */
 	protected void NormalAttack ()
 	{
 		if (!checkAttack && !checkWeaponSkill && ban.attack == 0 && inventory.mainWeapon.current != -1) {

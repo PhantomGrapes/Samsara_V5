@@ -2,21 +2,21 @@
 using System.Collections;
 
 public class SlopeController : MonoBehaviour {
-    public Collider2D bone, player;
-    public ChoiceDoorController door;
-    public FrontController front;
-    public InverseController inverse;
+    public Collider2D player;
+    public Collider2D bone;
+    ChoiceDoorController door;
+    FrontController front;
+    InverseController inverse;
 	// Use this for initialization
 	void Start () {
-        player = FindObjectOfType<MainCharacter>().GetComponent<Collider2D>(); ;
+        player = FindObjectOfType<MainCharacter>().GetComponent<Collider2D>();
+        bone = transform.GetChild(0).GetComponent<Collider2D>();
+        door = transform.GetComponentInChildren<ChoiceDoorController>();
+        front = transform.GetComponentInChildren<FrontController>();
+        inverse = transform.GetComponentInChildren<InverseController>();
         //Physics2D.IgnoreCollision(player, bone, true);
     }
 	
-    void FixedUpdate()
-    {
-        
-        print(Physics2D.GetIgnoreCollision(player.GetComponent<PolygonCollider2D>(), bone.GetComponent<EdgeCollider2D>()));
-    }
 	// Update is called once per frame
 	void Update () {
         if (!(door.playerStay || front.playerStay || inverse.playerStay))
