@@ -464,10 +464,10 @@ public class MainCharacter : Livings
 	{
 		velocity = 0f;
 		roll = false;
-//		if (anim.GetCurrentAnimatorStateInfo (0).IsTag ("DefaultAttack"))
-//			checkAttack = true;
-//		else
-//			checkAttack = false;
+		if (anim.GetCurrentAnimatorStateInfo (0).IsTag ("DefaultAttack"))
+			checkAttack = true;
+		else
+			checkAttack = false;
 
 		if (anim.GetCurrentAnimatorStateInfo (0).IsTag ("Roll"))
 			checkRoll = true;
@@ -480,10 +480,10 @@ public class MainCharacter : Livings
 		} else
 			checkWeaponSkill = false;
 
-//		if (inventory.mainWeapon.current != -1 && anim.GetCurrentAnimatorStateInfo (0).IsTag ("WeaponSkill_3"))
-//			checkWARoll = true;
-//		else
-//			checkWARoll = false;
+		if (inventory.mainWeapon.current != -1 && anim.GetCurrentAnimatorStateInfo (0).IsTag ("WeaponSkill_3"))
+			checkWARoll = true;
+		else
+			checkWARoll = false;
 
 		// to see whether the player is being attacked
 
