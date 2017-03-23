@@ -32,12 +32,17 @@ public class Minion : Monster
 	public void Start ()
 	{
 		MainCharacter[] targets = FindObjectsOfType<MainCharacter> ();
-		foreach (MainCharacter p in targets) {
-			if (p.CompareTag ("Player")) {
-				target = p;
-				break;
+		if (targets.Length == 1) {
+			target = targets [0];
+		} else {
+			foreach (MainCharacter p in targets) {
+				if (p.CompareTag ("Player")) {
+					target = p;
+					break;
+				}
 			}
 		}
+
 		this.alive = true;
 		// physical resistance formula
 		this.physicalResistance = 1 - Mathf.Exp (-armor / 3);
