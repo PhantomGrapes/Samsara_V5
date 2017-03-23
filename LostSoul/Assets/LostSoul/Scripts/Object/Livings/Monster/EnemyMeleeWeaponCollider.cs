@@ -10,25 +10,7 @@ public class EnemyMeleeWeaponCollider : MonoBehaviour {
 		return player;
 	}
 
-	// Use this for initialization
 
-	void Start () {
-
-	}
-
-	void FixedUpdate()
-	{
-//		foreach (MainCharacter player in enemyList)
-//		{
-//			if (player == null)
-//				enemyList.Remove(player);
-//		}
-	}
-
-	// Update is called once per frame
-	void Update () {
-
-	}
 
 	void OnTriggerEnter2D(Collider2D other)
 	{

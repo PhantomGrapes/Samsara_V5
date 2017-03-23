@@ -15,7 +15,7 @@ public class Minion : Monster
 	private bool retreating = false;
 
 	float originalSpeed;
-	float sADP = 0.9f;
+
 	//startAttackingDistanceProportion
 
 	public bool isRoaming = false;
@@ -31,7 +31,13 @@ public class Minion : Monster
 	// Use this for initialization
 	public void Start ()
 	{
-		this.target = FindObjectOfType<MainCharacter> ();
+		MainCharacter[] targets = FindObjectsOfType<MainCharacter> ();
+		foreach (MainCharacter p in targets) {
+			if (p.CompareTag ("Player")) {
+				target = p;
+				break;
+			}
+		}
 		this.alive = true;
 		// physical resistance formula
 		this.physicalResistance = 1 - Mathf.Exp (-armor / 3);
@@ -42,7 +48,6 @@ public class Minion : Monster
 		anim = GetComponent<Animator> ();
 		GetComponent<Rigidbody2D> ().mass = 100f;    // make the minion very heavy so that it cannot be pushed back
 
-		movementSpeed = 2f;
 		originalSpeed = this.movementSpeed;
 		jumpForce = 10f;
 
@@ -53,28 +58,33 @@ public class Minion : Monster
 	void Update ()
 	{
 
+
 		if (this != null) {
 
 			MinionFlipping ();
 		}
-	}
-
-	void FixedUpdate ()
-	{
 		anim.SetFloat ("xSpeed", Mathf.Abs (GetComponent<Rigidbody2D> ().velocity.x));
 		selfPosition = GetComponent<Rigidbody2D> ().position;
 		targetPosition = target.GetComponent<Rigidbody2D> ().position;
 		CooldownChecker ();
 		DecideState ();
+	}
+
+	void FixedUpdate ()
+	{
+
 
 		if (this.timeLock) {
 			this.movementSpeed = 0f;
+			GetComponent<Rigidbody2D> ().velocity = new Vector2 (0f, 0f);
+
 		} else {
 			this.movementSpeed = originalSpeed;
 		}
 
 		if (this.moveLock) {
 			this.movementSpeed = 0f;
+			GetComponent<Rigidbody2D> ().velocity = new Vector2 (0f, 0f);
 		} else {
 			this.movementSpeed = originalSpeed;
 		}
@@ -85,7 +95,6 @@ public class Minion : Monster
 	void DecideState ()
 	{
 		if (alive) {
-
 			// check if alive first
 			if (hp <= 0) {
 				Die ();
@@ -154,24 +163,17 @@ public class Minion : Monster
 		Vector2 enemyDirection = this.targetPosition - selfPosition;
 
 		float enemyDistance = enemyDirection.magnitude;
-
-		if (this.canAttack && enemyDistance < this.attackRange) {
+		if (this.canAttack && (enemyDistance < this.attackRange)) {
 			if ((enemyDirection.x > 0 && this.facingRight) || (enemyDirection.x < 0 && !this.facingRight)) {
 				Attack ();
-			} else {
-				if (enemyDirection.x > 0)
-					this.MoveRight ();
-				else
-					this.MoveLeft ();
-			}
+				MoveLock ();
+			} 
 
-		} else {
-			if (enemyDirection.x > this.attackRange * sADP) {
+		} else{
+			if (enemyDirection.x > 0) {
 				this.MoveRight ();
-			} else if (enemyDirection.x < -this.attackRange * sADP) {
-				this.MoveLeft ();
 			} else {
-				this.Idle ();
+				this.MoveLeft ();
 			}
 		}
 	}
@@ -179,25 +181,25 @@ public class Minion : Monster
 	void Attack ()
 	{
 		anim.SetTrigger ("attack");
-		this.beingAttacked = false;
+//		this.beingAttacked = false;
 	}
 
 	public void DefaultAttack ()
 	{
 
-		if (!this.beingAttacked && !this.retreating) {
-			if (minionWeaponCollider.GetPlayer () != null) {
-				minionWeaponCollider.GetPlayer ().BeAttacked (this.attack);
-				minionWeaponCollider.GetPlayer ().beingAttacked = true;
-			} 
-		}
+//		if (!this.beingAttacked && !this.retreating) {
+		if (minionWeaponCollider.GetPlayer () != null) {
+			minionWeaponCollider.GetPlayer ().BeAttacked (this.attack);
+			minionWeaponCollider.GetPlayer ().beingAttacked = true;
+		} 
+//		}
 	}
 
 
 	void CooldownChecker ()
 	{
 
-		this.canAttack = !this.attacked;
+//		this.canAttack = !this.attacked;
 
 	}
 

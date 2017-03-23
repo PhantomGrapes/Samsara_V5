@@ -211,7 +211,7 @@ public class MainCharacter : Livings
 		}
 		foreach (Monster target in enemyList) {
 			target.BeAttacked (attack);
-			target.beingAttacked = true;
+//			target.beingAttacked = true;
 			//print(checkWeaponSkill5);
 
 		}
