@@ -23,8 +23,7 @@ public class Projectile : MonoBehaviour
 	}
 
 
-	void FixedUpdate ()
-	{
+	void Update(){
 		if (!initialVelocitySet) {
 			rigi.velocity = GetVelocity ();
 		}
@@ -35,23 +34,21 @@ public class Projectile : MonoBehaviour
 			RaycastHit2D hit = Physics2D.Raycast (origin, this.direction);
 
 			if (hit.collider != null) {
-//				print (hit.collider.tag);
+				// define the normal vector
+				Vector2 normal = hit.normal;
+				// defiine the reflected direction
+				reflectedDirection = Vector2.Reflect (this.direction, normal);
+				//				print (hit.collider.tag);
 				// if the collider met is a reflector
 				if (hit.collider.gameObject.tag == "Reflectors") {
-					print ("1");
-					// define the normal vector
-					Vector2 normal = hit.normal;
-					// defiine the reflected direction
-					reflectedDirection = Vector2.Reflect (this.direction, normal);
 					reflectionDecided = true;
-				} else if (hit.collider.gameObject.tag == "Player") {
-					reflectionDecided = false;
 				}
+
 			}
 		}
 
-	
 	}
+
 
 	public Vector2 GetVelocity ()
 	{

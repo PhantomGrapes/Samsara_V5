@@ -30,14 +30,7 @@ public class BossGreenLotus : Monster
 		anim = GetComponent<Animator> ();
 		battleZone = FindObjectOfType<BattleZone> ();
 		this.alive = true;
-		// physical resistance formula
-		this.physicalResistance = 1 - Mathf.Exp (-armor / 3);
 
-
-		// attack interval formula
-		this.attackInterval = 2 / this.attackSpeed;
-
-		this.anim = GetComponent<Animator> ();
 		GetComponent<Rigidbody2D> ().mass = 100f;
 	}
 	
