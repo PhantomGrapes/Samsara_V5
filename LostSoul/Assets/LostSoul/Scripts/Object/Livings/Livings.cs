@@ -76,7 +76,7 @@ public class Livings : MonoBehaviour
 
         this.Move(direction);
         facingRight = true;
-		print (GetComponent<Rigidbody2D>().velocity);
+
     }
 
     public void MoveUp()

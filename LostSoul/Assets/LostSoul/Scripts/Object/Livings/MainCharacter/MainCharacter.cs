@@ -209,12 +209,19 @@ public class MainCharacter : Livings
 				break;
 			}
 		}
-		foreach (Monster target in enemyList) {
-			target.BeAttacked (attack);
-//			target.beingAttacked = true;
-			//print(checkWeaponSkill5);
+		if (enemyList.Count > 2) {
+			for (int i = 0; i < 2; i++) {
+				enemyList [i].BeAttacked (attack);
+			}
+		} else {
+			foreach (Monster target in enemyList) {
+				target.BeAttacked (attack);
+				//			target.beingAttacked = true;
+				//print(checkWeaponSkill5);
 
+			}
 		}
+
 	}
 
 	public void GiveShockWave ()
