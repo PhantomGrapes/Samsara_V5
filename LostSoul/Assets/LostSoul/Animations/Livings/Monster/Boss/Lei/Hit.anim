@@ -104,18 +104,18 @@ AnimationClip:
         tangentMode: 0
       - time: 0.05
         value: {x: 0, y: 0, z: -28.0632}
-        inSlope: {x: 0, y: 0, z: -301.35178}
-        outSlope: {x: 0, y: 0, z: -301.35178}
+        inSlope: {x: 0, y: 0, z: -390.53427}
+        outSlope: {x: 0, y: 0, z: -390.53427}
         tangentMode: 0
       - time: 0.25
-        value: {x: 0, y: 0, z: -34.924507}
-        inSlope: {x: 0, y: 0, z: 53.40905}
-        outSlope: {x: 0, y: 0, z: 53.40905}
+        value: {x: 0, y: 0, z: -70.5975}
+        inSlope: {x: 0, y: 0, z: 35.572556}
+        outSlope: {x: 0, y: 0, z: 35.572556}
         tangentMode: 0
       - time: 0.5
         value: {x: -0, y: 0, z: 0.3566505}
-        inSlope: {x: -0, y: 0, z: 141.12463}
-        outSlope: {x: -0, y: 0, z: 141.12463}
+        inSlope: {x: -0, y: 0, z: 283.81662}
+        outSlope: {x: -0, y: 0, z: 283.81662}
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -185,18 +185,18 @@ AnimationClip:
         tangentMode: 0
       - time: 0.05
         value: {x: 0, y: 0, z: 340.8908}
-        inSlope: {x: 0, y: 0, z: -188.5627}
-        outSlope: {x: 0, y: 0, z: -188.5627}
+        inSlope: {x: 0, y: 0, z: -206.28334}
+        outSlope: {x: 0, y: 0, z: -206.28334}
         tangentMode: 0
       - time: 0.25
-        value: {x: 0, y: 0, z: 322.3511}
-        inSlope: {x: 0, y: 0, z: 19.172836}
-        outSlope: {x: 0, y: 0, z: 19.172836}
+        value: {x: -0, y: 0, z: 315.26285}
+        inSlope: {x: 0, y: 0, z: 15.628708}
+        outSlope: {x: 0, y: 0, z: 15.628708}
         tangentMode: 0
       - time: 0.5
         value: {x: -0, y: 0, z: 355.11215}
-        inSlope: {x: -0, y: 0, z: 131.04419}
-        outSlope: {x: -0, y: 0, z: 131.04419}
+        inSlope: {x: 0, y: 0, z: 159.39722}
+        outSlope: {x: 0, y: 0, z: 159.39722}
         tangentMode: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -771,7 +771,22 @@ AnimationClip:
       m_RotationOrder: 4
     path: Hip/CorpBone/TopArmBoneRight/DownArmBoneRight/HandBoneRight
   m_ScaleCurves: []
-  m_FloatCurves: []
+  m_FloatCurves:
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 31
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: BloodSplatter
+    classID: 1
+    script: {fileID: 0}
   m_PPtrCurves: []
   m_SampleRate: 60
   m_WrapMode: 0
@@ -863,6 +878,12 @@ AnimationClip:
       script: {fileID: 0}
       classID: 4
       customType: 14
+      isPPtrCurve: 0
+    - path: 3761464103
+      attribute: 2086281974
+      script: {fileID: 0}
+      classID: 1
+      customType: 0
       isPPtrCurve: 0
     - path: 1710400696
       attribute: 1
@@ -959,7 +980,7 @@ AnimationClip:
     m_Level: 0
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
-    m_LoopTime: 1
+    m_LoopTime: 0
     m_LoopBlend: 0
     m_LoopBlendOrientation: 0
     m_LoopBlendPositionY: 0
@@ -1670,18 +1691,18 @@ AnimationClip:
         tangentMode: 10
       - time: 0.05
         value: -28.0632
-        inSlope: -301.35178
-        outSlope: -301.35178
+        inSlope: -390.53427
+        outSlope: -390.53427
         tangentMode: 10
       - time: 0.25
-        value: -34.924507
-        inSlope: 53.40905
-        outSlope: 53.40905
+        value: -70.5975
+        inSlope: 35.572556
+        outSlope: 35.572556
         tangentMode: 10
       - time: 0.5
         value: 0.3566505
-        inSlope: 141.12463
-        outSlope: 141.12463
+        inSlope: 283.81662
+        outSlope: 283.81662
         tangentMode: 10
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -2154,14 +2175,14 @@ AnimationClip:
         outSlope: 0
         tangentMode: 10
       - time: 0.25
-        value: 0
+        value: -0
         inSlope: 0
         outSlope: 0
         tangentMode: 10
       - time: 0.5
         value: -0
-        inSlope: -0
-        outSlope: -0
+        inSlope: 0
+        outSlope: 0
         tangentMode: 10
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -2210,18 +2231,18 @@ AnimationClip:
         tangentMode: 10
       - time: 0.05
         value: 340.8908
-        inSlope: -188.5627
-        outSlope: -188.5627
+        inSlope: -206.28334
+        outSlope: -206.28334
         tangentMode: 10
       - time: 0.25
-        value: 322.3511
-        inSlope: 19.172836
-        outSlope: 19.172836
+        value: 315.26285
+        inSlope: 15.628708
+        outSlope: 15.628708
         tangentMode: 10
       - time: 0.5
         value: 355.11215
-        inSlope: 131.04419
-        outSlope: 131.04419
+        inSlope: 159.39722
+        outSlope: 159.39722
         tangentMode: 10
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -3490,6 +3511,21 @@ AnimationClip:
     path: Hip/CorpBone/TopArmBoneRight/DownArmBoneRight/HandBoneRight
     classID: 4
     script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: 1
+        inSlope: Infinity
+        outSlope: Infinity
+        tangentMode: 31
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_IsActive
+    path: BloodSplatter
+    classID: 1
+    script: {fileID: 0}
   m_EulerEditorCurves:
   - curve:
       serializedVersion: 2
@@ -3558,7 +3594,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Hip/CorpBone/HeadBone
+    path: Hip/CorpBone
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3568,7 +3604,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Hip/CorpBone/HeadBone
+    path: Hip/CorpBone
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3578,7 +3614,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Hip/CorpBone/HeadBone
+    path: Hip/CorpBone
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3678,7 +3714,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Hip/CorpBone
+    path: Hip/CorpBone/TopArmBoneRight/DownArmBoneRight/HandBoneRight
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3688,7 +3724,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Hip/CorpBone
+    path: Hip/CorpBone/TopArmBoneRight/DownArmBoneRight/HandBoneRight
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3698,7 +3734,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Hip/CorpBone
+    path: Hip/CorpBone/TopArmBoneRight/DownArmBoneRight/HandBoneRight
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3888,7 +3924,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Hip/CorpBone/TopArmBoneRight/DownArmBoneRight/HandBoneRight
+    path: Hip/CorpBone/HeadBone
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3898,7 +3934,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Hip/CorpBone/TopArmBoneRight/DownArmBoneRight/HandBoneRight
+    path: Hip/CorpBone/HeadBone
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -3908,7 +3944,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Hip/CorpBone/TopArmBoneRight/DownArmBoneRight/HandBoneRight
+    path: Hip/CorpBone/HeadBone
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 0
