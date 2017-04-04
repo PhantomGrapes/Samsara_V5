@@ -30,6 +30,9 @@ public class MainCharacter : Livings
 	public LayerMask whatIsGround;
 
 
+//	public ParticleSystem[] parSys;
+
+
 	//public GameObject weaponToBePickedUp;
 	//public GameObject weaponEquiped;
 
@@ -381,6 +384,9 @@ public class MainCharacter : Livings
 		//print (coolDown);
 		initGravity = rigi.gravityScale;
 
+
+
+
 		anim.SetBool ("Alive", alive);
 		//defaultWeaponRange = FindObjectOfType<WeaponRangeController>();
 
@@ -390,6 +396,7 @@ public class MainCharacter : Livings
 
 	void FixedUpdate ()
 	{
+//		parSys = FindObjectsOfType<ParticleSystem>();
 		// to check whether the ground overlap the circle on player's foot
 		grounded = Physics2D.OverlapCircle (frontGroundCheck.position, groundCheckRadius, whatIsGround) || Physics2D.OverlapCircle (backGroundCheck.position, groundCheckRadius, whatIsGround);
         // weapon skill 6 need to move backward while character face forward, so don't need flip
@@ -470,6 +477,17 @@ public class MainCharacter : Livings
             Move(new Vector2(0f, rigi.velocity.y));
         }
     }
+
+//	void FlipParSys(){
+//		foreach (ParticleSystem par in parSys) {
+//			if (!facingRight && par.CompareTag("ParticleSysFlip")) {
+//				var tempX = par.transform.localScale.x;
+//				var tempY = par.transform.localScale.y;
+//				var tempZ = par.transform.localScale.z;
+//				par.transform.localScale = new Vector3 (-tempX, tempY, tempZ);
+//			} 
+//		}
+//	}
 
 	protected void CheckStatus ()
 	{
@@ -800,5 +818,7 @@ public class MainCharacter : Livings
 	{
 		audioController.audioHeavySwordSkill1.Play ();
 	}
+
+
 
 }
