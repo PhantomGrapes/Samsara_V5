@@ -229,6 +229,10 @@ public class Minion : Monster
 
 	IEnumerator RemoveMinion ()
 	{	
+		var weaponRanges = FindObjectsOfType<WeaponRangeController> ();
+		foreach (WeaponRangeController w in weaponRanges) {
+			w.enemyList.Remove (this);
+		}
 		Destroy (GetComponent<Collider2D> ());
 		yield return new WaitForSeconds (1f);
 		Destroy (gameObject);

@@ -4,7 +4,6 @@ using System.Collections;
 public class Monster : Livings {
 
 
-	public int expGivenUponDeath;
 	public MainCharacter target;
 
 	public Animator anim;

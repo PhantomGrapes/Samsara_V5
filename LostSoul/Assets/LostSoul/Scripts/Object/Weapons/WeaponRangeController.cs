@@ -19,11 +19,11 @@ public class WeaponRangeController : MonoBehaviour {
 
     void FixedUpdate()
     {
-        foreach (Monster Monster in enemyList)
-        {
-            if (Monster == null)
-                enemyList.Remove(Monster);
-        }
+//        foreach (Monster m in enemyList)
+//        {
+//			if (m == null)
+//                enemyList.Remove(m);
+//        }
     }
 	
 	// Update is called once per frame
