@@ -678,6 +678,7 @@ public class MainCharacter : Livings
 
                     break;
                 case 5:
+                    playSSSkill();
                     StartCoroutine(BanSkillAttack(weaponSkill5Length));
                     StartCoroutine(BanBeAttacked(weaponSkill5Length));
                     StartCoroutine(WeaponSkill5());
@@ -819,6 +820,33 @@ public class MainCharacter : Livings
 		audioController.audioHeavySwordSkill1.Play ();
 	}
 
+    protected void playHeavySwordSkill2()
+    {
+        audioController.audioHeavySwordSkill2.Play();
+    }
 
+    protected void playSS()
+    {
+        audioController.audioSS.Play();
+    }
 
+    protected void playWA()
+    {
+        audioController.audioWA.Play();
+    }
+
+    protected void playSSSkill()
+    {
+        audioController.audioSSSkill.Play();
+    }
+
+    protected void playDaggerSkill()
+    {
+        audioController.audioDaggerSkill.Play();
+    }
+
+    protected void playDagger()
+    {
+        audioController.audioDagger.Play();
+    }
 }

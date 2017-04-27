@@ -11,7 +11,7 @@ public class ItemDataBase : MonoBehaviour {
     public void Start()
     {
 
-        itemData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/LostSoul/Scripts/Object/Scene/Items.json"));
+        itemData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/Items.json"));
         ConstructItemDatabase();
 
         //print(FetchItemById(0).Description);

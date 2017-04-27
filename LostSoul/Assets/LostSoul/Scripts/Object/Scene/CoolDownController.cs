@@ -25,7 +25,7 @@ public class CoolDownController : MonoBehaviour {
             if (c.currentCoolDown < c.coolDownLength)
             {
                 c.currentCoolDown += Time.deltaTime;
-                c.icon.fillAmount = c.currentCoolDown / c.coolDownLength;
+                c.icon.GetComponent<RectTransform>().localScale = new Vector2(c.currentCoolDown / c.coolDownLength,1);
             }
         }
 	}
