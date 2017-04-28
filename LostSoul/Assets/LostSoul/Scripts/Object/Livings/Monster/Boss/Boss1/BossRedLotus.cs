@@ -28,6 +28,8 @@ public class BossRedLotus : Monster
 	public float hasteSpeed;
 	public float hasteDuration;
 
+
+
 	bool phase1 = true;
 	bool phase2 = false;
 	bool phase3 = false;
@@ -263,14 +265,7 @@ public class BossRedLotus : Monster
 		this.attacked = true;
 		this.movementSpeed = 0.1f;
 		this.anim.SetTrigger ("normalSkill");
-		yield return new WaitForSeconds (animStartToDamage);
-		if (this.alive) {
-			this.firePool.transform.position = new Vector2 (this.targetPosition.x, groundLevel.transform.position.y);
-			this.firePool.gameObject.SetActive (true);
-			this.firePool.activated = true;
-			StartCoroutine (this.firePool.Deactivate ());
-		}
-		yield return new WaitForSeconds (animDuration - animStartToDamage);
+		yield return new WaitForSeconds (animDuration);
 		this.movementSpeed = defaultSpeed;
 		yield return new WaitForSeconds (this.attackInterval - animDuration);
 		this.attacked = false;
@@ -278,7 +273,14 @@ public class BossRedLotus : Monster
 		normalSkillAvailable = true;
 	}
 
-
+	void SummonFirePool(){		
+		if (this.alive) {
+			this.firePool.transform.position = new Vector2 (this.targetPosition.x, groundLevel.transform.position.y);
+			this.firePool.gameObject.SetActive (true);
+			this.firePool.activated = true;
+			StartCoroutine (this.firePool.Deactivate ());
+		}
+	}
 
 	IEnumerator UltimateSkill ()
 	{
@@ -316,6 +318,8 @@ public class BossRedLotus : Monster
 			bossWeaponCollider.GetPlayer ().beingAttacked = true;
 		} 
 	}
+
+
 
 	IEnumerator DestroyFireBall ()
 	{

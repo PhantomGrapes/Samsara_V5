@@ -14,10 +14,22 @@ public class Monster : Livings {
 	public bool timeLock = false;
 	public bool moveLock = false;
 	public bool attackLock = false;
+	public bool vulnerable = true;
 
 	public void BeAttacked (float damageDealt){
 		this.hp -= damageDealt;
-		anim.SetTrigger ("beAttacked");
+		if(vulnerable){
+			anim.SetTrigger ("beAttacked");
+		}
+
+	}
+
+	public void ToggleOnVulnerable(){
+		this.vulnerable = true;
+	}
+
+	public void ToggleOffVulnerable(){
+		this.vulnerable = false;
 	}
 
 	public void FlipLock(){
