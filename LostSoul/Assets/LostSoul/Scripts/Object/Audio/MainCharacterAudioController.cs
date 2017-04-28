@@ -12,6 +12,11 @@ public class MainCharacterAudioController : MonoBehaviour {
     public AudioClip clipArrow2;
     public AudioClip clipHeavySwordSkill1;
     public AudioClip clipHeavySwordSkill2;
+    public AudioClip clipSS;
+    public AudioClip clipWA;
+    public AudioClip clipSSSkill;
+    public AudioClip clipDaggerSkill;
+    public AudioClip clipDagger;
 
     public AudioSource audioWalk;
     public AudioSource audioHit;
@@ -22,6 +27,11 @@ public class MainCharacterAudioController : MonoBehaviour {
     public AudioSource audioArrow2;
     public AudioSource audioHeavySwordSkill1;
     public AudioSource audioHeavySwordSkill2;
+    public AudioSource audioSS;
+    public AudioSource audioWA;
+    public AudioSource audioSSSkill;
+    public AudioSource audioDaggerSkill;
+    public AudioSource audioDagger;
 
     public AudioSource AddAudio(AudioClip clip, bool loop, bool playAwake, float vol)
     {
@@ -45,18 +55,24 @@ public class MainCharacterAudioController : MonoBehaviour {
         audioArrow2 = AddAudio(clipArrow2, false, false, 1f);
         audioHeavySwordSkill1 = AddAudio(clipHeavySwordSkill1, false, false, 1f);
         audioHeavySwordSkill2 = AddAudio(clipHeavySwordSkill2, false, false, 1f);
+        audioSS = AddAudio(clipSS, false, false, 1f);
+        audioWA = AddAudio(clipWA, false, false, 1f);
+        audioSSSkill = AddAudio(clipSSSkill, false, false, 1f);
+        audioDaggerSkill = AddAudio(clipDaggerSkill, false, false, 1f);
+        audioDagger = AddAudio(clipDagger, false, false, 1f);
     }
 	
     void Update()
     {
         // control loop audios
-        if (GetComponent<Rigidbody2D>().velocity.x != 0 && GetComponent<Rigidbody2D>().velocity.y == 0)
+        print(GetComponent<Rigidbody2D>().velocity.y);
+        if (GetComponent<Rigidbody2D>().velocity.x != 0 && Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) < 0.1)
         {
+            print("walk");
             if (!audioWalk.isPlaying)
                 audioWalk.Play();
         }
         else
-            audioWalk.Pause();
-                
+            audioWalk.Pause();     
     }
 }

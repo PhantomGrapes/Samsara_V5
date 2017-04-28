@@ -37,6 +37,8 @@ public class CanvasController : MonoBehaviour {
 
 	public void goToCanvas(string canvasName)
     {
+        if (canvasName == "mainMenu" && SceneManager.GetActiveScene().name != "MainMenu")
+            loadScene("MainMenu");
         for (int i = 0; i < allCanvas.Length; i++)
         {
             if(allCanvas[i].canvasName == canvasName)

@@ -46,14 +46,6 @@ public class Inventory : Observable {
 
         }
         slotPanel.GetComponent<SlotController>().Adjust();
-        AddItem(13);
-        AddItem(13);
-        AddItem(13);
-        AddItem(13);
-        AddItem(13);
-        AddItem(13);
-        AddItem(14);
-        AddItem(14);
     }
 
 
