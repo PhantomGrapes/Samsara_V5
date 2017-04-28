@@ -49,8 +49,6 @@ public class BossRedLotus : Monster
 
 		this.firePool = FindObjectOfType<FirePool> ();
 		this.firePool.gameObject.SetActive (false);
-		// attack interval formula
-		this.attackInterval = 2 / this.attackSpeed;
 
 		groundLevel = FindObjectOfType<GroundLevel> ();
 
@@ -73,10 +71,11 @@ public class BossRedLotus : Monster
 
 	void FixedUpdate ()
 	{
-		if ((selfPosition - targetPosition).magnitude <= alertDistance) {
+		selfPosition = GetComponent<Rigidbody2D> ().position;
+		targetPosition = target.GetComponent<Rigidbody2D> ().position;
+		if ((selfPosition - targetPosition).magnitude <= alertDistance && target.alive) {
 			anim.SetFloat ("xSpeed", Mathf.Abs (GetComponent<Rigidbody2D> ().velocity.x));
-			selfPosition = GetComponent<Rigidbody2D> ().position;
-			targetPosition = target.GetComponent<Rigidbody2D> ().position;
+
 			CooldownChecker ();
 			DecideState ();
 
@@ -173,12 +172,12 @@ public class BossRedLotus : Monster
 
 	IEnumerator Attack ()
 	{
-		float animStartToDamage1 = 0.9f;
-		float animStartToDamage2 = 0.9f;
-		float animStartToDamage3 = 0.9f;
-		float animDuration1 = 1.3f;
-		float animDuration2 = 1.3f;
-		float animDuration3 = 1.3f;
+		float animStartToDamage1 = 0.3f;
+		float animStartToDamage2 = 0.3f;
+		float animStartToDamage3 = 0.3f;
+		float animDuration1 = 1.05f;
+		float animDuration2 = 1.05f;
+		float animDuration3 = 1.05f;
 		bool firstAttack = false;
 		bool secondAttack = false;
 		bool thirdAttack = false;
@@ -188,9 +187,6 @@ public class BossRedLotus : Monster
 			anim.SetTrigger ("attack1");
 			this.movementSpeed = 0;
 			yield return new WaitForSeconds (animStartToDamage1);
-			if (this.alive) {
-				DefaultAttack ();
-			}
 			this.movementSpeed = 1f;
 			yield return new WaitForSeconds (animDuration1 - animStartToDamage1);
 			this.movementSpeed = defaultSpeed;
@@ -199,9 +195,6 @@ public class BossRedLotus : Monster
 			anim.SetTrigger ("attack1");
 			this.movementSpeed = 0;
 			yield return new WaitForSeconds (animStartToDamage1);
-			if (this.alive) {
-				DefaultAttack ();
-			}
 			this.movementSpeed = 1f;
 			yield return new WaitForSeconds (animDuration1 - animStartToDamage1);
 
@@ -209,9 +202,7 @@ public class BossRedLotus : Monster
 			anim.SetTrigger ("attack2");
 			this.movementSpeed = 0;
 			yield return new WaitForSeconds (animStartToDamage2);
-			if (this.alive) {
-				DefaultAttack ();
-			}
+
 			this.movementSpeed = 1f;
 			yield return new WaitForSeconds (animDuration2 - animStartToDamage2);
 
@@ -222,9 +213,7 @@ public class BossRedLotus : Monster
 			anim.SetTrigger ("attack1");
 			this.movementSpeed = 0;
 			yield return new WaitForSeconds (animStartToDamage1);
-			if (this.alive) {
-				DefaultAttack ();
-			}
+
 			this.movementSpeed = 1f;
 			yield return new WaitForSeconds (animDuration1 - animStartToDamage1);
 
@@ -232,9 +221,6 @@ public class BossRedLotus : Monster
 			anim.SetTrigger ("attack2");
 			this.movementSpeed = 0;
 			yield return new WaitForSeconds (animStartToDamage2);
-			if (this.alive) {
-				DefaultAttack ();
-			}
 			this.movementSpeed = 1f;
 			yield return new WaitForSeconds (animDuration2 - animStartToDamage2);
 
@@ -243,9 +229,6 @@ public class BossRedLotus : Monster
 			anim.SetTrigger ("attack3");
 			this.movementSpeed = 0;
 			yield return new WaitForSeconds (animStartToDamage3);
-			if (this.alive) {
-				DefaultAttack ();
-			}
 			this.movementSpeed = 1f;
 			yield return new WaitForSeconds (animDuration3 - animStartToDamage3);
 
@@ -274,8 +257,8 @@ public class BossRedLotus : Monster
 	{
 		normalSkillAvailable = false;
 		// to be calibreated
-		float animStartToDamage = 0.20f;
-		float animDuration = 0.55f;
+		float animStartToDamage = 0.7f;
+		float animDuration = 1.10f;
 
 		this.attacked = true;
 		this.movementSpeed = 0.1f;
@@ -283,19 +266,15 @@ public class BossRedLotus : Monster
 		yield return new WaitForSeconds (animStartToDamage);
 		if (this.alive) {
 			this.firePool.transform.position = new Vector2 (this.targetPosition.x, groundLevel.transform.position.y);
-			print ("firepool active");
 			this.firePool.gameObject.SetActive (true);
 			this.firePool.activated = true;
 			StartCoroutine (this.firePool.Deactivate ());
-
 		}
 		yield return new WaitForSeconds (animDuration - animStartToDamage);
 		this.movementSpeed = defaultSpeed;
 		yield return new WaitForSeconds (this.attackInterval - animDuration);
 		this.attacked = false;
-
 		yield return new WaitForSeconds (normalSkillCooldown - this.firePool.duration);
-		print ("normal skill now available");
 		normalSkillAvailable = true;
 	}
 

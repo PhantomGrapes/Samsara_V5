@@ -13,7 +13,7 @@ public class TrapController : MonoBehaviour {
     {
         if(other.GetComponent<MainCharacter>() != null)
         {
-            player.BeAttacked(player.maxHp + 1);
+            player.BeAttacked(player.maxHp/5);
         }
     }
 }
