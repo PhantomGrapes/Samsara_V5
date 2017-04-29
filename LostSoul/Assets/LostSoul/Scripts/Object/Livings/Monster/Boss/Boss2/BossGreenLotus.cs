@@ -46,11 +46,11 @@ public class BossGreenLotus : Monster
 
 	void FixedUpdate ()
 	{
-		if ((selfPosition - targetPosition).magnitude <= alertDistance) {
-			anim.SetFloat ("xSpeed", Mathf.Abs (GetComponent<Rigidbody2D> ().velocity.x));
-			selfPosition = GetComponent<Rigidbody2D> ().position;
-			targetPosition = target.GetComponent<Rigidbody2D> ().position;
+		anim.SetFloat ("xSpeed", Mathf.Abs (GetComponent<Rigidbody2D> ().velocity.x));
+		selfPosition = GetComponent<Rigidbody2D> ().position;
 
+		targetPosition = target.GetComponent<Rigidbody2D> ().position;
+		if ((selfPosition - targetPosition).magnitude <= alertDistance) {
 			DecideState ();
 		}
 
