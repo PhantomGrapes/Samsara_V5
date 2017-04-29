@@ -65,7 +65,6 @@ public class MainCharacterAudioController : MonoBehaviour {
     void Update()
     {
         // control loop audios
-        print(GetComponent<Rigidbody2D>().velocity.y);
         if (GetComponent<Rigidbody2D>().velocity.x != 0 && Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) < 0.1)
         {
             print("walk");
