@@ -11,7 +11,7 @@ public class CameraFollow_revised : MonoBehaviour
 
 	public float zoomRatio;
 
-
+	public float yAlter;
 	public float defaultRatio;
 
 	// Use this for initialization
@@ -41,25 +41,26 @@ public class CameraFollow_revised : MonoBehaviour
 		if (target) {
 			if (lei.inBattle) {
 				zoom = true;
-				zoomRatio = Mathf.Max(lei.targetDistance / 2f, defaultRatio/1.5f);
+				zoomRatio = Mathf.Max (lei.targetDistance / 2f, defaultRatio);
 
 				Vector3 leiPosition = lei.transform.position;
-				Vector3 camPosition = new Vector3 ((target.position.x + leiPosition.x) / 2f, (target.position.y + leiPosition.y) / 2f
+				Vector3 camPosition = new Vector3 ((target.position.x + leiPosition.x) / 2f, (target.position.y + leiPosition.y) / 2f + yAlter
 					, target.position.z + 20f);
-					
-				transform.position = new Vector3(Mathf.Lerp(transform.position.x, camPosition.x, 0.05f), Mathf.Lerp(transform.position.y, camPosition.y, 0.1f), -10f);
-			}else if (rong.inBattle) {
+
+				transform.position = new Vector3 (Mathf.Lerp (transform.position.x, camPosition.x, 0.05f), Mathf.Lerp (transform.position.y, camPosition.y, 0.1f), -10f);
+			} else if (rong.inBattle) {
 				zoom = true;
-				zoomRatio = Mathf.Max(lei.targetDistance / 2f, defaultRatio/1.5f);
+				zoomRatio = Mathf.Max (lei.targetDistance / 2f, defaultRatio);
 
 				Vector3 rongPosition = rong.transform.position;
-				Vector3 camPosition = new Vector3 ((target.position.x + rongPosition.x) / 2f, (target.position.y + rongPosition.y) / 2f
+				Vector3 camPosition = new Vector3 ((target.position.x + rongPosition.x) / 2f, (target.position.y + rongPosition.y) / 2f + yAlter 
 					, target.position.z + 20f);
 
-				transform.position = new Vector3(Mathf.Lerp(transform.position.x, camPosition.x, 0.05f), Mathf.Lerp(transform.position.y, camPosition.y, 0.1f), -10f);
+				transform.position = new Vector3 (Mathf.Lerp (transform.position.x, camPosition.x, 0.05f), Mathf.Lerp (transform.position.y, camPosition.y, 0.1f), -10f);
 			} else {
+				zoomRatio = 1f;
 				zoom = false;
-				transform.position = new Vector3(Mathf.Lerp(transform.position.x, target.position.x, 0.05f), Mathf.Lerp(transform.position.y, target.position.y, 0.1f), -10f);
+				transform.position = new Vector3 (Mathf.Lerp (transform.position.x, target.position.x, 0.05f), Mathf.Lerp (transform.position.y, target.position.y + yAlter, 0.1f), -10f);
 			}
 
 
