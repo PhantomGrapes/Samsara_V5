@@ -23,8 +23,8 @@ public class BossGreenLotus : Monster
 	Vector2 selfPosition;
 	Vector2 targetPosition;
 
+	public bool targetInRange;
 	public float targetDistance;
-
 
 
 	// Use this for initialization
@@ -42,7 +42,7 @@ public class BossGreenLotus : Monster
 	void Update ()
 	{
 		
-		if (targetDistance <= alertDistance) {
+		if (targetInRange) {
 			if (this != null) {
 				BossFlipping ();
 			}
@@ -55,9 +55,9 @@ public class BossGreenLotus : Monster
 		selfPosition = GetComponent<Rigidbody2D> ().position;
 
 		targetPosition = target.GetComponent<Rigidbody2D> ().position;
-
-		targetDistance = (selfPosition - targetPosition).magnitude;
-		if (targetDistance <= alertDistance) {
+		targetDistance = Mathf.Abs((selfPosition - targetPosition).x);
+		targetInRange = Mathf.Abs((selfPosition - targetPosition).x) <= alertDistance && Mathf.Abs((selfPosition - targetPosition).y) < 10f;
+		if (targetInRange) {
 			inBattle = true;
 			DecideState ();
 		} else {

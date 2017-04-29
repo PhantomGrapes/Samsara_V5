@@ -28,7 +28,10 @@ public class BossRedLotus : Monster
 	public float hasteSpeed;
 	public float hasteDuration;
 
+	public bool targetInRange;
+	public float targetDistance;
 
+	public bool inBattle = false;
 
 	bool phase1 = true;
 	bool phase2 = false;
@@ -75,7 +78,17 @@ public class BossRedLotus : Monster
 	{
 		selfPosition = GetComponent<Rigidbody2D> ().position;
 		targetPosition = target.GetComponent<Rigidbody2D> ().position;
-		if ((selfPosition - targetPosition).magnitude <= alertDistance && target.alive) {
+
+		targetDistance = Mathf.Abs((selfPosition - targetPosition).x);
+		targetInRange = Mathf.Abs((selfPosition - targetPosition).x) <= alertDistance && Mathf.Abs((selfPosition - targetPosition).y) < 10f;
+		if (targetInRange) {
+			inBattle = true;
+			DecideState ();
+		} else {
+			inBattle = false;
+		}
+
+		if (targetInRange && target.alive) {
 			anim.SetFloat ("xSpeed", Mathf.Abs (GetComponent<Rigidbody2D> ().velocity.x));
 
 			CooldownChecker ();
