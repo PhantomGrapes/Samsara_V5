@@ -27594,6 +27594,7 @@ MonoBehaviour:
   target: {fileID: 506128569}
   zoom: 0
   zoomRatio: 0
+  defaultRatio: 0
 --- !u!1 &1144165745
 GameObject:
   m_ObjectHideFlags: 0
@@ -28644,6 +28645,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1195357195}
   - 212: {fileID: 1195357194}
+  - 114: {fileID: 1195357196}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -28697,6 +28699,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 23
+--- !u!114 &1195357196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1195357193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36cad437a313d4a488338661db3a03a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1139893728}
 --- !u!1001 &1200832569
 Prefab:
   m_ObjectHideFlags: 0
@@ -42401,6 +42415,7 @@ MonoBehaviour:
   target: {fileID: 0}
   zoom: 0
   zoomRatio: 0
+  defaultRatio: 0
 --- !u!1 &1862463572
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,7 +8,7 @@ public class ForeGroundFollowCamera : MonoBehaviour {
 	
 	void FixedUpdate () {
 		transform.position = target.transform.position + new Vector3 (0f, 0f, 10f);
-		scale = target.GetComponent<Camera> ().orthographicSize / target.GetComponent<CameraFollow_revised> ().defaultRatio;
+		scale = (target.GetComponent<Camera> ().orthographicSize / target.GetComponent<CameraFollow_revised> ().defaultRatio)* 1.05f;
 		transform.localScale = new Vector3 (scale, scale, scale);
 	}
 }
