@@ -8,6 +8,8 @@ public class BossGreenLotus : Monster
 	MainCharacter target;
 	BattleZone battleZone;
 	Animator anim;
+	public bool inBattle = false;
+
 	public float startBlinkDistance;
 	public float blinkMinDistanceToPlayer;
 	public float blinkDisappearDuration;
@@ -20,6 +22,8 @@ public class BossGreenLotus : Monster
 
 	Vector2 selfPosition;
 	Vector2 targetPosition;
+
+	public float targetDistance;
 
 
 
@@ -37,7 +41,8 @@ public class BossGreenLotus : Monster
 	// Update is called once per frame
 	void Update ()
 	{
-		if ((selfPosition - targetPosition).magnitude <= alertDistance) {
+		
+		if (targetDistance <= alertDistance) {
 			if (this != null) {
 				BossFlipping ();
 			}
@@ -50,8 +55,13 @@ public class BossGreenLotus : Monster
 		selfPosition = GetComponent<Rigidbody2D> ().position;
 
 		targetPosition = target.GetComponent<Rigidbody2D> ().position;
-		if ((selfPosition - targetPosition).magnitude <= alertDistance) {
+
+		targetDistance = (selfPosition - targetPosition).magnitude;
+		if (targetDistance <= alertDistance) {
+			inBattle = true;
 			DecideState ();
+		} else {
+			inBattle = false;
 		}
 
 	}
