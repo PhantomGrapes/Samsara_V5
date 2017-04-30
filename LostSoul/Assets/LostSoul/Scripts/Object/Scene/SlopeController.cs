@@ -7,6 +7,7 @@ public class SlopeController : MonoBehaviour {
     ChoiceDoorController door;
     FrontController front;
     InverseController inverse;
+    public bool see;
 	// Use this for initialization
 	void Start () {
         player = FindObjectOfType<MainCharacter>().GetComponent<Collider2D>();
@@ -24,6 +25,6 @@ public class SlopeController : MonoBehaviour {
             //print("back to normal");
             Physics2D.IgnoreCollision(player.GetComponent<PolygonCollider2D>(), bone.GetComponent<EdgeCollider2D>(), false);
         }
-        
+        see = Physics2D.GetIgnoreCollision(player.GetComponent<PolygonCollider2D>(), bone.GetComponent<EdgeCollider2D>());
     }
 }
