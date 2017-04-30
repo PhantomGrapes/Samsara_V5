@@ -69,8 +69,10 @@ public class BossGreenLotus : Monster
 	void DecideState ()
 	{
 		if (hp <= 0) {
+			inBattle = false;
 			Die ();
 			anim.SetTrigger ("die");
+
 		} else {
 			if (canToss) {
 				anim.SetTrigger ("toss");

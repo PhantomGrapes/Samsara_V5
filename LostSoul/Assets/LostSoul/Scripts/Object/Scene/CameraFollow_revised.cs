@@ -39,7 +39,7 @@ public class CameraFollow_revised : MonoBehaviour
 		BossRedLotus rong = FindObjectOfType<BossRedLotus> ();
 
 		if (target) {
-			if (lei.inBattle) {
+			if (lei && lei.inBattle) {
 				zoom = true;
 				zoomRatio = Mathf.Max (lei.targetDistance / 2f, defaultRatio);
 
@@ -47,8 +47,8 @@ public class CameraFollow_revised : MonoBehaviour
 				Vector3 camPosition = new Vector3 ((target.position.x + leiPosition.x) / 2f, (target.position.y + leiPosition.y) / 2f + yAlter
 					, target.position.z + 20f);
 
-				transform.position = new Vector3 (Mathf.Lerp (transform.position.x, camPosition.x, 0.05f), Mathf.Lerp (transform.position.y, camPosition.y, 0.1f), -10f);
-			} else if (rong.inBattle) {
+				transform.position = new Vector3 (Mathf.Lerp (transform.position.x, camPosition.x, 0.05f), Mathf.Lerp (transform.position.y, camPosition.y, 0.05f), -10f);
+			} else if (rong && rong.inBattle) {
 				zoom = true;
 				zoomRatio = Mathf.Max (lei.targetDistance / 2f, defaultRatio);
 
@@ -56,11 +56,11 @@ public class CameraFollow_revised : MonoBehaviour
 				Vector3 camPosition = new Vector3 ((target.position.x + rongPosition.x) / 2f, (target.position.y + rongPosition.y) / 2f + yAlter 
 					, target.position.z + 20f);
 
-				transform.position = new Vector3 (Mathf.Lerp (transform.position.x, camPosition.x, 0.05f), Mathf.Lerp (transform.position.y, camPosition.y, 0.1f), -10f);
+				transform.position = new Vector3 (Mathf.Lerp (transform.position.x, camPosition.x, 0.05f), Mathf.Lerp (transform.position.y, camPosition.y, 0.05f), -10f);
 			} else {
 				zoomRatio = 1f;
 				zoom = false;
-				transform.position = new Vector3 (Mathf.Lerp (transform.position.x, target.position.x, 0.05f), Mathf.Lerp (transform.position.y, target.position.y + yAlter, 0.1f), -10f);
+				transform.position = new Vector3 (Mathf.Lerp (transform.position.x, target.position.x, 0.05f), Mathf.Lerp (transform.position.y, target.position.y + yAlter, 0.05f), -10f);
 			}
 
 
