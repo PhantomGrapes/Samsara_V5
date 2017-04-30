@@ -104,6 +104,7 @@ public class BossRedLotus : Monster
 	void DecideState ()
 	{
 		if (hp <= 0) {
+			inBattle = false;
 			Die ();
 			anim.SetTrigger ("die");
 		} else if (this.hp > this.maxHp * 0.66f) {
