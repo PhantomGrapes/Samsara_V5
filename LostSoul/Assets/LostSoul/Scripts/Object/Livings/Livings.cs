@@ -51,11 +51,11 @@ public class Livings : MonoBehaviour
         if (isRoaming)
         {
 
-            GetComponent<Rigidbody2D>().velocity = moveDirection / 2;
+			GetComponent<Rigidbody2D>().velocity = Vector2.Lerp(GetComponent<Rigidbody2D>().velocity, moveDirection / 2, 0.2f);
         }
         else
         {
-            GetComponent<Rigidbody2D>().velocity = moveDirection;
+			GetComponent<Rigidbody2D>().velocity = Vector2.Lerp(GetComponent<Rigidbody2D>().velocity, moveDirection, 0.2f);
         }
         //		transform.Translate (this.movementSpeed *Time.deltaTime * moveDirection);
 
