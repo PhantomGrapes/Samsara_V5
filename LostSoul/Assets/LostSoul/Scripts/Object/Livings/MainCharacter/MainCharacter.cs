@@ -189,7 +189,7 @@ public class MainCharacter : Livings
 
 	protected void Move (Vector2 speed)
 	{
-		rigi.velocity = speed;
+		rigi.velocity = Vector2.Lerp(rigi.velocity, speed, 0.2f);
 	}
 
 	public virtual void giveDefaultDamageToEnemy ()
